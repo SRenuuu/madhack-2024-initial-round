@@ -71,30 +71,37 @@ class LoginView extends StatelessWidget {
                     // Sign In Button
                     Obx(
                       () => ElevatedButton(
-                        onPressed: () {
-                          controller.login().then((value) {
-                            if (value) {
-                              Get.offAllNamed("/home");
-                              Get.snackbar(
-                                icon: const Icon(
-                                  Icons.check_circle,
-                                  size: 26,
-                                  color: Colors.white,
-                                ),
-                                shouldIconPulse: true,
-                                "Success",
-                                "Welcome to WorkWise",
-                                colorText: Colors.white,
-                                backgroundColor:
-                                    Colors.green.shade700.withOpacity(0.9),
-                              );
-                            }
-                          });
-                        },
-                        child: !controller.isLoginLoading.value
-                            ? const Text('Sign in')
-                            : const CircularProgressIndicator(),
-                      ),
+                          onPressed: controller.isLoginLoading.value
+                              ? null
+                              : () {
+                                  FocusScope.of(context).unfocus();
+                                  controller.login().then((value) {
+                                    if (value) {
+                                      Get.offAllNamed("/home");
+                                      Get.snackbar(
+                                        icon: const Icon(
+                                          Icons.check_circle,
+                                          size: 26,
+                                          color: Colors.white,
+                                        ),
+                                        shouldIconPulse: true,
+                                        "Success",
+                                        "Welcome to WorkWise",
+                                        colorText: Colors.white,
+                                        backgroundColor: Colors.green.shade700
+                                            .withOpacity(0.9),
+                                      );
+                                    }
+                                  });
+                                },
+                          child: !controller.isLoginLoading.value
+                              ? const Text('Sign in')
+                              : const SizedBox(
+                                  height: 24.0,
+                                  width: 24.0,
+                                  child: CircularProgressIndicator(
+                                      strokeWidth: 2.0),
+                                )),
                     ),
                     const SizedBox(height: 24.0), // Spacer
                     // Sign Up Button

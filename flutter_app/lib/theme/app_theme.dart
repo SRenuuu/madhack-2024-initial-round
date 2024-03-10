@@ -73,7 +73,9 @@ class AppTheme {
         systemOverlayStyle: SystemUiOverlayStyle.dark,
         color: WorkWiseColors.primaryColor.withOpacity(0.05),
       ),
-    );
+      progressIndicatorTheme: const ProgressIndicatorThemeData(
+          color: Colors.white,
+        ));
   }
 
   static TextTheme _buildTextTheme(TextTheme base) {

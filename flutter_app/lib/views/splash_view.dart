@@ -1,13 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../services/auth_service.dart';
+
 class SplashView extends StatelessWidget {
   const SplashView({super.key});
 
   @override
   Widget build(BuildContext context) {
+    AuthService authService = Get.put<AuthService>(AuthService());
+    authService.init();
+
     Future.delayed(const Duration(seconds: 1), () {
-      Get.offAndToNamed('/root');
+      Get.offAndToNamed(
+          (authService.isAuthenticated.value) ? '/home' : '/root');
     });
 
     return Scaffold(
