@@ -27,6 +27,9 @@ class AppTheme {
       textButtonTheme: TextButtonThemeData(
         style: TextButton.styleFrom(
           foregroundColor: AppColors.primaryColor,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12.0),
+          ),
         ),
       ),
       elevatedButtonTheme: ElevatedButtonThemeData(
@@ -35,6 +38,9 @@ class AppTheme {
           textStyle: const TextStyle(fontSize: 17.0),
           foregroundColor: Colors.white,
           backgroundColor: AppColors.primaryColor,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12.0),
+          ),
         ),
       ),
       outlinedButtonTheme: OutlinedButtonThemeData(
@@ -44,6 +50,9 @@ class AppTheme {
           foregroundColor: AppColors.primaryColor,
           side: const BorderSide(
             color: AppColors.primaryColor,
+          ),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12.0),
           ),
         ),
       ),
