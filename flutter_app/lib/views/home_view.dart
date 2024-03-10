@@ -3,6 +3,8 @@ import 'package:flutter_app/controllers/home_controller.dart';
 import 'package:flutter_app/theme/colors.dart';
 import 'package:get/get.dart';
 
+import '../widgets/job_card.dart';
+
 class HomeView extends StatelessWidget {
   const HomeView({super.key});
 
@@ -34,7 +36,7 @@ class HomeView extends StatelessWidget {
                         fontSize: 20.0,
                         fontWeight: FontWeight.w300,
                         color: WorkWiseColors.darkGreyColor)),
-                const SizedBox(height: 60.0), // Spacer
+                const SizedBox(height: 48.0), // Spacer
                 Obx(() => Column(
                       children: [
                         Text('Email: ${controller.authService.getUserEmail()}',
@@ -49,6 +51,19 @@ class HomeView extends StatelessWidget {
                   child:
                       const Text('Sign Out', style: TextStyle(fontSize: 16.0)),
                 ),
+                const SizedBox(height: 24.0), // Spacer
+                JobCard(
+                    jobPosting: JobPosting(
+                        title: "Junior Web Developer",
+                        location: "CodeSphere - Colombo, Sri Lanka",
+                        description:
+                            "We are looking for a junior web developer, who is passionate about web development and has a keen eye for detail.",
+                        image:
+                            "https://foyr.com/learn/wp-content/uploads/2021/08/modern-office-design.png",
+                        salaryValue: "\$8K",
+                        salaryFrequency: "Mo",
+                        tags: ["Remote", "Full-Time"],
+                        isSaved: true))
               ],
             ),
           ),
