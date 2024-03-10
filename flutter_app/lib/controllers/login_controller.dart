@@ -28,7 +28,7 @@ class LoginController extends GetxController {
       Get.snackbar(
         'Error',
         'Please fill in all fields',
-        backgroundColor: Colors.orange.shade700.withOpacity(0.9),
+        backgroundColor: Colors.orange.shade800.withOpacity(0.9),
         colorText: Colors.white,
       );
       return false;
@@ -49,6 +49,15 @@ class LoginController extends GetxController {
 
       if (response == null) {
         return false;
+      }
+
+      if (response.statusCode == HttpStatus.badRequest) {
+        Get.snackbar(
+          'Validation failed',
+          'Please check your email and password',
+          colorText: Colors.white,
+          backgroundColor: Colors.orange.shade800.withOpacity(0.9),
+        );
       }
 
       if (response.statusCode == HttpStatus.notFound ||
@@ -72,6 +81,8 @@ class LoginController extends GetxController {
       authService.setAuthentication(true);
       authService.setBearerToken(loginResponse.data.token);
 
+      emailController.text = "";
+      passwordController.text = "";
       return true;
     } catch (e) {
       return false;
