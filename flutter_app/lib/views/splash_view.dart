@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-
-import 'home_view.dart';
+import 'package:get/get.dart';
 
 class SplashView extends StatelessWidget {
   const SplashView({super.key});
@@ -8,16 +7,13 @@ class SplashView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Future.delayed(const Duration(seconds: 1), () {
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => const HomeView()),
-      );
+      Get.offAndToNamed('/root');
     });
 
     return Scaffold(
-      body: Center(
-        child: Padding(
-          padding: const EdgeInsets.all(64.0),
+      body: Padding(
+        padding: const EdgeInsets.all(64.0),
+        child: Center(
           child: Image.asset('assets/images/workwise-logo.png'),
         ),
       ),

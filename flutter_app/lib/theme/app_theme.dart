@@ -8,16 +8,16 @@ class AppTheme {
     final ThemeData base = ThemeData.light();
 
     return base.copyWith(
-      primaryColor: WorkWiseColor.primaryColor,
-      hintColor: WorkWiseColor.accentColor,
+      primaryColor: WorkWiseColors.primaryColor,
+      hintColor: WorkWiseColors.accentColor,
       scaffoldBackgroundColor: Colors.white,
-      splashColor: WorkWiseColor.accentColor,
-      highlightColor: WorkWiseColor.accentColor,
+      splashColor: WorkWiseColors.accentColor,
+      highlightColor: WorkWiseColors.accentColor,
       cardColor: Colors.white,
       textSelectionTheme: const TextSelectionThemeData(
-        selectionHandleColor: WorkWiseColor.primaryColor,
-        cursorColor: WorkWiseColor.primaryColor,
-        selectionColor: WorkWiseColor.accentColor,
+        selectionHandleColor: WorkWiseColors.primaryColor,
+        cursorColor: WorkWiseColors.primaryColor,
+        selectionColor: WorkWiseColors.accentColor,
       ),
       // textTheme: _buildTextTheme(base.textTheme),
       primaryTextTheme: _buildTextTheme(base.primaryTextTheme),
@@ -26,7 +26,7 @@ class AppTheme {
       ),
       textButtonTheme: TextButtonThemeData(
         style: TextButton.styleFrom(
-          foregroundColor: WorkWiseColor.primaryColor,
+          foregroundColor: WorkWiseColors.primaryColor,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12.0),
           ),
@@ -37,7 +37,7 @@ class AppTheme {
           minimumSize: const Size(double.infinity, 50),
           textStyle: const TextStyle(fontSize: 17.0),
           foregroundColor: Colors.white,
-          backgroundColor: WorkWiseColor.primaryColor,
+          backgroundColor: WorkWiseColors.primaryColor,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12.0),
           ),
@@ -47,9 +47,9 @@ class AppTheme {
         style: OutlinedButton.styleFrom(
           minimumSize: const Size(double.infinity, 50),
           textStyle: const TextStyle(fontSize: 17.0),
-          foregroundColor: WorkWiseColor.primaryColor,
+          foregroundColor: WorkWiseColors.primaryColor,
           side: const BorderSide(
-            color: WorkWiseColor.primaryColor,
+            color: WorkWiseColors.primaryColor,
           ),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12.0),
@@ -57,21 +57,21 @@ class AppTheme {
         ),
       ),
       tabBarTheme: TabBarTheme(
-        indicatorColor: WorkWiseColor.primaryColor,
-        labelColor: WorkWiseColor.primaryColor,
+        indicatorColor: WorkWiseColors.primaryColor,
+        labelColor: WorkWiseColors.primaryColor,
         unselectedLabelColor: Colors.grey,
         overlayColor: MaterialStateProperty.all(
-            WorkWiseColor.primaryColor.withOpacity(0.1)),
+            WorkWiseColors.primaryColor.withOpacity(0.1)),
       ),
       bottomNavigationBarTheme: const BottomNavigationBarThemeData(
-        selectedItemColor: WorkWiseColor.primaryColor,
+        selectedItemColor: WorkWiseColors.primaryColor,
         unselectedItemColor: Colors.grey,
         backgroundColor: Colors.white,
         elevation: 0.0,
       ),
       appBarTheme: AppBarTheme(
         systemOverlayStyle: SystemUiOverlayStyle.dark,
-        color: WorkWiseColor.primaryColor.withOpacity(0.05),
+        color: WorkWiseColors.primaryColor.withOpacity(0.05),
       ),
     );
   }
@@ -79,31 +79,31 @@ class AppTheme {
   static TextTheme _buildTextTheme(TextTheme base) {
     return base.copyWith(
       displayLarge:
-          base.displayLarge?.copyWith(color: WorkWiseColor.primaryColor),
+          base.displayLarge?.copyWith(color: WorkWiseColors.primaryColor),
       headlineLarge:
-          base.headlineLarge?.copyWith(color: WorkWiseColor.primaryColor),
-      titleLarge: base.titleLarge?.copyWith(color: WorkWiseColor.primaryColor),
-      bodyLarge: base.bodyLarge?.copyWith(color: WorkWiseColor.primaryColor),
-      labelLarge: base.labelLarge?.copyWith(color: WorkWiseColor.primaryColor),
+          base.headlineLarge?.copyWith(color: WorkWiseColors.primaryColor),
+      titleLarge: base.titleLarge?.copyWith(color: WorkWiseColors.primaryColor),
+      bodyLarge: base.bodyLarge?.copyWith(color: WorkWiseColors.primaryColor),
+      labelLarge: base.labelLarge?.copyWith(color: WorkWiseColors.primaryColor),
     );
   }
 
   static InputDecorationTheme _buildInputDecorationTheme(
       InputDecorationTheme base) {
     return base.copyWith(
-      floatingLabelStyle: const TextStyle(color: WorkWiseColor.primaryColor),
+      floatingLabelStyle: const TextStyle(color: WorkWiseColors.primaryColor),
       focusedBorder: const OutlineInputBorder(
         borderRadius: BorderRadius.all(Radius.circular(8.0)),
         borderSide: BorderSide(
           width: 2.0,
-          color: WorkWiseColor.primaryColor,
+          color: WorkWiseColors.primaryColor,
         ),
       ),
       enabledBorder: const OutlineInputBorder(
         borderRadius: BorderRadius.all(Radius.circular(8.0)),
         borderSide: BorderSide(
           width: 2.0,
-          color: WorkWiseColor.greyColor,
+          color: WorkWiseColors.greyColor,
         ),
       ),
     );

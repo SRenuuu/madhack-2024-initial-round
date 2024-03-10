@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class WorkWiseColor {
+class WorkWiseColors {
   static const Color primaryColor = Color(0xFF023047);
   static const Color secondaryColor = Color(0xFF219EBC);
   static const Color accentColor = Color(0xFFFFB703);
