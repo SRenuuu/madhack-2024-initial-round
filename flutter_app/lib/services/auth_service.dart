@@ -9,7 +9,9 @@ class AuthService extends GetxService {
 
   SharedPreferences? _prefs;
 
-  Future<void> init() async {
+  @override
+  Future<void> onInit() async {
+    super.onInit();
     _prefs = await SharedPreferences.getInstance();
     email.value = _prefs?.getString('email') ?? '';
     isAuthenticated.value = _prefs?.getBool('isAuthenticated') ?? false;

@@ -8,8 +8,7 @@ class SplashView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    AuthService authService = Get.put<AuthService>(AuthService());
-    authService.init();
+    AuthService authService = Get.find<AuthService>();
 
     Future.delayed(const Duration(seconds: 1), () {
       Get.offAndToNamed(

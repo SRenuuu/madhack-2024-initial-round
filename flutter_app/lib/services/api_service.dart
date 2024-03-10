@@ -11,7 +11,7 @@ import '../exceptions/force_logout_exception.dart';
 import 'auth_service.dart';
 
 class ApiService extends GetConnect {
-  final AuthService _authService = Get.find();
+  final AuthService authService = Get.find<AuthService>();
 
   @override
   void onInit() {
@@ -34,7 +34,7 @@ class ApiService extends GetConnect {
         headers: {
           ...headers ?? {},
           if (isAuthRequired)
-            'Authorization': 'Bearer ${_authService.getBearerToken()}',
+            'Authorization': 'Bearer ${authService.getBearerToken()}',
         },
         query: query,
         decoder: decoder,
@@ -76,7 +76,7 @@ class ApiService extends GetConnect {
         headers: {
           ...headers ?? {},
           if (isAuthRequired)
-            'Authorization': 'Bearer ${_authService.getBearerToken()}',
+            'Authorization': 'Bearer ${authService.getBearerToken()}',
         },
         query: query,
         decoder: decoder,
@@ -133,7 +133,7 @@ class ApiService extends GetConnect {
 
       // Check if the error indicates a need for force logout
       if (error is ForceLogoutException) {
-        _authService.forceLogout();
+        authService.forceLogout();
       }
     }
   }
