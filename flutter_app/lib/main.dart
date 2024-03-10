@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/views/splash_view.dart';
-import 'app_theme.dart';
+
+import 'theme/app_theme.dart';
 
 void main() => runApp(const MyApp());
 

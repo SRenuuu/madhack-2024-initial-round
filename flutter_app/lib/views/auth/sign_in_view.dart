@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../constants.dart';
+import '../../theme/colors.dart';
 
 class SignInView extends StatelessWidget {
   const SignInView({super.key});
@@ -55,7 +55,8 @@ class SignInView extends StatelessWidget {
                           print('Forgot Password button pressed');
                         },
                         child: const Text('Forgot Password?',
-                            style: TextStyle(color: AppColors.primaryColor)),
+                            style:
+                                TextStyle(color: WorkWiseColor.primaryColor)),
                       ),
                     ],
                   ),
@@ -75,7 +76,7 @@ class SignInView extends StatelessWidget {
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.white,
-                      foregroundColor: AppColors.primaryColor,
+                      foregroundColor: WorkWiseColor.primaryColor,
                     ),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -100,7 +101,8 @@ class SignInView extends StatelessWidget {
                           print('Sign Up button pressed');
                         },
                         child: const Text('Sign Up',
-                            style: TextStyle(color: AppColors.primaryColor)),
+                            style:
+                                TextStyle(color: WorkWiseColor.primaryColor)),
                       ),
                     ],
                   ),

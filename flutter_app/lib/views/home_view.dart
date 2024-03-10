@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app/constants.dart';
+import 'package:flutter_app/theme/colors.dart';
 import 'package:flutter_app/views/auth/sign_in_view.dart';
 
 class HomeView extends StatelessWidget {
@@ -32,7 +32,7 @@ class HomeView extends StatelessWidget {
                   style: TextStyle(
                       fontSize: 20.0,
                       fontWeight: FontWeight.w300,
-                      color: AppColors.darkGreyColor)),
+                      color: WorkWiseColor.darkGreyColor)),
               const SizedBox(height: 60.0), // Spacer
               // Sign In Button
               ElevatedButton(
