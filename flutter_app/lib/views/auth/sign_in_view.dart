@@ -13,23 +13,24 @@ class SignInView extends StatelessWidget {
       },
       child: Scaffold(
         body: Padding(
-          padding: const EdgeInsets.all(24.0),
+          padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 0),
           child: Center(
             child: SingleChildScrollView(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
+                  const SizedBox(height: 24.0), // Spacer
                   // Logo
                   Padding(
                     padding: const EdgeInsets.all(4.0),
-                    child: Container(
-                      child: Image.asset(
-                        'assets/images/workwise-logo.png',
-                        width: 170.0,
-                      ),
+                    child: Image.asset(
+                      'assets/images/workwise-logo.png',
+                      width: 170.0,
                     ),
                   ),
-                  const Text("Welcome back!", style: TextStyle(fontSize: 24.0, fontWeight: FontWeight.bold)),
+                  const Text("Welcome back!",
+                      style: TextStyle(
+                          fontSize: 24.0, fontWeight: FontWeight.w400)),
                   const SizedBox(height: 40.0),
                   // Email Field
                   const TextField(
@@ -103,6 +104,7 @@ class SignInView extends StatelessWidget {
                       ),
                     ],
                   ),
+                  const SizedBox(height: 8.0), // Spacer
                 ],
               ),
             ),
