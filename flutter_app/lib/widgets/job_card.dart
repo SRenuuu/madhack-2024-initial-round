@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/theme/colors.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 
 class JobPosting {
   final String title;
@@ -183,6 +185,14 @@ class JobCard extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
+                    TextButton(
+                      onPressed: () {
+                        Get.offAllNamed("/job");
+                      },
+                      child: const Text('See',
+                          style: TextStyle(
+                              color: WorkWiseColors.primaryColor)),
+                    ),
                     showTags
                         ? Expanded(
                             child: Row(
