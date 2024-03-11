@@ -49,6 +49,8 @@ class JobListingPage extends StatelessWidget {
                 jobType: "Hybrid", // Replace with actual data
                 employmentType: "Full Time", // Replace with actual data
                 salaryRange: salaryRange,
+                salaryFrequency: "Mo",
+                salaryValue: "8K-12K",
               ),
               const SizedBox(height: 24),
               const Text(
