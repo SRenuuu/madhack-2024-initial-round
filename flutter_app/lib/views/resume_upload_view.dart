@@ -1,10 +1,12 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter_app/controllers/resume_upload_controller.dart';
 import 'package:get/get.dart';
 
-class ResumeUploadScreen extends StatelessWidget {
-  const ResumeUploadScreen({super.key});
+class ResumeUploadView extends StatelessWidget {
+  const ResumeUploadView({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -61,7 +63,9 @@ class ResumeUploadScreen extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 10.0),
-              _buildUploadField(),
+              _buildUploadField((File? file) {
+                controller.uploadResume(file);
+              }),
               const SizedBox(height: 20.0),
               const Text(
                 'Message',
@@ -71,7 +75,7 @@ class ResumeUploadScreen extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 10.0),
-              _buildMessageTextArea(),
+              _buildMessageTextArea(controller.messageController),
               const SizedBox(height: 20.0),
               _buildSubmitButton(),
             ],
@@ -81,7 +85,7 @@ class ResumeUploadScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildUploadField() {
+  Widget _buildUploadField(Function(File?) onFilePicked) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10.0),
       decoration: BoxDecoration(
@@ -115,16 +119,17 @@ class ResumeUploadScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildMessageTextArea() {
+  Widget _buildMessageTextArea(TextEditingController messageController) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 0.0),
       decoration: BoxDecoration(
         border: Border.all(color: Colors.grey),
         borderRadius: BorderRadius.circular(5.0),
       ),
-      child: const TextField(
+      child: TextField(
+        controller: messageController,
         maxLines: 5,
-        decoration: InputDecoration(
+        decoration: const InputDecoration(
           hintText: 'Enter your message...',
           border: InputBorder.none,
           contentPadding: EdgeInsets.all(10.0),
@@ -137,7 +142,9 @@ class ResumeUploadScreen extends StatelessWidget {
     return SizedBox(
       width: double.infinity,
       child: ElevatedButton(
-        onPressed: () {},
+        onPressed: () {
+          print("uploaded");
+        },
         child: const Text('Submit'),
       ),
     );

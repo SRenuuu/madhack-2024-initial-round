@@ -1,0 +1,20 @@
+import 'package:flutter/foundation.dart';
+import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+import '../models/resume_data.dart';
+import 'api_service.dart';
+
+class ResumeService extends GetxService {
+  final ApiService apiService = Get.find<ApiService>();
+
+  Future<bool> uploadResume(ResumeData resumeData) async {
+    try {
+      print(resumeData);
+      return true; // If upload is successful
+    } catch (e) {
+      print(e);
+      return false;
+    }
+  }
+}
