@@ -5,7 +5,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../models/resume_data.dart';
 import 'api_service.dart';
 
-class ResumeService extends GetxService {
+class ResumeUploadService extends GetxService {
   final ApiService apiService = Get.find<ApiService>();
 
   Future<bool> uploadResume(ResumeData resumeData) async {
