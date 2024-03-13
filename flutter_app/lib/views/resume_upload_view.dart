@@ -68,7 +68,7 @@ class ResumeUploadView extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(height: 10.0),
-                  _buildUploadField((File? file) {
+                  _buildUploadField((MultipartFile file) {
                     controller.uploadResume(file);
                   }),
                   const SizedBox(height: 30.0),
@@ -92,9 +92,8 @@ class ResumeUploadView extends StatelessWidget {
     );
   }
 
-  Widget _buildUploadField(Function(File?) onFilePicked) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 10.0),
+  Widget _buildUploadField(Function(MultipartFile) onFilePicked) {
+    return Container(padding: const EdgeInsets.symmetric(horizontal: 10.0),
       decoration: BoxDecoration(
         border: Border.all(color: Colors.grey),
         borderRadius: BorderRadius.circular(5.0),

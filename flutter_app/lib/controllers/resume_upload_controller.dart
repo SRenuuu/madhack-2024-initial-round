@@ -11,7 +11,7 @@ class ResumeUploadController extends GetxController {
   final TextEditingController messageController = TextEditingController();
   final RxBool isResumeUploading = false.obs;
 
-  Future<void> uploadResume(File? resumeFile) async {
+  Future<void> uploadResume(MultipartFile resumeFile) async {
     try {
       isResumeUploading.value = true;
       String message = messageController.text;

@@ -1,7 +1,9 @@
 import 'dart:io';
 
+import 'package:get/get.dart';
+
 class ResumeData {
-  final File? resumeFile;
+  final MultipartFile resumeFile;
   final String message;
 
   ResumeData({
