@@ -1,10 +1,8 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:google_static_maps_controller/google_static_maps_controller.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:google_static_maps_controller/google_static_maps_controller.dart';
 
-Widget buildCompanyLocation(double latitude, double longitude) {
-  /// Declare static map controller
+Widget locationMap(double latitude, double longitude) {
   StaticMapController controller = StaticMapController(
     googleApiKey: dotenv.get('GOOGLE_API_KEY', fallback: 'default'),
     width: 400,
@@ -21,9 +19,6 @@ Widget buildCompanyLocation(double latitude, double longitude) {
     ],
   );
 
-  /// Get map image provider from controller.
-  /// You can also get image url by accessing
-  /// `_controller.url` property.
   ImageProvider image = controller.image;
 
   return Container(

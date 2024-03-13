@@ -1,5 +1,5 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_app/widgets/job_tag.dart';
 
 import '../theme/colors.dart';
 
@@ -10,7 +10,8 @@ class JobDetails extends StatelessWidget {
   final String salaryValue;
   final String salaryFrequency;
 
-  const JobDetails({super.key,
+  const JobDetails({
+    super.key,
     required this.jobType,
     required this.employmentType,
     required this.salaryRange,
@@ -25,9 +26,13 @@ class JobDetails extends StatelessWidget {
         Expanded(
           child: Row(
             children: [
-              buildToast(text: jobType, color: Colors.teal),
-              const SizedBox(width: 8),
-              buildToast(text: employmentType, color: Colors.blueAccent),
+              JobTag(
+                  tag: jobType, backgroundColor: Colors.blueGrey, fontSize: 12),
+              const SizedBox(width: 2),
+              JobTag(
+                  tag: employmentType,
+                  backgroundColor: Colors.teal,
+                  fontSize: 12),
             ],
           ),
         ),
@@ -53,20 +58,6 @@ class JobDetails extends StatelessWidget {
           ],
         )
       ],
-    );
-  }
-
-  Widget buildToast({required String text, required Color color}) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-      decoration: BoxDecoration(
-        color: color,
-        borderRadius: BorderRadius.circular(10),
-      ),
-      child: Text(
-        text,
-        style: const TextStyle(color: Colors.white, fontSize: 15),
-      ),
     );
   }
 }

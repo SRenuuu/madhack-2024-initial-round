@@ -53,27 +53,27 @@ class AppTheme {
           ),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12.0),
+            ),
           ),
         ),
-      ),
-      tabBarTheme: TabBarTheme(
-        indicatorColor: WorkWiseColors.primaryColor,
-        labelColor: WorkWiseColors.primaryColor,
-        unselectedLabelColor: Colors.grey,
-        overlayColor: MaterialStateProperty.all(
-            WorkWiseColors.primaryColor.withOpacity(0.1)),
-      ),
-      bottomNavigationBarTheme: const BottomNavigationBarThemeData(
-        selectedItemColor: WorkWiseColors.primaryColor,
-        unselectedItemColor: Colors.grey,
-        backgroundColor: Colors.white,
-        elevation: 0.0,
-      ),
-      appBarTheme: AppBarTheme(
-        systemOverlayStyle: SystemUiOverlayStyle.dark,
-        color: WorkWiseColors.primaryColor.withOpacity(0.05),
-      ),
-      progressIndicatorTheme: const ProgressIndicatorThemeData(
+        tabBarTheme: TabBarTheme(
+          indicatorColor: WorkWiseColors.primaryColor,
+          labelColor: WorkWiseColors.primaryColor,
+          unselectedLabelColor: Colors.grey,
+          overlayColor: MaterialStateProperty.all(
+              WorkWiseColors.primaryColor.withOpacity(0.1)),
+        ),
+        // bottomNavigationBarTheme: const BottomNavigationBarThemeData(
+        //   selectedItemColor: WorkWiseColors.primaryColor,
+        //   unselectedItemColor: Colors.grey,
+        //   backgroundColor: Colors.white,
+        //   elevation: 0.0,
+        // ),
+        appBarTheme: AppBarTheme(
+          systemOverlayStyle: SystemUiOverlayStyle.dark,
+          color: WorkWiseColors.primaryColor.withOpacity(0.05),
+        ),
+        progressIndicatorTheme: const ProgressIndicatorThemeData(
           color: Colors.white,
         ));
   }
