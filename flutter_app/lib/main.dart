@@ -4,6 +4,7 @@ import 'package:flutter_app/services/auth_service.dart';
 import 'package:flutter_app/views/auth/login_view.dart';
 import 'package:flutter_app/views/home_view.dart';
 import 'package:flutter_app/views/job_listing_view.dart';
+import 'package:flutter_app/views/profile_view.dart';
 import 'package:flutter_app/views/root_view.dart';
 import 'package:flutter_app/views/splash_view.dart';
 import 'package:get/get.dart';
@@ -35,6 +36,7 @@ class MyApp extends StatelessWidget {
           '/login': (context) => const LoginView(),
           '/home': (context) => const HomeView(),
           '/job': (context) => JobListingPage(),
+          '/profile': (context) => const UserProfilePage(),
         });
   }
 }
