@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_app/views/user_personal_details.dart';
 
 
 import 'job_listing_view.dart';
@@ -16,7 +17,7 @@ class UserProfilePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     List<ProfileSection> profileSections = [
-      ProfileSection(title: 'About Me', icon: CupertinoIcons.profile_circled, onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => JobListingPage()))),
+      ProfileSection(title: 'About Me', icon: CupertinoIcons.profile_circled, onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => UserPersonalDetailPage()))),
       ProfileSection(title: 'Work Experience', icon: CupertinoIcons.briefcase, onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => JobListingPage()))),
       ProfileSection(title: 'Education', icon: CupertinoIcons.book, onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => JobListingPage()))),
       ProfileSection(title: 'Skills', icon: CupertinoIcons.hand_draw, onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => JobListingPage()))), // Corrected typo

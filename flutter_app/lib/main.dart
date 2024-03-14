@@ -7,6 +7,7 @@ import 'package:flutter_app/views/job_listing_view.dart';
 import 'package:flutter_app/views/profile_view.dart';
 import 'package:flutter_app/views/root_view.dart';
 import 'package:flutter_app/views/splash_view.dart';
+import 'package:flutter_app/views/user_personal_details.dart';
 import 'package:get/get.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
@@ -37,6 +38,7 @@ class MyApp extends StatelessWidget {
           '/home': (context) => const HomeView(),
           '/job': (context) => JobListingPage(),
           '/profile': (context) => const UserProfilePage(),
+          '/user-profile': (context) => UserPersonalDetailPage(),
         });
   }
 }
