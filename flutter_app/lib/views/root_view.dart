@@ -35,7 +35,7 @@ class RootView extends StatelessWidget {
                 const SizedBox(height: 60.0), // Spacer
                 // Sign In Button
                 ElevatedButton(
-                  onPressed: () => Get.toNamed("/login"),
+                  onPressed: () => Get.toNamed("/job_post"),
                   child: const Text('Sign In'),
                 ),
                 const SizedBox(height: 32.0), // Spacer
