@@ -53,7 +53,7 @@ class HomeView extends StatelessWidget {
                 ),
                 const SizedBox(height: 24.0), // Spacer
                 JobCard(
-                    onCardTap: () => Get.toNamed("/job"),
+                    onCardTap: () => Get.toNamed("/profile"),
                     jobPosting: JobPosting(
                         title: "Junior Web Developer",
                         location: "CodeSphere - Colombo, Sri Lanka",
