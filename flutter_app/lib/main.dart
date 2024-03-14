@@ -9,8 +9,11 @@ import 'package:flutter_app/views/job_posting/job_post_form_view.dart';
 import 'package:flutter_app/views/resume_upload_view.dart';
 
 import 'package:flutter_app/views/job_listing_view.dart';
+import 'package:flutter_app/views/profile_view.dart';
 import 'package:flutter_app/views/root_view.dart';
 import 'package:flutter_app/views/splash_view.dart';
+import 'package:flutter_app/views/user_experience_view.dart';
+import 'package:flutter_app/views/user_personal_details.dart';
 import 'package:get/get.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
@@ -40,6 +43,10 @@ class MyApp extends StatelessWidget {
           '/root': (context) => const RootView(),
           '/login': (context) => const LoginView(),
           '/home': (context) => const HomeView(),
+          '/job': (context) => JobListingPage(),
+          '/profile': (context) => const UserProfilePage(),
+          '/user-profile': (context) => const UserPersonalDetailPage(),
+          '/user-experience': (context) => const UserExperiencePage(),
           '/resume': (context) => const ResumeUploadView(),
           '/job_post': (context) => const JobPostFormView(),
           '/job': (context) => JobListingPage()
