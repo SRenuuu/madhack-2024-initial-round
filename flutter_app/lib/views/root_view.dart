@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 class RootView extends StatelessWidget {
   const RootView({super.key});
 
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
