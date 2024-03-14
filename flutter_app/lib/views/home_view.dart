@@ -53,6 +53,7 @@ class HomeView extends StatelessWidget {
                 ),
                 const SizedBox(height: 24.0), // Spacer
                 JobCard(
+                    onCardTap: () => Get.toNamed("/profile"),
                     jobPosting: JobPosting(
                         title: "Junior Web Developer",
                         location: "CodeSphere - Colombo, Sri Lanka",
@@ -62,7 +63,7 @@ class HomeView extends StatelessWidget {
                             "https://foyr.com/learn/wp-content/uploads/2021/08/modern-office-design.png",
                         salaryValue: "\$8K",
                         salaryFrequency: "Mo",
-                        tags: ["Remote", "Full-Time"],
+                        tags: ["Remote", "Full Time", "New"],
                         isSaved: true))
               ],
             ),
