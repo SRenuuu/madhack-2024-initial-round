@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import '../widgets/form_field.dart';
+
 class UserPersonalDetailPage extends StatefulWidget {
   const UserPersonalDetailPage({super.key});
 
@@ -22,8 +24,6 @@ class _UserProfilePageState extends State<UserPersonalDetailPage> {
     "Link3",
   ];
 
-  static const TextStyle boldTextStyle =
-      TextStyle(fontWeight: FontWeight.bold, fontSize: 14);
 
   // Update form data functions (replace with actual data update logic)
   void updateFirstName(String? name) =>
@@ -68,10 +68,10 @@ class _UserProfilePageState extends State<UserPersonalDetailPage> {
             const SizedBox(height: 16.0),
 
             // Editable form
-            buildFormField('First Name', firstName, updateFirstName),
-            buildFormField('Last Name', lastName, updateLastName),
-            buildFormField('Date of Birth (DD/MM/YYYY)', dob, updateDob),
-            buildFormField('Email', email, updateEmail),
+            formField('First Name', firstName, updateFirstName),
+            formField('Last Name', lastName, updateLastName),
+            formField('Date of Birth (DD/MM/YYYY)', dob, updateDob),
+            formField('Email', email, updateEmail),
             buildMobileNumberField(
                 countryCode, phoneNumber, updateCountryCode, updatePhoneNumber),
             const SizedBox(height: 16.0),
@@ -89,7 +89,7 @@ class _UserProfilePageState extends State<UserPersonalDetailPage> {
                 ...["Hello", "world"].map((link) => buildLink(link, addLink)),
               ],
             ),
-            SizedBox(height: 8.0),
+            const SizedBox(height: 8.0),
             ElevatedButton.icon(
               onPressed: () => addLink(''),
               label: const Text('Add Link'),
@@ -104,34 +104,7 @@ class _UserProfilePageState extends State<UserPersonalDetailPage> {
     );
   }
 
-  // Reusable form field widget
-  Widget buildFormField(
-      String label, String value, void Function(String?)? onSaved) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          label,
-          style: boldTextStyle,
-        ),
-        const SizedBox(height: 4.0),
-        TextFormField(
-          initialValue: value,
-          decoration: InputDecoration(
-            filled: true,
-            fillColor: Colors.grey[100],
-            border: const OutlineInputBorder(
-              borderSide: BorderSide.none,
-            ),
-            contentPadding:
-                const EdgeInsets.symmetric(vertical: 8.0, horizontal: 8.0),
-          ),
-          onSaved: onSaved,
-        ),
-        const SizedBox(height: 16.0),
-      ],
-    );
-  }
+
 
   // Reusable link widget
   Widget buildLink(String value, void Function(String?)? onSaved) {
