@@ -94,7 +94,7 @@ Widget formTextField({
                         fontSize: labelSize, fontWeight: FontWeight.w500),
                   )
                 : Container(),
-            SizedBox(height: isDense ? 8.0 : 10.0),
+            SizedBox(height: isDense ? 10.0 : 12.0),
             Container(
               decoration: showShadow
                   ? BoxDecoration(

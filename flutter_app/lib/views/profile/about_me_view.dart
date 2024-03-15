@@ -76,7 +76,7 @@ class UserPersonalDetailPage extends StatelessWidget {
                     "Links",
                     style: TextStyle(fontSize: 15, fontWeight: FontWeight.w500),
                   ),
-                  const SizedBox(height: 16.0),
+                  const SizedBox(height: 8.0),
                   Obx(() => ListView.builder(
                         itemCount: controller.textFieldControllers.length,
                         shrinkWrap: true,
