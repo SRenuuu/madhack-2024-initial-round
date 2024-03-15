@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/theme/colors.dart';
+import 'package:flutter_app/widgets/form_dropdown_field.dart';
 import 'package:get/get.dart';
 
 import '../../controllers/about_me_controller.dart';
@@ -12,7 +13,7 @@ class UserPersonalDetailPage extends StatelessWidget {
   Widget build(BuildContext context) {
     AboutMeController controller = Get.put(AboutMeController());
 
-    _selectDate(BuildContext context) async {
+    selectDate(BuildContext context) async {
       DateTime? pickedDate = await showDatePicker(
         context: context,
         initialDate: controller.dobController.text == ''
@@ -46,6 +47,14 @@ class UserPersonalDetailPage extends StatelessWidget {
                         size: 20.0, color: WorkWiseColors.primaryColor),
                   ),
                   const SizedBox(height: 24.0),
+                  formDropdownField(
+                      prefixIcon: const Icon(Icons.list,
+                          size: 20.0, color: WorkWiseColors.primaryColor),
+                      label: 'Gender',
+                      items: controller.genders,
+                      selectedValue: controller.selectedGender.value,
+                      onChanged: (val) => controller.changeGender),
+                  const SizedBox(height: 24.0),
                   formTextField(
                     label: 'Date of Birth',
                     controller: controller.dobController,
@@ -54,7 +63,7 @@ class UserPersonalDetailPage extends StatelessWidget {
                     prefixIcon: IconButton(
                       icon: const Icon(Icons.calendar_today,
                           size: 20.0, color: WorkWiseColors.primaryColor),
-                      onPressed: () => _selectDate(context),
+                      onPressed: () => selectDate(context),
                     ),
                   ),
                   const SizedBox(height: 24.0),
