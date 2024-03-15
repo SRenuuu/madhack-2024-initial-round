@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/theme/colors.dart';
 import 'package:get/get.dart';
 
 import '../../controllers/about_me_controller.dart';
@@ -11,59 +12,192 @@ class UserPersonalDetailPage extends StatelessWidget {
   Widget build(BuildContext context) {
     AboutMeController controller = Get.put(AboutMeController());
 
+    _selectDate(BuildContext context) async {
+      DateTime? pickedDate = await showDatePicker(
+        context: context,
+        initialDate: controller.dobController.text == ''
+            ? DateTime.now()
+            : DateTime.parse(controller.dobController.text),
+        firstDate: DateTime(1900),
+        lastDate: DateTime.now(),
+      );
+      controller.dobController.text =
+          pickedDate != null ? pickedDate.toString().split(' ')[0] : '';
+    }
+
     return Scaffold(
-      backgroundColor: Colors.grey.shade100,
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        title: const Text('About me'),
-      ),
-      body: SafeArea(
-        child: SingleChildScrollView(
-          padding: const EdgeInsets.all(24.0),
-          child: Center(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                // Editable form
-                formTextField(
-                    label: 'First name',
-                    controller: controller.firstNameController),
-                const SizedBox(height: 20.0),
-                formTextField(
-                    label: 'Last name',
-                    controller: controller.lastNameController),
-                const SizedBox(height: 20.0),
-                formTextField(
-                    label: 'Email', controller: controller.emailController),
-                // buildMobileNumberField("+94", "+773766397", null, null),
-                // const SizedBox(height: 16.0),
-                //
-                // // Links section
-                // const Text(
-                //   'Links',
-                //   style: TextStyle(
-                //     fontSize: 16.0,
-                //     fontWeight: FontWeight.bold,
-                //   ),
-                // ),
-                // Column(
-                //   children: [
-                //     ...["Hello", "world"].map((link) => buildLink(link, addLink)),
-                //   ],
-                // ),
-                // ElevatedButton.icon(
-                //   onPressed: () => addLink(''),
-                //   label: const Text('Add Link'),
-                //   style: ElevatedButton.styleFrom(
-                //     backgroundColor: Colors.white12,
-                //   ),
-                //   icon: const Icon(CupertinoIcons.add_circled_solid),
-                // ),
-              ],
+        backgroundColor: Colors.grey.shade100,
+        appBar: AppBar(
+          backgroundColor: Colors.white,
+          title: const Text('About me'),
+        ),
+        body: SafeArea(
+          child: SingleChildScrollView(
+            padding: const EdgeInsets.all(24.0),
+            child: Center(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // Editable form
+                  formTextField(
+                    label: 'Full name',
+                    controller: controller.nameController,
+                    prefixIcon: const Icon(Icons.person,
+                        size: 20.0, color: WorkWiseColors.primaryColor),
+                  ),
+                  const SizedBox(height: 24.0),
+                  formTextField(
+                    label: 'Date of Birth',
+                    controller: controller.dobController,
+                    keyboardType: TextInputType.datetime,
+                    hintText: 'YYYY-MM-DD',
+                    prefixIcon: IconButton(
+                      icon: const Icon(Icons.calendar_today,
+                          size: 20.0, color: WorkWiseColors.primaryColor),
+                      onPressed: () => _selectDate(context),
+                    ),
+                  ),
+                  const SizedBox(height: 24.0),
+                  formTextField(
+                      label: 'Email',
+                      prefixIcon: const Icon(Icons.email,
+                          size: 20.0, color: WorkWiseColors.primaryColor),
+                      controller: controller.emailController,
+                      keyboardType: TextInputType.emailAddress),
+                  const SizedBox(height: 24.0),
+                  formTextField(
+                      label: 'Phone',
+                      controller: controller.emailController,
+                      prefixIcon: const Icon(Icons.phone,
+                          size: 20.0, color: WorkWiseColors.primaryColor),
+                      keyboardType: TextInputType.phone),
+                  const SizedBox(height: 24.0),
+                  const Text(
+                    "Links",
+                    style: TextStyle(fontSize: 15, fontWeight: FontWeight.w500),
+                  ),
+                  const SizedBox(height: 16.0),
+                  Obx(() => ListView.builder(
+                        itemCount: controller.textFieldControllers.length,
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        itemBuilder: (context, index) {
+                          return Column(
+                            children: [
+                              formTextField(
+                                  showLabel: false,
+                                  label: '',
+                                  prefixIcon: const Icon(Icons.link_outlined,
+                                      size: 22.0,
+                                      color: WorkWiseColors.primaryColor),
+                                  suffixIcon: IconButton(
+                                    icon: const Icon(
+                                        Icons.remove_circle_outline,
+                                        size: 24.0,
+                                        color: WorkWiseColors.darkGreyColor),
+                                    onPressed: () =>
+                                        controller.removeTextField(index),
+                                  ),
+                                  controller:
+                                      controller.textFieldControllers[index],
+                                  keyboardType: TextInputType.url),
+                              const SizedBox(height: 8.0)
+                            ],
+                          );
+                        },
+                      )),
+                  const SizedBox(height: 8.0),
+                  Align(
+                    alignment: Alignment.center,
+                    child: TextButton.icon(
+                      onPressed: () => controller.addTextField(),
+                      label: const Text('Add Link',
+                          style: TextStyle(
+                              color: WorkWiseColors.primaryColor,
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold)),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.white12,
+                      ),
+                      icon: const Icon(Icons.add_circle),
+                    ),
+                  ),
+
+                  // buildMobileNumberField("+94", "+773766397", null, null),
+                  // const SizedBox(height: 16.0),
+                  //
+                  // // Links section
+                  // const Text(
+                  //   'Links',
+                  //   style: TextStyle(
+                  //     fontSize: 16.0,
+                  //     fontWeight: FontWeight.bold,
+                  //   ),
+                  // ),
+                  // Column(
+                  //   children: [
+                  //     ...["Hello", "world"].map((link) => buildLink(link, addLink)),
+                  //   ],
+                  // ),
+                  // ElevatedButton.icon(
+                  //   onPressed: () => addLink(''),
+                  //   label: const Text('Add Link'),
+                  //   style: ElevatedButton.styleFrom(
+                  //     backgroundColor: Colors.white12,
+                  //   ),
+                  //   icon: const Icon(CupertinoIcons.add_circled_solid),
+                  // ),
+                ],
+              ),
             ),
           ),
         ),
-      ),
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+        bottomNavigationBar: BottomAppBar(
+          color: Colors.white,
+          height: 85,
+          elevation: 0,
+          child: actionButtons(),
+        ));
+  }
+
+  // Reusable action buttons
+  Widget actionButtons() {
+    return Row(
+      children: [
+        Expanded(
+          child: OutlinedButton(
+            onPressed: () {
+              // Add functionality to navigate to application process
+            },
+            style: OutlinedButton.styleFrom(
+              foregroundColor: WorkWiseColors.primaryColor,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10),
+              ),
+            ),
+            child: const Text("Cancel",
+                style: TextStyle(fontWeight: FontWeight.bold)),
+          ),
+        ),
+        const SizedBox(width: 24),
+        Expanded(
+          child: ElevatedButton(
+            onPressed: () {
+              // Add functionality to navigate to application process
+            },
+            style: ElevatedButton.styleFrom(
+              foregroundColor: Colors.white,
+              backgroundColor: WorkWiseColors.primaryColor,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10),
+              ),
+            ),
+            child: const Text("Update",
+                style: TextStyle(fontWeight: FontWeight.bold)),
+          ),
+        ),
+      ],
     );
   }
 
