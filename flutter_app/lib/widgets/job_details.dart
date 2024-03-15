@@ -26,10 +26,10 @@ class JobDetails extends StatelessWidget {
         Expanded(
           child: Row(
             children: [
-              JobTag(
+              jobTag(
                   tag: jobType, backgroundColor: Colors.blueGrey, fontSize: 12),
               const SizedBox(width: 2),
-              JobTag(
+              jobTag(
                   tag: employmentType,
                   backgroundColor: Colors.teal,
                   fontSize: 12),
