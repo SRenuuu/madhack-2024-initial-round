@@ -192,7 +192,7 @@ class JobCard extends StatelessWidget {
                           ? Expanded(
                               child: Row(
                                 children: jobPosting.tags
-                                    .map((tag) => JobTag(tag: tag))
+                                    .map((tag) => jobTag(tag: tag))
                                     .toList(),
                               ),
                             )
