@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/theme/colors.dart';
 import 'package:flutter_app/util/enums.dart';
-import 'package:flutter_app/views/job_posting/custom_dropdown.dart';
 import 'package:flutter_app/views/job_posting/range_picker.dart';
-import 'package:flutter_app/widgets/custom_input.dart';
 import 'package:flutter_app/widgets/description_form_field.dart';
 import 'package:flutter_app/widgets/form_dropdown_field.dart';
 import 'package:flutter_app/widgets/form_text_field.dart';
@@ -102,6 +100,7 @@ class _JobPostFormViewState extends State<JobPostFormView> {
                       industry.toString().split('.').last == newValue);
                 });
               },
+              selectedValue: null,
             ),
             const SizedBox(height: 15.0),
             formDropdownField(
@@ -115,6 +114,7 @@ class _JobPostFormViewState extends State<JobPostFormView> {
                       category.toString().split('.').last == newValue);
                 });
               },
+              selectedValue: null,
             ),
             const SizedBox(height: 20.0),
             formTextField(label: 'Position', controller: _positionController),
@@ -130,6 +130,7 @@ class _JobPostFormViewState extends State<JobPostFormView> {
                       jobType.toString().split('.').last == newValue);
                 });
               },
+              selectedValue: null,
             ),
             const SizedBox(height: 20.0),
             formDropdownField(
@@ -144,6 +145,7 @@ class _JobPostFormViewState extends State<JobPostFormView> {
                           workspace.toString().split('.').last == newValue);
                 });
               },
+              selectedValue: null,
             ),
           ],
         ),
@@ -211,9 +213,8 @@ class _JobPostFormViewState extends State<JobPostFormView> {
                 });
               },
             ),
-            const SizedBox(
-                height:
-                    40.0), // Add some space between the RangePickerWidget and the Row
+            const SizedBox(height: 40.0),
+            // Add some space between the RangePickerWidget and the Row
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
