@@ -21,8 +21,8 @@ class AboutMeController extends GetxController {
     update();
   }
 
-  var selectedGender = ''.obs;
-  var genders = ['', 'Male', 'Female'].obs;
+  Rx<String?> selectedGender = null.obs;
+  RxList<String> genders = ['Male', 'Female'].obs;
 
   void changeGender(String newGender) {
     selectedGender.value = newGender;
