@@ -67,7 +67,7 @@ class UserPersonalDetailPage extends StatelessWidget {
                   const SizedBox(height: 24.0),
                   formTextField(
                       label: 'Phone',
-                      controller: controller.emailController,
+                      controller: controller.phoneController,
                       prefixIcon: const Icon(Icons.phone,
                           size: 20.0, color: WorkWiseColors.primaryColor),
                       keyboardType: TextInputType.phone),
