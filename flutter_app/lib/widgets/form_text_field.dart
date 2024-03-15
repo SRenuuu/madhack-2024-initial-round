@@ -6,27 +6,32 @@ Widget formTextField({
   required String label,
   required TextEditingController controller,
   bool isDense = true,
-  bool withFloatingLabel = true,
+  bool withFloatingLabel = false,
   bool obscureText = false,
   bool isFilled = true,
   bool showBorder = true,
+  bool showShadow = true,
   int maxLines = 1,
   TextInputType keyboardType = TextInputType.text,
   Color shadowColor = WorkWiseColors.lightGreyColor,
-  Color borderColor = WorkWiseColors.greyColor,
+  Color borderColor = WorkWiseColors.lightGreyColor,
 }) {
-  return !withFloatingLabel
+  return withFloatingLabel
       ? Container(
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(8.0),
-            boxShadow: [
-              BoxShadow(
-                color: shadowColor, // Shadow color
-                blurRadius: 16, // Blur radius
-                offset: const Offset(0, 4), // Shadow offset
-              ),
-            ],
-          ),
+          decoration: showShadow
+              ? BoxDecoration(
+                  borderRadius: BorderRadius.circular(8.0),
+                  boxShadow: [
+                    BoxShadow(
+                      color: shadowColor, // Shadow color
+                      blurRadius: 16, // Blur radius
+                      offset: const Offset(0, 4), // Shadow offset
+                    ),
+                  ],
+                )
+              : BoxDecoration(
+                  borderRadius: BorderRadius.circular(8.0),
+                ),
           child: Container(
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(8.0),
@@ -69,7 +74,9 @@ Widget formTextField({
               label,
               style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
             ),
-            const SizedBox(height: 8.0),
+            isDense
+                ? const SizedBox(height: 8.0)
+                : const SizedBox(height: 10.0),
             TextFormField(
               controller: controller,
               maxLines: maxLines,

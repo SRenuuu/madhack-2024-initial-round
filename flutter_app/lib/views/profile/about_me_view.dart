@@ -26,15 +26,16 @@ class UserPersonalDetailPage extends StatelessWidget {
               children: [
                 // Editable form
                 formTextField(
-                    label: 'First Name',
-                    controller: controller.firstNameController,
-                    withFloatingLabel: false),
-                const SizedBox(height: 24.0),
-                // formField('Last Name', lastName, updateLastName),
-                // formField('Date of Birth (DD/MM/YYYY)', dob, updateDob),
-                // formField('Email', email, updateEmail),
-                // buildMobileNumberField(
-                //     countryCode, phoneNumber, updateCountryCode, updatePhoneNumber),
+                    label: 'First name',
+                    controller: controller.firstNameController),
+                const SizedBox(height: 20.0),
+                formTextField(
+                    label: 'Last name',
+                    controller: controller.lastNameController),
+                const SizedBox(height: 20.0),
+                formTextField(
+                    label: 'Email', controller: controller.emailController),
+                // buildMobileNumberField("+94", "+773766397", null, null),
                 // const SizedBox(height: 16.0),
                 //
                 // // Links section
@@ -100,7 +101,7 @@ class UserPersonalDetailPage extends StatelessWidget {
   Widget buildMobileNumberField(
       String code,
       String number,
-      void Function(String?) onCodeChange,
+      void Function(String?)? onCodeChange,
       void Function(String?)? onNumberChange) {
     return Row(
       children: [
