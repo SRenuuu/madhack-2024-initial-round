@@ -1,6 +1,4 @@
-import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import '../models/resume_data.dart';
 import 'api_service.dart';
