@@ -2,9 +2,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_app/theme/colors.dart';
+import 'package:flutter_app/views/profile/education_view.dart';
+import 'package:flutter_app/views/profile/qualification_view.dart';
+import 'package:flutter_app/views/profile/skills_view.dart';
 import 'package:get/get.dart';
-
-import '../job_listing_view.dart';
 
 class UserProfilePage extends StatelessWidget {
   const UserProfilePage({super.key});
@@ -24,18 +25,18 @@ class UserProfilePage extends StatelessWidget {
           title: 'Education',
           icon: CupertinoIcons.book,
           onTap: () => Navigator.push(context,
-              MaterialPageRoute(builder: (context) => JobListingPage()))),
+              MaterialPageRoute(builder: (context) => const EducationPage()))),
       ProfileSection(
           title: 'Skills',
           icon: CupertinoIcons.hand_draw,
           onTap: () => Navigator.push(context,
-              MaterialPageRoute(builder: (context) => JobListingPage()))),
+              MaterialPageRoute(builder: (context) => const SkillsPage()))),
       // Corrected typo
       ProfileSection(
           title: 'Qualifications',
           icon: CupertinoIcons.list_bullet,
           onTap: () => Navigator.push(context,
-              MaterialPageRoute(builder: (context) => JobListingPage()))),
+              MaterialPageRoute(builder: (context) => const QualificationPage()))),
     ];
 
     return Scaffold(
