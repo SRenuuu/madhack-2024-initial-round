@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/controllers/signup_controller.dart';
 import 'package:get/get.dart';
 
-import '../../controllers/login_controller.dart';
 import '../../theme/colors.dart';
 
-class LoginView extends StatelessWidget {
-  const LoginView({super.key});
+class SignUpView extends StatelessWidget {
+  const SignUpView({super.key});
 
   @override
   Widget build(BuildContext context) {
-    LoginController controller = Get.put(LoginController());
+    SignUpController controller = Get.put(SignUpController());
 
     return GestureDetector(
       onTap: () {
@@ -25,18 +25,26 @@ class LoginView extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     const SizedBox(height: 8.0), // Spacer
-                    // Logo
-                    Padding(
-                      padding: const EdgeInsets.all(4.0),
-                      child: Image.asset(
-                        'assets/images/workwise-logo.png',
-                        width: 170.0,
-                      ),
-                    ),
-                    const Text("Welcome back!",
+                    // // Logo
+                    // Padding(
+                    //   padding: const EdgeInsets.all(4.0),
+                    //   child: Image.asset(
+                    //     'assets/images/workwise-logo.png',
+                    //     width: 170.0,
+                    //   ),
+                    // ),
+                    const Text("Create an Account",
                         style: TextStyle(
                             fontSize: 24.0, fontWeight: FontWeight.w400)),
-                    const SizedBox(height: 40.0),
+                    const SizedBox(height: 30.0),
+                    // Name Field
+                    TextField(
+                      controller: controller.nameController,
+                      decoration: const InputDecoration(
+                        labelText: 'Name',
+                      ),
+                    ),
+                    const SizedBox(height: 24.0),
                     // Email Field
                     TextField(
                       controller: controller.emailController,
@@ -53,6 +61,15 @@ class LoginView extends StatelessWidget {
                         labelText: 'Password',
                       ),
                     ),
+                    // Password Field
+                    const SizedBox(height: 24.0),
+                    TextField(
+                      controller: controller.confirmPasswordController,
+                      obscureText: true,
+                      decoration: const InputDecoration(
+                        labelText: 'Confirm Password',
+                      ),
+                    ),
                     const SizedBox(height: 8.0), // Spacer
                     Row(
                       mainAxisAlignment: MainAxisAlignment.end,
@@ -60,8 +77,9 @@ class LoginView extends StatelessWidget {
                         TextButton(
                           onPressed: () {
                             print('Forgot Password button pressed');
+                            Get.toNamed("/employer_sign_up");
                           },
-                          child: const Text('Forgot Password?',
+                          child: const Text('Are you an employer?',
                               style: TextStyle(
                                   color: WorkWiseColors.primaryColor)),
                         ),
@@ -71,13 +89,13 @@ class LoginView extends StatelessWidget {
                     // Sign In Button
                     Obx(
                       () => ElevatedButton(
-                          onPressed: controller.isLoginLoading.value
+                          onPressed: controller.isRegisterLoading.value
                               ? null
                               : () {
                                   FocusScope.of(context).unfocus();
-                                  controller.login().then((value) {
+                                  controller.register().then((value) {
                                     if (value) {
-                                      Get.offAllNamed("/home");
+                                      Get.offAllNamed("/sign_up");
                                       Get.snackbar(
                                         icon: const Icon(
                                           Icons.check_circle,
@@ -91,11 +109,12 @@ class LoginView extends StatelessWidget {
                                         backgroundColor: Colors.green.shade700
                                             .withOpacity(0.9),
                                       );
+                                      Get.toNamed("/login");
                                     }
                                   });
                                 },
-                          child: !controller.isLoginLoading.value
-                              ? const Text('Sign in')
+                          child: !controller.isRegisterLoading.value
+                              ? const Text('Sign Up')
                               : const SizedBox(
                                   height: 24.0,
                                   width: 24.0,
@@ -126,17 +145,17 @@ class LoginView extends StatelessWidget {
                         ],
                       ),
                     ),
-                    const SizedBox(height: 24.0), // Spacer
+                    const SizedBox(height: 16.0), // Spacer
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        const Text("Don’t have an account?"),
+                        const Text("Have an account?"),
                         TextButton(
                           onPressed: () {
                             print('Sign Up button pressed');
-                            Get.toNamed("/sign_up");
+                            Get.toNamed("/login");
                           },
-                          child: const Text('Sign Up',
+                          child: const Text('Sign In',
                               style: TextStyle(
                                   color: WorkWiseColors.primaryColor)),
                         ),
