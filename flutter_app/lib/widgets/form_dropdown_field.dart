@@ -1,25 +1,20 @@
-// Reusable form field widget
 import 'package:flutter/material.dart';
 import 'package:flutter_app/theme/colors.dart';
 
-Widget formTextField({
+Widget formDropdownField({
   required String label,
-  required TextEditingController controller,
+  required String selectedValue,
+  required List<String> items,
+  required Function(String?) onChanged,
   String hintText = '',
   Widget? prefixIcon,
   Widget? suffixIcon,
   bool isDense = true,
   bool withFloatingLabel = false,
-  bool obscureText = false,
-  bool readOnly = false,
-  Function()? onTap,
-  bool isFilled = true,
   bool showBorder = false,
   bool showShadow = true,
   bool showLabel = true,
   double labelSize = 15.0,
-  int maxLines = 1,
-  TextInputType keyboardType = TextInputType.text,
   Color shadowColor = WorkWiseColors.lightGreyColor,
   Color borderColor = WorkWiseColors.greyColor,
 }) {
@@ -51,13 +46,15 @@ Widget formTextField({
                 ),
               ],
             ),
-            child: TextField(
-              controller: controller,
-              maxLines: maxLines,
-              obscureText: obscureText,
-              keyboardType: keyboardType,
-              readOnly: readOnly,
-              onTap: onTap,
+            child: DropdownButtonFormField<String>(
+              value: selectedValue,
+              onChanged: onChanged,
+              items: items.map<DropdownMenuItem<String>>((String value) {
+                return DropdownMenuItem<String>(
+                  value: value,
+                  child: Text(value),
+                );
+              }).toList(),
               decoration: InputDecoration(
                 hintText: hintText,
                 hintStyle: const TextStyle(
@@ -110,35 +107,40 @@ Widget formTextField({
                   : BoxDecoration(
                       borderRadius: BorderRadius.circular(8.0),
                     ),
-              child: TextFormField(
-                controller: controller,
-                maxLines: maxLines,
-                obscureText: obscureText,
-                keyboardType: keyboardType,
-                readOnly: readOnly,
-                onTap: onTap,
-                decoration: InputDecoration(
-                  hintText: hintText,
-                  hintStyle: const TextStyle(
-                    fontSize: 15,
-                    fontWeight: FontWeight.w400,
-                    color: WorkWiseColors.greyColor,
+              child: Material(
+                borderRadius: BorderRadius.circular(8.0),
+                color: Colors.white,
+                child: DropdownButtonFormField<String>(
+                  value: selectedValue,
+                  onChanged: onChanged,
+                  items: items.map<DropdownMenuItem<String>>((String value) {
+                    return DropdownMenuItem<String>(
+                      value: value,
+                      child: Text(value),
+                    );
+                  }).toList(),
+                  decoration: InputDecoration(
+                    hintText: hintText,
+                    hintStyle: const TextStyle(
+                      fontSize: 15,
+                      fontWeight: FontWeight.w400,
+                      color: WorkWiseColors.greyColor,
+                    ),
+                    prefixIcon: prefixIcon,
+                    suffixIcon: suffixIcon,
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius:
+                          const BorderRadius.all(Radius.circular(8.0)),
+                      borderSide: showBorder
+                          ? BorderSide(
+                              width: 1.0,
+                              color: borderColor,
+                            )
+                          : const BorderSide(color: Colors.transparent),
+                    ),
+                    contentPadding: EdgeInsets.symmetric(
+                        vertical: isDense ? 14.0 : 20.0, horizontal: 12.0),
                   ),
-                  prefixIcon: prefixIcon,
-                  suffixIcon: suffixIcon,
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: const BorderRadius.all(Radius.circular(8.0)),
-                    borderSide: showBorder
-                        ? BorderSide(
-                            width: 1.0,
-                            color: borderColor,
-                          )
-                        : const BorderSide(color: Colors.transparent),
-                  ),
-                  filled: isFilled,
-                  fillColor: Colors.white,
-                  contentPadding: EdgeInsets.symmetric(
-                      vertical: isDense ? 14.0 : 20.0, horizontal: 12.0),
                 ),
               ),
             ),
