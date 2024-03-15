@@ -3,15 +3,20 @@ import 'package:flutter_app/theme/colors.dart';
 
 Widget formDropdownField({
   required String label,
+  required String selectedValue,
   required List<String> items,
-  required ValueChanged<String?> onChanged,
-  String? value,
+  required Function(String?) onChanged,
+  String hintText = '',
+  Widget? prefixIcon,
+  Widget? suffixIcon,
   bool isDense = true,
   bool withFloatingLabel = false,
-  bool showBorder = true,
+  bool showBorder = false,
   bool showShadow = true,
+  bool showLabel = true,
+  double labelSize = 15.0,
   Color shadowColor = WorkWiseColors.lightGreyColor,
-  Color borderColor = WorkWiseColors.lightGreyColor,
+  Color borderColor = WorkWiseColors.greyColor,
 }) {
   return withFloatingLabel
       ? Container(
@@ -42,28 +47,34 @@ Widget formDropdownField({
               ],
             ),
             child: DropdownButtonFormField<String>(
-              value: value,
-              items: items.map((String item) {
+              value: selectedValue,
+              onChanged: onChanged,
+              items: items.map<DropdownMenuItem<String>>((String value) {
                 return DropdownMenuItem<String>(
-                  value: item,
-                  child: Text(item),
+                  value: value,
+                  child: Text(value),
                 );
               }).toList(),
-              onChanged: onChanged,
               decoration: InputDecoration(
+                hintText: hintText,
+                hintStyle: const TextStyle(
+                  fontSize: 15,
+                  fontWeight: FontWeight.w400,
+                  color: WorkWiseColors.greyColor,
+                ),
+                prefixIcon: prefixIcon,
+                suffixIcon: suffixIcon,
                 enabledBorder: OutlineInputBorder(
                   borderRadius: const BorderRadius.all(Radius.circular(8.0)),
                   borderSide: showBorder
                       ? BorderSide(
-                          width: 2.0,
+                          width: 1.0,
                           color: borderColor,
                         )
                       : const BorderSide(color: Colors.transparent),
                 ),
                 contentPadding: EdgeInsets.symmetric(
-                  vertical: isDense ? 16.0 : 20.0,
-                  horizontal: 12.0,
-                ),
+                    vertical: isDense ? 16.0 : 20.0, horizontal: 12.0),
                 border: InputBorder.none,
                 labelText: label,
               ),
@@ -73,42 +84,64 @@ Widget formDropdownField({
       : Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              label,
-              style: const TextStyle(
-                fontSize: 14,
-                fontWeight: FontWeight.w500,
-              ),
-            ),
-            isDense
-                ? const SizedBox(height: 8.0)
-                : const SizedBox(height: 10.0),
-            DropdownButtonFormField<String>(
-              value: value,
-              items: items.map((String item) {
-                return DropdownMenuItem<String>(
-                  value: item,
-                  child: Text(item),
-                );
-              }).toList(),
-              onChanged: onChanged,
-              decoration: InputDecoration(
-                enabledBorder: OutlineInputBorder(
-                  borderRadius: const BorderRadius.all(Radius.circular(8.0)),
-                  borderSide: showBorder
-                      ? BorderSide(
-                          width: 2.0,
-                          color: borderColor,
-                        )
-                      : const BorderSide(color: Colors.transparent),
+            showLabel
+                ? Text(
+                    label,
+                    style: TextStyle(
+                        fontSize: labelSize, fontWeight: FontWeight.w500),
+                  )
+                : Container(),
+            SizedBox(height: isDense ? 10.0 : 12.0),
+            Container(
+              decoration: showShadow
+                  ? BoxDecoration(
+                      borderRadius: BorderRadius.circular(8.0),
+                      boxShadow: [
+                        BoxShadow(
+                          color: shadowColor,
+                          blurRadius: 16,
+                          offset: const Offset(0, 4),
+                        ),
+                      ],
+                    )
+                  : BoxDecoration(
+                      borderRadius: BorderRadius.circular(8.0),
+                    ),
+              child: Material(
+                borderRadius: BorderRadius.circular(8.0),
+                color: Colors.white,
+                child: DropdownButtonFormField<String>(
+                  value: selectedValue,
+                  onChanged: onChanged,
+                  items: items.map<DropdownMenuItem<String>>((String value) {
+                    return DropdownMenuItem<String>(
+                      value: value,
+                      child: Text(value),
+                    );
+                  }).toList(),
+                  decoration: InputDecoration(
+                    hintText: hintText,
+                    hintStyle: const TextStyle(
+                      fontSize: 15,
+                      fontWeight: FontWeight.w400,
+                      color: WorkWiseColors.greyColor,
+                    ),
+                    prefixIcon: prefixIcon,
+                    suffixIcon: suffixIcon,
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius:
+                          const BorderRadius.all(Radius.circular(8.0)),
+                      borderSide: showBorder
+                          ? BorderSide(
+                              width: 1.0,
+                              color: borderColor,
+                            )
+                          : const BorderSide(color: Colors.transparent),
+                    ),
+                    contentPadding: EdgeInsets.symmetric(
+                        vertical: isDense ? 14.0 : 20.0, horizontal: 12.0),
+                  ),
                 ),
-                contentPadding: EdgeInsets.symmetric(
-                  vertical: isDense ? 16.0 : 20.0,
-                  horizontal: 12.0,
-                ),
-                border: InputBorder.none,
-                filled: true,
-                fillColor: Colors.white,
               ),
             ),
           ],

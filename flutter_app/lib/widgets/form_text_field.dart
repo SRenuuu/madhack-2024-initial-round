@@ -5,16 +5,23 @@ import 'package:flutter_app/theme/colors.dart';
 Widget formTextField({
   required String label,
   required TextEditingController controller,
+  String hintText = '',
+  Widget? prefixIcon,
+  Widget? suffixIcon,
   bool isDense = true,
   bool withFloatingLabel = false,
   bool obscureText = false,
+  bool readOnly = false,
+  Function()? onTap,
   bool isFilled = true,
-  bool showBorder = true,
+  bool showBorder = false,
   bool showShadow = true,
+  bool showLabel = true,
+  double labelSize = 15.0,
   int maxLines = 1,
   TextInputType keyboardType = TextInputType.text,
   Color shadowColor = WorkWiseColors.lightGreyColor,
-  Color borderColor = WorkWiseColors.lightGreyColor,
+  Color borderColor = WorkWiseColors.greyColor,
 }) {
   return withFloatingLabel
       ? Container(
@@ -23,9 +30,9 @@ Widget formTextField({
                   borderRadius: BorderRadius.circular(8.0),
                   boxShadow: [
                     BoxShadow(
-                      color: shadowColor, // Shadow color
-                      blurRadius: 16, // Blur radius
-                      offset: const Offset(0, 4), // Shadow offset
+                      color: shadowColor,
+                      blurRadius: 16,
+                      offset: const Offset(0, 4),
                     ),
                   ],
                 )
@@ -49,12 +56,22 @@ Widget formTextField({
               maxLines: maxLines,
               obscureText: obscureText,
               keyboardType: keyboardType,
+              readOnly: readOnly,
+              onTap: onTap,
               decoration: InputDecoration(
+                hintText: hintText,
+                hintStyle: const TextStyle(
+                  fontSize: 15,
+                  fontWeight: FontWeight.w400,
+                  color: WorkWiseColors.greyColor,
+                ),
+                prefixIcon: prefixIcon,
+                suffixIcon: suffixIcon,
                 enabledBorder: OutlineInputBorder(
                   borderRadius: const BorderRadius.all(Radius.circular(8.0)),
                   borderSide: showBorder
                       ? BorderSide(
-                          width: 2.0,
+                          width: 1.0,
                           color: borderColor,
                         )
                       : const BorderSide(color: Colors.transparent),
@@ -70,32 +87,59 @@ Widget formTextField({
       : Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              label,
-              style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
-            ),
-            isDense
-                ? const SizedBox(height: 8.0)
-                : const SizedBox(height: 10.0),
-            TextFormField(
-              controller: controller,
-              maxLines: maxLines,
-              obscureText: obscureText,
-              keyboardType: keyboardType,
-              decoration: InputDecoration(
-                enabledBorder: OutlineInputBorder(
-                  borderRadius: const BorderRadius.all(Radius.circular(8.0)),
-                  borderSide: showBorder
-                      ? BorderSide(
-                          width: 2.0,
-                          color: borderColor,
-                        )
-                      : const BorderSide(color: Colors.transparent),
+            showLabel
+                ? Text(
+                    label,
+                    style: TextStyle(
+                        fontSize: labelSize, fontWeight: FontWeight.w500),
+                  )
+                : Container(),
+            SizedBox(height: isDense ? 10.0 : 12.0),
+            Container(
+              decoration: showShadow
+                  ? BoxDecoration(
+                      borderRadius: BorderRadius.circular(8.0),
+                      boxShadow: [
+                        BoxShadow(
+                          color: shadowColor,
+                          blurRadius: 16,
+                          offset: const Offset(0, 4),
+                        ),
+                      ],
+                    )
+                  : BoxDecoration(
+                      borderRadius: BorderRadius.circular(8.0),
+                    ),
+              child: TextFormField(
+                controller: controller,
+                maxLines: maxLines,
+                obscureText: obscureText,
+                keyboardType: keyboardType,
+                readOnly: readOnly,
+                onTap: onTap,
+                decoration: InputDecoration(
+                  hintText: hintText,
+                  hintStyle: const TextStyle(
+                    fontSize: 15,
+                    fontWeight: FontWeight.w400,
+                    color: WorkWiseColors.greyColor,
+                  ),
+                  prefixIcon: prefixIcon,
+                  suffixIcon: suffixIcon,
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: const BorderRadius.all(Radius.circular(8.0)),
+                    borderSide: showBorder
+                        ? BorderSide(
+                            width: 1.0,
+                            color: borderColor,
+                          )
+                        : const BorderSide(color: Colors.transparent),
+                  ),
+                  filled: isFilled,
+                  fillColor: Colors.white,
+                  contentPadding: EdgeInsets.symmetric(
+                      vertical: isDense ? 14.0 : 20.0, horizontal: 12.0),
                 ),
-                filled: isFilled,
-                fillColor: Colors.white,
-                contentPadding: EdgeInsets.symmetric(
-                    vertical: isDense ? 16.0 : 20.0, horizontal: 12.0),
               ),
             ),
           ],

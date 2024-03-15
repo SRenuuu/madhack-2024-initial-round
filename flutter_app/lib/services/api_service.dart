@@ -40,6 +40,8 @@ class ApiService extends GetConnect {
         decoder: decoder,
       );
 
+      print(response.toString());
+
       if (kDebugMode) {
         print(response.statusCode);
         print(response.bodyString);
