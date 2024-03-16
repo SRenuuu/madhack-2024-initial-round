@@ -184,4 +184,35 @@ class JobPostController extends GetxController {
       ),
     ];
   }
+
+  Widget buildControls(
+      BuildContext context, ControlsDetails details, bool isLastStep) {
+    return Row(
+      children: [
+        Expanded(
+          child: ElevatedButton(
+            onPressed: details.onStepCancel,
+            style: ElevatedButton.styleFrom(
+              backgroundColor: WorkWiseColors.primaryColor,
+              foregroundColor: Colors.white,
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.zero),
+            ),
+            child: const Text('Cancel'),
+          ),
+        ),
+        const SizedBox(width: 8),
+        Expanded(
+          child: ElevatedButton(
+            onPressed: details.onStepContinue,
+            style: ElevatedButton.styleFrom(
+              backgroundColor: WorkWiseColors.primaryColor,
+              foregroundColor: Colors.white,
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.zero),
+            ),
+            child: Text(isLastStep ? 'Finish' : 'Continue'),
+          ),
+        ),
+      ],
+    );
+  }
 }

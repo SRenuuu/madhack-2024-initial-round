@@ -31,6 +31,12 @@ class JobPostFormView extends StatelessWidget {
             child: GetBuilder<JobPostController>(
               init: controller,
               builder: (_) => Stepper(
+                controlsBuilder:
+                    (BuildContext context, ControlsDetails details) {
+                  final bool isLastStep = controller.currentStep.value ==
+                      controller.getSteps().length - 1;
+                  return controller.buildControls(context, details, isLastStep);
+                },
                 type: StepperType.horizontal,
                 currentStep: controller.currentStep.value,
                 onStepCancel: controller.previousStep,
