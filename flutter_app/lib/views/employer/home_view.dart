@@ -24,7 +24,7 @@ class EmployerHomeView extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.fromLTRB(24.0, 0, 24.0, 0),
                 child: ElevatedButton(
-                  onPressed: () => Get.toNamed("/job"),
+                  onPressed: () => Get.toNamed("/create-job"),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: WorkWiseColors.primaryColor,
                     padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
@@ -46,7 +46,6 @@ class EmployerHomeView extends StatelessWidget {
   }
 
   AppBar buildAppBar() {
-    HomeController controller = Get.put(HomeController());
     return AppBar(
       backgroundColor: Colors.white,
       toolbarHeight: 80.0,
@@ -141,7 +140,7 @@ class EmployerHomeView extends StatelessWidget {
             style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.w600),
           ),
         ),
-        Obx(() => controller.isMostPopularJobPostsLoading.value
+        Obx(() => controller.isRecentJobPostsLoading.value
             ? _buildLoadingIndicator()
             : controller.mostPopularJobPosts.isEmpty
                 ? const Center(
@@ -193,16 +192,16 @@ class EmployerHomeView extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const Text(
-            "Recommended for you",
+            "Recent Job Postings",
             style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.w600),
           ),
           const SizedBox(height: 16.0),
-          Obx(() => controller.isRecommendedJobPostsLoading.value
+          Obx(() => controller.isRecentJobPostsLoading.value
               ? _buildLoadingIndicator()
-              : controller.recommendedJobPosts.isEmpty
+              : controller.recentJobPosts.isEmpty
                   ? const Center(
                       child: Text(
-                        "No recommended jobs found",
+                        "No recent jobs found",
                         style: TextStyle(
                           color: WorkWiseColors.darkGreyColor,
                         ),
@@ -211,7 +210,7 @@ class EmployerHomeView extends StatelessWidget {
                   : ListView.builder(
                       shrinkWrap: true,
                       physics: const NeverScrollableScrollPhysics(),
-                      itemCount: controller.recommendedJobPosts.length,
+                      itemCount: controller.recentJobPosts.length,
                       itemBuilder: (BuildContext context, int index) {
                         return Column(
                           children: [
@@ -219,7 +218,7 @@ class EmployerHomeView extends StatelessWidget {
                               shadowColor:
                                   WorkWiseColors.greyColor.withOpacity(0.5),
                               onCardTap: () => Get.toNamed("/profile"),
-                              jobPosting: controller.recommendedJobPosts[index],
+                              jobPosting: controller.recentJobPosts[index],
                             ),
                             const SizedBox(height: 8.0),
                           ],

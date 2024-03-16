@@ -1,11 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app/controllers/job_post_controller.dart';
+import 'package:flutter_app/controllers/employer/job_post_controller.dart';
 import 'package:flutter_app/theme/colors.dart';
-import 'package:flutter_app/util/enums.dart';
-import 'package:flutter_app/views/job_posting/range_picker.dart';
-import 'package:flutter_app/widgets/description_form_field.dart';
-import 'package:flutter_app/widgets/form_dropdown_field.dart';
-import 'package:flutter_app/widgets/form_text_field.dart';
 import 'package:get/get.dart';
 
 class JobPostFormView extends StatelessWidget {
@@ -18,7 +13,7 @@ class JobPostFormView extends StatelessWidget {
       backgroundColor: Colors.grey.shade100,
       appBar: AppBar(
         backgroundColor: Colors.white,
-        title: const Text('Post Jobs'),
+        title: const Text('Post Your Job'),
       ),
       body: SafeArea(
         child: Center(

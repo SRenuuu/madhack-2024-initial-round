@@ -1,21 +1,27 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/models/create_job_request.dart';
 import 'package:flutter_app/theme/colors.dart';
-import 'package:flutter_app/views/job_posting/search_input_location.dart';
+import 'package:flutter_app/views/job_posting/range_picker.dart';
 import 'package:flutter_app/widgets/form_dropdown_field.dart';
 import 'package:flutter_app/widgets/form_text_field.dart';
 import 'package:get/get.dart';
-import 'package:flutter_app/views/job_posting/range_picker.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:location/location.dart';
+
+import '../../models/create_job_response.dart';
+import '../../services/api_service.dart';
+import '../../util/constants.dart';
 
 class JobPostController extends GetxController {
   final TextEditingController positionController = TextEditingController();
   final TextEditingController descriptionController = TextEditingController();
+  final TextEditingController locationController = TextEditingController();
   final TextEditingController requirementsController = TextEditingController();
   final TextEditingController responsibilitiesController =
       TextEditingController();
   final TextEditingController aboutCompanyController = TextEditingController();
   RxInt currentStep = 0.obs;
+
+  final ApiService api = Get.find<ApiService>();
 
   var textFieldControllers =
       List<TextEditingController>.empty(growable: true).obs;
@@ -49,6 +55,7 @@ class JobPostController extends GetxController {
   }
 
   void changeIndustry(String newIndustry) {
+    print('Selected Industry: $newIndustry');
     selectedIndustry.value = newIndustry;
   }
 
@@ -126,7 +133,7 @@ class JobPostController extends GetxController {
             label: 'Industries',
             items: industries,
             selectedValue: selectedIndustry.value,
-            onChanged: (val) => changeIndustry),
+            onChanged: (val) => changeIndustry(val!)),
         const SizedBox(height: 15.0),
         //categories
         formDropdownField(
@@ -135,7 +142,7 @@ class JobPostController extends GetxController {
             label: 'Categories',
             items: categories,
             selectedValue: selectedCategory.value,
-            onChanged: (val) => changeCategory),
+            onChanged: (val) => changeCategory(val!)),
         const SizedBox(height: 20.0),
         //positions
         formTextField(
@@ -152,7 +159,7 @@ class JobPostController extends GetxController {
             label: 'Job Types',
             items: jobTypes,
             selectedValue: selectedJobType.value,
-            onChanged: (val) => changeJobType),
+            onChanged: (val) => changeJobType(val!)),
         const SizedBox(height: 20.0),
         //workspaces
         formDropdownField(
@@ -161,7 +168,7 @@ class JobPostController extends GetxController {
             label: 'Workspaces',
             items: workspaces,
             selectedValue: selectedWorkspace.value,
-            onChanged: (val) => changeWorkspace),
+            onChanged: (val) => changeWorkspace(val!)),
         const SizedBox(height: 15.0),
       ],
     );
@@ -169,48 +176,15 @@ class JobPostController extends GetxController {
 
   Widget _searchLocationWidget() {
     // Removed context parameter
-    final TextEditingController _searchController = TextEditingController();
-    final Location _location = Location();
-
-    Future<bool> _checkLocationPermission() async {
-      var permissionStatus = await _location.hasPermission();
-      if (permissionStatus == PermissionStatus.denied) {
-        permissionStatus = await _location.requestPermission();
-      }
-      return permissionStatus == PermissionStatus.granted;
-    }
 
     return Column(
       children: [
-        TextField(
-          controller: _searchController,
-          decoration: InputDecoration(
-            hintText: 'Enter location (optional)',
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(10.0),
-            ),
-          ),
-          onSubmitted: (String query) {
-            // Handle search query here (e.g., call Google Places API)
-            print('Search query: $query');
-
-            // Simulate selecting a location (replace with actual search logic)
-            selectedLocation.value =
-                LatLng(-33.8688, 151.2093); // Example coordinates
-          },
-        ),
+        formTextField(
+            maxLines: 4,
+            label: 'Job Location',
+            controller: locationController,
+            keyboardType: TextInputType.text),
         const SizedBox(height: 10.0),
-        if (selectedLocation.value != null)
-          Text(
-            'Selected Location: ${selectedLocation.value!.latitude}, ${selectedLocation.value!.longitude}',
-          ),
-        const SizedBox(height: 10.0),
-        ElevatedButton(
-          onPressed: () {
-            onLocationSelected(selectedLocation.value);
-          },
-          child: const Text('Select'),
-        ),
       ],
     );
   }
@@ -322,7 +296,41 @@ class JobPostController extends GetxController {
         const SizedBox(width: 8),
         Expanded(
           child: ElevatedButton(
-            onPressed: details.onStepContinue,
+            onPressed: () async {
+              if (isLastStep) {
+                if (await submitJobPost()) {
+                  Get.snackbar(
+                    icon: const Icon(
+                      Icons.check_circle,
+                      size: 26,
+                      color: Colors.white,
+                    ),
+                    shouldIconPulse: true,
+                    "Success",
+                    "Job post created successfully",
+                    colorText: Colors.white,
+                    backgroundColor: Colors.green.shade700.withOpacity(0.9),
+                  );
+                  Get.offAllNamed("/employer-home");
+                  destroy();
+                } else {
+                  Get.snackbar(
+                    icon: const Icon(
+                      Icons.error,
+                      size: 26,
+                      color: Colors.white,
+                    ),
+                    shouldIconPulse: true,
+                    "Error",
+                    "Failed to create job post",
+                    colorText: Colors.white,
+                    backgroundColor: Colors.red.shade700.withOpacity(0.9),
+                  );
+                }
+              } else {
+                details.onStepContinue!();
+              }
+            },
             style: ElevatedButton.styleFrom(
               backgroundColor: WorkWiseColors.primaryColor,
               foregroundColor: Colors.white,
@@ -333,5 +341,48 @@ class JobPostController extends GetxController {
         ),
       ],
     );
+  }
+
+  Future<bool> submitJobPost() async {
+    CreateJobRequest jobPostData = CreateJobRequest(
+      title: positionController.text,
+      description: descriptionController.text,
+      requirements: [requirementsController.text],
+      responsibilities: [responsibilitiesController.text],
+      location: locationController.text,
+      salaryRange: (SalaryRange(
+          low: startSalary.value, high: endSalary.value, currency: 'LKR')),
+      tags: ['Remote', 'Full Time'],
+    );
+
+    print(jobPostData.toJson());
+
+    CreateJobResponse createJobResponse =
+        CreateJobResponse.fromJson((await api.sendPostRequest(
+      true,
+      Constants.createJobPostEndpoint,
+      data: jobPostData.toJson(),
+    ))
+            ?.body);
+
+    if (createJobResponse.status == 'success') {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  @override
+  void onClose() {
+    positionController.dispose();
+    descriptionController.dispose();
+    requirementsController.dispose();
+    responsibilitiesController.dispose();
+    aboutCompanyController.dispose();
+    super.onClose();
+  }
+
+  void destroy() {
+    Get.delete<JobPostController>();
   }
 }
