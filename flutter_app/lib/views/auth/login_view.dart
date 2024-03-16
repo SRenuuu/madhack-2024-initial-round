@@ -77,7 +77,23 @@ class LoginView extends StatelessWidget {
                                   FocusScope.of(context).unfocus();
                                   controller.login().then((value) {
                                     if (value) {
-                                      Get.offAllNamed("/home");
+                                      if (controller.authService
+                                              .getUserRole() ==
+                                          "employer") {
+                                        Get.offAllNamed("/employer-home");
+                                      } else if (controller.authService
+                                              .getUserRole() ==
+                                          "jobApplicant") {
+                                        Get.offAllNamed("/home");
+                                      } else {
+                                        Get.snackbar(
+                                          "Error",
+                                          "Invalid user role",
+                                          colorText: Colors.white,
+                                          backgroundColor: Colors.red.shade700
+                                              .withOpacity(0.9),
+                                        );
+                                      }
                                       Get.snackbar(
                                         icon: const Icon(
                                           Icons.check_circle,
@@ -133,7 +149,6 @@ class LoginView extends StatelessWidget {
                         const Text("Don’t have an account?"),
                         TextButton(
                           onPressed: () {
-                            print('Sign Up button pressed');
                             Get.toNamed("/sign_up");
                           },
                           child: const Text('Sign Up',

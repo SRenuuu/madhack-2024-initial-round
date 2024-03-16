@@ -3,9 +3,8 @@ import 'package:flutter_app/controllers/home_controller.dart';
 import 'package:flutter_app/theme/colors.dart';
 import 'package:get/get.dart';
 
-import '../widgets/form_text_field.dart';
-import '../widgets/job_card.dart';
-import '../widgets/loading_indicator.dart';
+import '../../widgets/form_text_field.dart';
+import '../../widgets/job_card.dart';
 
 class HomeView extends StatelessWidget {
   const HomeView({Key? key});
@@ -19,7 +18,7 @@ class HomeView extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              buildSearchField(),
+              buildSearchField(context),
               const SizedBox(height: 24.0),
               buildMostPopularJobs(),
               buildJobTagsList(),
@@ -94,25 +93,40 @@ class HomeView extends StatelessWidget {
     );
   }
 
-  Widget buildSearchField() {
+  Widget buildSearchField(context) {
     HomeController controller = Get.put(HomeController());
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 24.0),
-      child: formTextField(
-        showBorder: true,
-        isDense: true,
-        hintText: 'Search Jobs...',
-        showLabel: false,
-        label: 'Search Jobs',
-        prefixIcon: const Icon(Icons.search,
-            size: 26.0, color: WorkWiseColors.primaryColor),
-        suffixIcon: IconButton(
-          onPressed: () => print("Filter"),
-          icon: const Icon(Icons.filter_alt_rounded,
-              size: 26.0, color: WorkWiseColors.greyColor),
-        ),
-        controller: controller.searchController,
-        keyboardType: TextInputType.emailAddress,
+      child: Row(
+        children: [
+          Expanded(
+            child: formTextField(
+              showBorder: true,
+              isDense: true,
+              hintText: 'Search Jobs...',
+              showLabel: false,
+              label: 'Search Jobs',
+              prefixIcon: const Icon(Icons.search,
+                  size: 26.0, color: WorkWiseColors.primaryColor),
+              controller: controller.searchController,
+              keyboardType: TextInputType.emailAddress,
+            ),
+          ),
+          const SizedBox(
+            width: 8,
+          ),
+          SizedBox(
+            width: 48,
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(0, 8, 0, 0),
+              child: IconButton(
+                onPressed: () => {Get.toNamed("/search-filters")},
+                icon: const Icon(Icons.list,
+                    size: 28.0, color: WorkWiseColors.darkGreyColor),
+              ),
+            ),
+          )
+        ],
       ),
     );
   }
@@ -129,9 +143,8 @@ class HomeView extends StatelessWidget {
             style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.w600),
           ),
         ),
-        Obx(() =>
-        controller.isMostPopularJobPostsLoading.value
-            ? loadingIndicator()
+        Obx(() => controller.isMostPopularJobPostsLoading.value
+            ? _buildLoadingIndicator()
             : controller.mostPopularJobPosts.isEmpty
                 ? const Center(
                     child: Padding(
@@ -142,33 +155,33 @@ class HomeView extends StatelessWidget {
                           color: WorkWiseColors.darkGreyColor,
                         ),
                       ),
-                    ),
-                  )
-                : SizedBox(
-                    height: 204.0,
-                    child: ListView.builder(
-                      scrollDirection: Axis.horizontal,
-                      itemCount: controller.mostPopularJobPosts.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        return Container(
-                          width: MediaQuery.of(context).size.width * 0.8,
-                          margin: EdgeInsets.only(
-                            top: 16.0,
-                            bottom: 24.0,
-                            left: index == 0 ? 24.0 : 0,
-                            right: index == 9 ? 24.0 : 16.0,
-                          ),
-                          child: JobCard(
-                            showDescription: false,
-                            shadowColor:
-                                WorkWiseColors.greyColor.withOpacity(0.5),
-                            onCardTap: () => Get.toNamed("/profile"),
-                            jobPosting: controller.mostPopularJobPosts[index],
-                          ),
-                        );
-                      },
-                    ),
-                  )),
+          ),
+        )
+            : SizedBox(
+          height: 204.0,
+          child: ListView.builder(
+            scrollDirection: Axis.horizontal,
+            itemCount: controller.mostPopularJobPosts.length,
+            itemBuilder: (BuildContext context, int index) {
+              return Container(
+                width: MediaQuery.of(context).size.width * 0.8,
+                margin: EdgeInsets.only(
+                  top: 16.0,
+                  bottom: 24.0,
+                  left: index == 0 ? 24.0 : 0,
+                  right: index == 9 ? 24.0 : 16.0,
+                ),
+                child: JobCard(
+                  showDescription: false,
+                  shadowColor:
+                  WorkWiseColors.greyColor.withOpacity(0.5),
+                  onCardTap: () => Get.toNamed("/profile"),
+                  jobPosting: controller.mostPopularJobPosts[index],
+                ),
+              );
+            },
+          ),
+        )),
       ],
     );
   }
@@ -181,19 +194,17 @@ class HomeView extends StatelessWidget {
           child: SingleChildScrollView(
             scrollDirection: Axis.horizontal,
             child: Obx(
-              () => Row(
+                  () => Row(
                 children: [
                   const SizedBox(width: 16),
                   ...controller.jobTagsList.map(
-                    (job) => Container(
+                        (job) => Container(
                       margin: const EdgeInsets.symmetric(horizontal: 8.0),
-                      child: Chip(
+                      child: InputChip(
+                        onPressed: () => print("Job: $job"),
                         padding: const EdgeInsets.symmetric(
                             horizontal: 8.0, vertical: 8.0),
-                        label: InkWell(
-                          onTap: () => print("Job: $job"),
-                          child: Text(job),
-                        ),
+                        label: Text(job),
                         shape: RoundedRectangleBorder(
                           side: const BorderSide(color: Colors.transparent),
                           borderRadius: BorderRadius.circular(8.0),
@@ -226,9 +237,8 @@ class HomeView extends StatelessWidget {
             style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.w600),
           ),
           const SizedBox(height: 16.0),
-          Obx(() =>
-          controller.isRecommendedJobPostsLoading.value
-              ? loadingIndicator()
+          Obx(() => controller.isRecommendedJobPostsLoading.value
+              ? _buildLoadingIndicator()
               : controller.recommendedJobPosts.isEmpty
                   ? const Center(
                       child: Text(
@@ -239,19 +249,48 @@ class HomeView extends StatelessWidget {
                       ),
                     )
                   : ListView.builder(
-                      shrinkWrap: true,
-                      physics: const NeverScrollableScrollPhysics(),
-                      itemCount: controller.recommendedJobPosts.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        return JobCard(
-                          shadowColor:
-                              WorkWiseColors.greyColor.withOpacity(0.5),
-                          onCardTap: () => Get.toNamed("/profile"),
-                          jobPosting: controller.recommendedJobPosts[index],
-                        );
-                      },
-                    )),
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            itemCount: controller.recommendedJobPosts.length,
+            itemBuilder: (BuildContext context, int index) {
+              return JobCard(
+                shadowColor:
+                WorkWiseColors.greyColor.withOpacity(0.5),
+                onCardTap: () => Get.toNamed("/profile"),
+                jobPosting: controller.recommendedJobPosts[index],
+              );
+            },
+          )),
         ],
+      ),
+    );
+  }
+
+  Widget _buildLoadingIndicator() {
+    return const Center(
+      child: Padding(
+        padding: EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 24.0),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            SizedBox(
+              height: 24,
+              width: 24,
+              child: CircularProgressIndicator(
+                strokeWidth: 2,
+                color: WorkWiseColors.secondaryColor,
+              ),
+            ),
+            SizedBox(width: 20.0),
+            Text(
+              'Loading...',
+              style: TextStyle(
+                color: WorkWiseColors.darkGreyColor,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

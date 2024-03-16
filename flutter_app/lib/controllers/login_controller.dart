@@ -11,6 +11,7 @@ import '../util/constants.dart';
 
 class LoginController extends GetxController {
   final ApiService apiService = Get.find<ApiService>();
+  final authService = Get.find<AuthService>();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   final RxBool isLoginLoading = false.obs;
@@ -81,6 +82,7 @@ class LoginController extends GetxController {
       authService.setAuthentication(true);
       authService.setBearerToken(loginResponse.data.token);
       authService.setUserId(loginResponse.data.id);
+      authService.setUserRole(loginResponse.data.role);
 
       emailController.text = "";
       passwordController.text = "";

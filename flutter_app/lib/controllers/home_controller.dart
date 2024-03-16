@@ -1,4 +1,4 @@
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../services/auth_service.dart';
@@ -6,6 +6,8 @@ import '../widgets/job_card.dart';
 
 class HomeController extends GetxController {
   final AuthService authService = Get.find<AuthService>();
+
+  // Home View
   final TextEditingController searchController = TextEditingController();
 
   final RxBool isLoading = false.obs;
@@ -86,6 +88,84 @@ class HomeController extends GetxController {
       ),
     ];
     isMostPopularJobPostsLoading.value = false;
+  }
+
+  // Search Filters view
+  final TextEditingController filterLocationController =
+      TextEditingController();
+
+  Rx<String> selectedIndustry = 'Information Technology'.obs;
+  Rx<String> selectedCategory = 'UI/UX'.obs;
+
+  final industries = [
+    'Information Technology',
+    'Finance',
+    'Healthcare',
+    'Retail',
+    'Manufacturing',
+    'Telecommunications',
+  ];
+
+  final industryCategories = {
+    'Information Technology': [
+      'BA/BI',
+      'UI/UX',
+      'Software Development',
+      'Network Administration'
+    ],
+    'Finance': ['Accounting', 'Financial Planning', 'Auditing'],
+    'Healthcare': ['Nursing', 'Medical Technology', 'Pharmacy'],
+    'Retail': ['Sales', 'Merchandising', 'Customer Service'],
+    'Manufacturing': ['Production', 'Quality Assurance', 'Supply Chain'],
+    'Telecommunications': [
+      'Network Engineering',
+      'Telecom Sales',
+      'Customer Support'
+    ],
+  };
+
+  void changeIndustry(String newIndustry) {
+    print(newIndustry);
+    selectedIndustry.value = newIndustry;
+    // Reset category when industry changes
+    selectedCategory.value = categoriesForIndustry(newIndustry).first;
+    update();
+  }
+
+  void changeCategory(String newCategory) {
+    print(newCategory);
+    selectedCategory.value = newCategory;
+    update();
+  }
+
+  List<String> categoriesForIndustry(String industry) {
+    return industryCategories[industry] ?? [];
+  }
+
+  // add required stuff here
+
+  final Rx<RangeValues> salaryRange =
+      const RangeValues(50000, 250000).obs; // Initial salary range
+
+  final RxList<String> allTags = [
+    'On-site',
+    'Remote',
+    'Hybrid',
+    'Full Time',
+    'Part Time',
+    'Intern',
+    'Senior',
+    'New',
+    'Urgent'
+  ].obs;
+  final RxList<String> selectedTags = <String>[].obs;
+
+  void addTag(String tag) {
+    selectedTags.add(tag);
+  }
+
+  void removeTag(String tag) {
+    selectedTags.remove(tag);
   }
 
   @override
