@@ -8,7 +8,10 @@ import 'package:flutter_app/views/home/home_view.dart';
 import 'package:flutter_app/views/home/search_filters_view.dart';
 import 'package:flutter_app/views/job_listing_view.dart';
 import 'package:flutter_app/views/profile/about_me_view.dart';
+import 'package:flutter_app/views/profile/education_view.dart';
 import 'package:flutter_app/views/profile/profile_view.dart';
+import 'package:flutter_app/views/profile/qualification_view.dart';
+import 'package:flutter_app/views/profile/skills_view.dart';
 import 'package:flutter_app/views/profile/work_experience_view.dart';
 import 'package:flutter_app/views/resume_upload_view.dart';
 import 'package:flutter_app/views/root_view.dart';
@@ -48,11 +51,14 @@ class MyApp extends StatelessWidget {
           '/profile': (context) => const UserProfilePage(),
           '/search-filters': (context) => const SearchFiltersView(),
           '/user-profile': (context) => const UserPersonalDetailPage(),
-          '/user-experience': (context) => const WorkExperienceView(),
+          '/user-experience': (context) => const WorkExperiencePage(),
           '/resume': (context) => const ResumeUploadView(),
           // '/job_post': (context) => const JobPostFormView(),
           '/about-me': (context) => const UserPersonalDetailPage(),
-          '/work-experience': (context) => const WorkExperienceView(),
+          '/work-experience': (context) => const WorkExperiencePage(),
+          '/education': (context) => const EducationPage(),
+          '/qualification': (context) => const QualificationPage(),
+          '/skills': (context) => const SkillsPage(),
         });
   }
 }

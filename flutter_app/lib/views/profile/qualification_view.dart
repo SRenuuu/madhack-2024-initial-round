@@ -1,40 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../controllers/work_experience_controller.dart';
+import '../../controllers/qualification_controller.dart';
 import '../../theme/colors.dart';
 import '../../widgets/form_text_field.dart';
 
-class WorkExperiencePage extends StatelessWidget {
-  const WorkExperiencePage({super.key});
+class QualificationPage extends StatelessWidget {
+  const QualificationPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    WorkExperienceController controller = Get.put(WorkExperienceController());
+    QualificationController controller = Get.put(QualificationController());
 
-    selectStartDate(BuildContext context) async {
+    date(BuildContext context) async {
       DateTime? pickedDate = await showDatePicker(
         context: context,
-        initialDate: controller.startDateController.text == ''
+        initialDate: controller.dateController.text == ''
             ? DateTime.now()
-            : DateTime.parse(controller.startDateController.text),
+            : DateTime.parse(controller.dateController.text),
         firstDate: DateTime(1900),
         lastDate: DateTime.now(),
       );
-      controller.startDateController.text =
-      pickedDate != null ? pickedDate.toString().split(' ')[0] : '';
-    }
-
-    selectEndDate(BuildContext context) async {
-      DateTime? pickedDate = await showDatePicker(
-        context: context,
-        initialDate: controller.endDateController.text == ''
-            ? DateTime.now()
-            : DateTime.parse(controller.endDateController.text),
-        firstDate: DateTime(1900),
-        lastDate: DateTime.now(),
-      );
-      controller.endDateController.text =
+      controller.dateController.text =
       pickedDate != null ? pickedDate.toString().split(' ')[0] : '';
     }
 
@@ -42,7 +29,7 @@ class WorkExperiencePage extends StatelessWidget {
         backgroundColor: Colors.grey.shade100,
         appBar: AppBar(
           backgroundColor: Colors.white,
-          title: const Text('Add experience'),
+          title: const Text('Add Qualification'),
         ),
         body: SafeArea(
           child: SingleChildScrollView(
@@ -53,53 +40,22 @@ class WorkExperiencePage extends StatelessWidget {
                 children: [
                   // Editable form
                   formTextField(
-                    label: 'Job title',
-                    controller: controller.jobTitleController,
-                    prefixIcon: const Icon(Icons.person,
+                    label: 'Qualification',
+                    controller: controller.qualificationController,
+                    prefixIcon: const Icon(Icons.format_list_bulleted,
                         size: 20.0, color: WorkWiseColors.primaryColor),
                   ),
                   const SizedBox(height: 24.0),
                   formTextField(
-                    label: 'Company',
-                    controller: controller.companyController,
-                    prefixIcon: const Icon(Icons.house,
-                        size: 20.0, color: WorkWiseColors.primaryColor),
-                  ),
-                  const SizedBox(height: 24.0),
-                  Obx(() => CheckboxListTile(value: controller.isCurrentJob.value, onChanged: (newValue) => controller.changeIsCurrentJob(), title: const Text("Current job"), controlAffinity: ListTileControlAffinity.leading)),
-                  const SizedBox(height: 24.0),
-                  Row(
-                    children: [
-                      Expanded(
-                        child: formTextField(
-                          label: 'Start Date',
-                          controller: controller.startDateController,
-                          keyboardType: TextInputType.datetime,
-                          hintText: 'YYYY-MM-DD',
-                          prefixIcon: IconButton(
-                            icon: const Icon(Icons.calendar_today,
-                                size: 20.0, color: WorkWiseColors.primaryColor),
-                            onPressed: () => selectStartDate(context),
-                          ),
-                        ),
-                      ),
-                      const SizedBox(
-                        width: 16,
-                      ),
-                      Expanded(
-                        child: formTextField(
-                          label: 'End Date',
-                          controller: controller.endDateController,
-                          keyboardType: TextInputType.datetime,
-                          hintText: 'YYYY-MM-DD',
-                          prefixIcon: IconButton(
-                            icon: const Icon(Icons.calendar_today,
-                                size: 20.0, color: WorkWiseColors.primaryColor),
-                            onPressed: () => selectEndDate(context),
-                          ),
-                        ),
-                      ),
-                    ],
+                    label: 'Start Date',
+                    controller: controller.dateController,
+                    keyboardType: TextInputType.datetime,
+                    hintText: 'YYYY-MM-DD',
+                    prefixIcon: IconButton(
+                      icon: const Icon(Icons.calendar_today,
+                          size: 20.0, color: WorkWiseColors.primaryColor),
+                      onPressed: () => date(context),
+                    ),
                   ),
                   const SizedBox(height: 24.0),
                   formTextField(

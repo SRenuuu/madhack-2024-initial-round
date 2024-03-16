@@ -22,6 +22,7 @@ Widget formTextField({
   TextInputType keyboardType = TextInputType.text,
   Color shadowColor = WorkWiseColors.lightGreyColor,
   Color borderColor = WorkWiseColors.greyColor,
+  dynamic Function(String)? onSubmitted
 }) {
   return withFloatingLabel
       ? Container(
@@ -52,6 +53,7 @@ Widget formTextField({
               ],
             ),
             child: TextField(
+              onSubmitted: onSubmitted,
               controller: controller,
               maxLines: maxLines,
               obscureText: obscureText,
@@ -111,6 +113,7 @@ Widget formTextField({
                       borderRadius: BorderRadius.circular(8.0),
                     ),
               child: TextFormField(
+                onFieldSubmitted: onSubmitted,
                 controller: controller,
                 maxLines: maxLines,
                 obscureText: obscureText,
