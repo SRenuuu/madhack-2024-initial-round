@@ -150,6 +150,14 @@ module.exports = {
 
     getJobsByEmployer: async (req, res) => {
         try {
+
+            if (req.tokenData.role !== 'employer') {
+                return res.status(403).json({
+                    status: 'failed',
+                    message: 'permission denied'
+                });
+            }
+
             const jobs = await Job.find({ employer: req.tokenData.user_id }, { applications: false }).populate('employer', 'email image profile.name');
 
             return res.status(200).json({
