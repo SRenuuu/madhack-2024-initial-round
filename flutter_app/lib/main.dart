@@ -4,7 +4,8 @@ import 'package:flutter_app/services/auth_service.dart';
 import 'package:flutter_app/services/resume_upload_service.dart';
 // import 'package:flutter_app/views/auth/employer_signup_view.dart';
 import 'package:flutter_app/views/auth/login_view.dart';
-import 'package:flutter_app/views/home_view.dart';
+import 'package:flutter_app/views/home/home_view.dart';
+import 'package:flutter_app/views/home/search_filters_view.dart';
 import 'package:flutter_app/views/job_listing_view.dart';
 import 'package:flutter_app/views/profile/about_me_view.dart';
 import 'package:flutter_app/views/profile/profile_view.dart';
@@ -45,6 +46,7 @@ class MyApp extends StatelessWidget {
           '/home': (context) => const HomeView(),
           '/job': (context) => JobListingPage(),
           '/profile': (context) => const UserProfilePage(),
+          '/search-filters': (context) => const SearchFiltersView(),
           '/user-profile': (context) => const UserPersonalDetailPage(),
           '/user-experience': (context) => const WorkExperienceView(),
           '/resume': (context) => const ResumeUploadView(),

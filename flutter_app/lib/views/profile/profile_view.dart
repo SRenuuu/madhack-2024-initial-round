@@ -85,19 +85,35 @@ class UserProfilePage extends StatelessWidget {
               decoration: BoxDecoration(
                 boxShadow: [
                   BoxShadow(
-                    color: WorkWiseColors.darkGreyColor.withOpacity(0.3),
+                    color: WorkWiseColors.greyColor.withOpacity(0.35),
                     blurRadius: 24.0,
                     offset: const Offset(0, 4.0),
                     spreadRadius: 0,
                   )
                 ],
               ),
-              child: const CircleAvatar(
-                radius: 60.0,
-                backgroundImage: NetworkImage(
-                    "https://foyr.com/learn/wp-content/uploads/2021/08/modern-office-design.png"), // Replace with user's profile image
+              child: Stack(
+                children: [
+                  Container(
+                    width: 120.0,
+                    height: 120.0,
+                    decoration: BoxDecoration(
+                      color: WorkWiseColors.secondaryColor,
+                      borderRadius: BorderRadius.circular(60.0),
+                    ),
+                  ),
+                  const CircleAvatar(
+                    radius: 60.0,
+                    backgroundImage: NetworkImage(
+                      "https://foyr.com/learn/wp-content/uploads/2021/08/modern-office-design.png", // Replace with user's profile image
+                    ),
+                    backgroundColor: Colors
+                        .transparent, // Set background color to transparent
+                  ),
+                ],
               ),
             ),
+
             // The camera icon button
             // make this smaller
 
@@ -155,8 +171,8 @@ class UserProfilePage extends StatelessWidget {
         boxShadow: [
           showShadow
               ? BoxShadow(
-                  color: WorkWiseColors.greyColor.withOpacity(0.5),
-                  blurRadius: 24.0,
+                  color: WorkWiseColors.greyColor.withOpacity(0.35),
+                  blurRadius: 16.0,
                   offset: const Offset(0, 4.0),
                   spreadRadius: 0,
                 )
@@ -212,7 +228,7 @@ class UserProfilePage extends StatelessWidget {
 class ProfileSection {
   final String title;
   final IconData icon;
-  final VoidCallback? onTap; // Optional callback for tap functionality
+  final VoidCallback? onTap;
 
   ProfileSection({required this.title, required this.icon, this.onTap});
 }

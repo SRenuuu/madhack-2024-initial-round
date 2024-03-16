@@ -74,7 +74,7 @@ Widget formDropdownField({
                       : const BorderSide(color: Colors.transparent),
                 ),
                 contentPadding: EdgeInsets.symmetric(
-                    vertical: isDense ? 16.0 : 20.0, horizontal: 12.0),
+                    vertical: isDense ? 16.0 : 20.0, horizontal: 16.0),
                 border: InputBorder.none,
                 labelText: label,
               ),
@@ -139,7 +139,7 @@ Widget formDropdownField({
                           : const BorderSide(color: Colors.transparent),
                     ),
                     contentPadding: EdgeInsets.symmetric(
-                        vertical: isDense ? 14.0 : 20.0, horizontal: 12.0),
+                        vertical: isDense ? 14.0 : 18.0, horizontal: 16.0),
                   ),
                 ),
               ),
