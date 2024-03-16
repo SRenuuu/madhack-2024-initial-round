@@ -5,7 +5,6 @@ import 'package:get/get.dart';
 class RootView extends StatelessWidget {
   const RootView({super.key});
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -41,7 +40,7 @@ class RootView extends StatelessWidget {
                 const SizedBox(height: 32.0), // Spacer
                 // Sign Up Button
                 OutlinedButton(
-                  onPressed: () => Get.toNamed("/login"),
+                  onPressed: () => Get.toNamed("/sign_up"),
                   child: const Text('Sign Up'),
                 ),
               ],

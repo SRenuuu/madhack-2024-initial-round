@@ -99,6 +99,7 @@ class _JobPostFormViewState extends State<JobPostFormView> {
                       industry.toString().split('.').last == newValue);
                 });
               },
+              selectedValue: null,
             ),
             const SizedBox(height: 15.0),
             formDropdownField(
@@ -112,6 +113,7 @@ class _JobPostFormViewState extends State<JobPostFormView> {
                       category.toString().split('.').last == newValue);
                 });
               },
+              selectedValue: null,
             ),
             const SizedBox(height: 20.0),
             formTextField(label: 'Position', controller: _positionController),
@@ -127,6 +129,7 @@ class _JobPostFormViewState extends State<JobPostFormView> {
                       jobType.toString().split('.').last == newValue);
                 });
               },
+              selectedValue: null,
             ),
             const SizedBox(height: 20.0),
             formDropdownField(
@@ -141,6 +144,7 @@ class _JobPostFormViewState extends State<JobPostFormView> {
                           workspace.toString().split('.').last == newValue);
                 });
               },
+              selectedValue: null,
             ),
           ],
         ),
@@ -184,9 +188,8 @@ class _JobPostFormViewState extends State<JobPostFormView> {
                 });
               },
             ),
-            const SizedBox(
-                height:
-                    40.0), // Add some space between the RangePickerWidget and the Row
+            const SizedBox(height: 40.0),
+            // Add some space between the RangePickerWidget and the Row
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
