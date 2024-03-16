@@ -34,6 +34,8 @@ class ApiService extends GetConnect {
         headers: {
           ...headers ?? {},
           if (isAuthRequired)
+            'Authorization': 'Bearer ${authService.getBearerToken()}',
+          if (isAuthRequired) 'x-access-token': authService.getBearerToken(),
             'x-access-token': authService.getBearerToken(),
         },
         query: query,
@@ -72,6 +74,12 @@ class ApiService extends GetConnect {
     T Function(dynamic)? decoder,
   }) async {
     try {
+      if (isAuthRequired) {
+        print('Bearer ${authService.getBearerToken()}');
+      }
+
+      print(data.toString());
+
       final response = await post(
         endpoint,
         data,
@@ -79,6 +87,7 @@ class ApiService extends GetConnect {
           ...headers ?? {},
           if (isAuthRequired)
             'Authorization': 'Bearer ${authService.getBearerToken()}',
+          if (isAuthRequired) 'x-access-token': authService.getBearerToken(),
         },
         query: query,
         decoder: decoder,

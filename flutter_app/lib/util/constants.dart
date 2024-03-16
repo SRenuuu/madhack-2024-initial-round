@@ -5,5 +5,10 @@ class Constants {
   // Endpoints
   static const String loginEndpoint = "auth/signin";
   static const String registerEndpoint = "auth/signup";
+
+  static const String createJobPostEndpoint = "/job/create";
+  static const String getJobsByEmployer = "job/filter/employer";
+
   static const String getUserDetailEndpoint = "users";
+
 }
