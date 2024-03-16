@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 
 import '../../widgets/form_text_field.dart';
 import '../../widgets/job_card.dart';
+import '../../widgets/loading_indicator.dart';
 
 class EmployerHomeView extends StatelessWidget {
   const EmployerHomeView({Key? key});
@@ -141,8 +142,9 @@ class EmployerHomeView extends StatelessWidget {
             style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.w600),
           ),
         ),
-        Obx(() => controller.isMostPopularJobPostsLoading.value
-            ? _buildLoadingIndicator()
+        Obx(() =>
+        controller.isMostPopularJobPostsLoading.value
+            ? loadingIndicator()
             : controller.mostPopularJobPosts.isEmpty
                 ? const Center(
                     child: Padding(

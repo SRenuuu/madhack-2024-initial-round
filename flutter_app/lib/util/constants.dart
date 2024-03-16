@@ -5,4 +5,5 @@ class Constants {
   // Endpoints
   static const String loginEndpoint = "auth/signin";
   static const String registerEndpoint = "auth/signup";
+  static const String getUserDetailEndpoint = "users";
 }
