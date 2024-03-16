@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app/controllers/employer_signup_controller.dart';
+import 'package:flutter_app/controllers/employer/employer_signup_controller.dart';
 import 'package:get/get.dart';
 
 import '../../theme/colors.dart';
@@ -85,7 +85,7 @@ class EmployerSignUpView extends StatelessWidget {
                             print('Forgot Password button pressed');
                             Get.toNamed("/sign_up");
                           },
-                          child: const Text('Are you an employee?',
+                          child: const Text('Are you an employer?',
                               style: TextStyle(
                                   color: WorkWiseColors.primaryColor)),
                         ),

@@ -3,9 +3,9 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../models/signup_request.dart';
-import '../services/api_service.dart';
-import '../util/constants.dart';
+import '../../models/signup_request.dart';
+import '../../services/api_service.dart';
+import '../../util/constants.dart';
 
 class EmployerSignUpController extends GetxController {
   final ApiService apiService = Get.find<ApiService>();
