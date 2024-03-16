@@ -7,6 +7,11 @@ import 'package:flutter_app/views/job_posting/range_picker.dart';
 
 class JobPostController extends GetxController {
   final TextEditingController positionController = TextEditingController();
+  final TextEditingController descriptionController = TextEditingController();
+  final TextEditingController requirementsController = TextEditingController();
+  final TextEditingController responsibilitiesController =
+      TextEditingController();
+  final TextEditingController aboutCompanyController = TextEditingController();
   RxInt currentStep = 0.obs;
 
   RxList<TextEditingController> textFieldControllers =
@@ -129,6 +134,7 @@ class JobPostController extends GetxController {
                 items: workspaces,
                 selectedValue: selectedWorkspace.value,
                 onChanged: (val) => changeWorkspace),
+            const SizedBox(height: 15.0),
           ],
         ),
       ),
@@ -165,6 +171,36 @@ class JobPostController extends GetxController {
                 endSalary.value = endValue;
               },
             ),
+            const SizedBox(height: 200),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text('Start',
+                        style: TextStyle(
+                            fontWeight: FontWeight.w500, fontSize: 15)),
+                    Obx(() => Text(
+                        'LKR ${startSalary.value.toStringAsFixed(2)}',
+                        style: const TextStyle(
+                            fontWeight: FontWeight.w500, fontSize: 20))),
+                  ],
+                ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text('End',
+                        style: TextStyle(
+                            fontWeight: FontWeight.w500, fontSize: 15)),
+                    Obx(() => Text('LKR ${endSalary.value.toStringAsFixed(2)}',
+                        style: const TextStyle(
+                            fontWeight: FontWeight.w500, fontSize: 20))),
+                  ],
+                ),
+              ],
+            ),
+            SizedBox(height: 35)
           ],
         ),
       ),
@@ -178,7 +214,31 @@ class JobPostController extends GetxController {
           children: [
             const Text("Details",
                 style: TextStyle(fontWeight: FontWeight.w500, fontSize: 20)),
-            // Your details content goes here
+            const SizedBox(height: 15),
+            formTextField(
+                maxLines: 4,
+                label: 'Job Description',
+                controller: descriptionController,
+                keyboardType: TextInputType.text),
+            const SizedBox(height: 15.0),
+            formTextField(
+                maxLines: 4,
+                label: 'Requirements',
+                controller: requirementsController,
+                keyboardType: TextInputType.text),
+            const SizedBox(height: 15.0),
+            formTextField(
+                maxLines: 4,
+                label: 'Responsibilities',
+                controller: responsibilitiesController,
+                keyboardType: TextInputType.text),
+            const SizedBox(height: 15.0),
+            formTextField(
+                maxLines: 4,
+                label: 'About Company',
+                controller: aboutCompanyController,
+                keyboardType: TextInputType.text),
+            const SizedBox(height: 15.0),
           ],
         ),
       ),
@@ -189,17 +249,18 @@ class JobPostController extends GetxController {
       BuildContext context, ControlsDetails details, bool isLastStep) {
     return Row(
       children: [
-        Expanded(
-          child: ElevatedButton(
-            onPressed: details.onStepCancel,
-            style: ElevatedButton.styleFrom(
-              backgroundColor: WorkWiseColors.primaryColor,
-              foregroundColor: Colors.white,
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.zero),
+        if (details.stepIndex != 0) // Show only if not in the first step
+          Expanded(
+            child: ElevatedButton(
+              onPressed: details.onStepCancel,
+              style: ElevatedButton.styleFrom(
+                backgroundColor: WorkWiseColors.primaryColor,
+                foregroundColor: Colors.white,
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.zero),
+              ),
+              child: const Text('Previous'),
             ),
-            child: const Text('Cancel'),
           ),
-        ),
         const SizedBox(width: 8),
         Expanded(
           child: ElevatedButton(
@@ -209,7 +270,7 @@ class JobPostController extends GetxController {
               foregroundColor: Colors.white,
               shape: RoundedRectangleBorder(borderRadius: BorderRadius.zero),
             ),
-            child: Text(isLastStep ? 'Finish' : 'Continue'),
+            child: Text(isLastStep ? 'Finish' : 'Next'),
           ),
         ),
       ],
