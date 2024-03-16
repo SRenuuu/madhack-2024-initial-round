@@ -6,6 +6,7 @@ class AuthService extends GetxService {
   final RxString email = ''.obs;
   final RxBool isAuthenticated = false.obs;
   String _bearerToken = '';
+  String userRole = '';
 
   SharedPreferences? _prefs;
 
@@ -16,6 +17,7 @@ class AuthService extends GetxService {
     email.value = _prefs?.getString('email') ?? '';
     isAuthenticated.value = _prefs?.getBool('isAuthenticated') ?? false;
     _bearerToken = _prefs?.getString('bearerToken') ?? '';
+    userRole = _prefs?.getString('userRole') ?? '';
   }
 
   String getBearerToken() {
@@ -45,6 +47,15 @@ class AuthService extends GetxService {
     _prefs?.setBool('isAuthenticated', value);
   }
 
+  void setUserRole(String role) {
+    userRole = role;
+    _prefs?.setString('userRole', role);
+  }
+
+  String getUserRole() {
+    return userRole;
+  }
+
   void forceLogout() {
     if (kDebugMode) {
       print("Logging out");
@@ -53,6 +64,7 @@ class AuthService extends GetxService {
     _prefs?.remove('email');
     _prefs?.remove('bearerToken');
     _prefs?.remove('isAuthenticated');
+    _prefs?.remove('userRole');
 
     // Remove all routes and get to LoginScreen()
     Get.offAllNamed('/login');

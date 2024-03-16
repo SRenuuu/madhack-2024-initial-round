@@ -6,6 +6,9 @@ const database = require('./database');
 const config = require('./config');
 const routes = require('./routes');
 
+const swaggerUi = require('swagger-ui-express');
+const swaggerJsdoc = require('swagger-jsdoc');
+
 const app = express();
 
 // connect to mongoDB
@@ -32,6 +35,25 @@ app.use(cors());
 
 // cookie parser
 app.use(cookieParser());
+
+const swaggerDefinition = {
+    openapi: '3.0.0',
+    info: {
+        title: 'MadHack 2024 API',
+        version: '1.0.0',
+        description: 'This is a API collection for MadHack 2024',
+    },
+};
+
+const swaggerOptions = {
+    swaggerDefinition,
+    apis: ['./app/auth.js'],
+};
+
+const swaggerSpec = swaggerJsdoc(swaggerOptions);
+
+// Serve the swagger documentation
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 // add a prefix for routes
 app.use('/api', routes);

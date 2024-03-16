@@ -38,8 +38,10 @@ class UserProfilePage extends StatelessWidget {
       ProfileSection(
           title: 'Qualifications',
           icon: CupertinoIcons.list_bullet,
-          onTap: () => Navigator.push(context,
-              MaterialPageRoute(builder: (context) => const QualificationPage()))),
+          onTap: () => Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => const QualificationPage()))),
     ];
 
     return Scaffold(
@@ -66,7 +68,7 @@ class UserProfilePage extends StatelessWidget {
                     title: "Logout",
                     icon: CupertinoIcons.square_arrow_right,
                     onTap: () {
-                      profileController.forceLogout();
+                      profileController.authService.forceLogout();
                     },
                     showArrow: false,
                   )

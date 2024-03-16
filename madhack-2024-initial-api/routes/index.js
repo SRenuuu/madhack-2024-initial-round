@@ -8,6 +8,13 @@ const auth = require('./auth');
 
 const router = express.Router();
 
+router.use('/health', (req, res) => {
+    return res.status(200).json({
+        status: 'success',
+        message: 'server is running'
+    });
+});
+
 /* auth routes */
 router.use('/auth', auth);
 /* user routes */
