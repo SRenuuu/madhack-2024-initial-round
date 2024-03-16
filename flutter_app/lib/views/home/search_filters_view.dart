@@ -12,193 +12,226 @@ class SearchFiltersView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    HomeController controller = Get.put(HomeController());
-
     return Scaffold(
-        backgroundColor: Colors.grey.shade100,
-        appBar: AppBar(
-          leading: IconButton(
-            icon: const Icon(Icons.arrow_back),
-            onPressed: () => Get.back(),
+      backgroundColor: Colors.grey.shade100,
+      appBar: buildAppBar(),
+      body: buildBody(),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      bottomNavigationBar: buildBottomAppBar(),
+    );
+  }
+
+  AppBar buildAppBar() {
+    return AppBar(
+      leading: IconButton(
+        icon: const Icon(Icons.arrow_back),
+        onPressed: () => Get.back(),
+      ),
+      backgroundColor: Colors.white,
+      title: const Text('Filter'),
+    );
+  }
+
+  Widget buildBody() {
+    return SafeArea(
+      child: SingleChildScrollView(
+        padding: const EdgeInsets.all(24.0),
+        child: Center(
+          child: GetBuilder<HomeController>(
+            builder: (controller) => Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                buildIndustryDropdown(controller),
+                const SizedBox(height: 24.0),
+                buildCategoryDropdown(controller),
+                const SizedBox(height: 24.0),
+                buildLocationTextField(controller),
+                const SizedBox(height: 24.0),
+                buildSalaryText(),
+                const SizedBox(height: 8.0),
+                buildSalaryRangeSlider(controller),
+                const SizedBox(height: 16.0),
+                buildTagsText(),
+                const SizedBox(height: 12.0),
+                buildTagsInputChips(controller),
+              ],
+            ),
           ),
-          backgroundColor: Colors.white,
-          title: const Text('Filter'),
         ),
-        body: SafeArea(
-          child: SingleChildScrollView(
-            padding: const EdgeInsets.all(24.0),
-            child: Center(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+      ),
+    );
+  }
+
+  Widget buildIndustryDropdown(HomeController controller) {
+    return formDropdownField(
+      label: 'Industry',
+      items: controller.industries,
+      selectedValue: controller.selectedIndustry.value,
+      onChanged: (newValue) => controller.changeIndustry(newValue!),
+    );
+  }
+
+  Widget buildCategoryDropdown(HomeController controller) {
+    return Obx(
+      () {
+        if (controller.selectedIndustry.value != null) {
+          final List<String> categories = controller
+              .categoriesForIndustry(controller.selectedIndustry.value);
+          return formDropdownField(
+            label: 'Category',
+            items: categories,
+            selectedValue: controller.selectedCategory.value,
+            onChanged: (newValue) => controller.changeCategory(newValue!),
+          );
+        } else {
+          return const Text('Please select an industry first.');
+        }
+      },
+    );
+  }
+
+  Widget buildLocationTextField(HomeController controller) {
+    return formTextField(
+      label: 'Location',
+      hintText: 'Sri Lanka',
+      controller: controller.filterLocationController,
+      keyboardType: TextInputType.text,
+    );
+  }
+
+  Widget buildSalaryText() {
+    return const Text(
+      "Salary",
+      style: TextStyle(fontSize: 15, fontWeight: FontWeight.w500),
+    );
+  }
+
+  Widget buildSalaryRangeSlider(HomeController controller) {
+    return Obx(
+      () => Column(
+        children: [
+          RangeSlider(
+            values: controller.salaryRange.value,
+            min: 0,
+            max: 1000000,
+            divisions: 20,
+            onChanged: (RangeValues values) {
+              controller.salaryRange.value = values;
+            },
+            labels: RangeLabels(
+              '\$${NumberFormat.decimalPattern().format(controller.salaryRange.value.start.round())}',
+              '\$${NumberFormat.decimalPattern().format(controller.salaryRange.value.end.round())}',
+            ),
+            activeColor: WorkWiseColors.primaryColor,
+          ),
+          const SizedBox(height: 4),
+          Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  formDropdownField(
-                    label: 'Industry',
-                    items: controller.industries,
-                    selectedValue: controller.selectedIndustry.value,
-                    onChanged: (newValue) =>
-                        controller.changeIndustry(newValue!),
-                  ),
-                  const SizedBox(height: 24.0),
-                  Obx(() {
-                    if (controller.selectedIndustry.value != null) {
-                      final List<String> categories =
-                          controller.categoriesForIndustry(
-                              controller.selectedIndustry.value);
-                      return formDropdownField(
-                        label: 'Category',
-                        items: categories,
-                        selectedValue: controller.selectedCategory.value,
-                        // Use selectedCategory instead of selectedIndustry
-                        onChanged: (newValue) => controller.changeCategory(
-                            newValue!), // Correctly update selectedCategory
-                      );
-                    } else {
-                      return const Text('Please select an industry first.');
-                    }
-                  }),
-                  const SizedBox(height: 24.0),
-                  formTextField(
-                      label: 'Location',
-                      hintText: 'Sri Lanka',
-                      controller: controller.filterLocationController,
-                      keyboardType: TextInputType.text),
-                  const SizedBox(height: 24.0),
                   const Text(
-                    "Salary",
-                    style: TextStyle(fontSize: 15, fontWeight: FontWeight.w500),
+                    'Min: ',
+                    style: TextStyle(fontSize: 14),
                   ),
-                  const SizedBox(height: 8.0),
-                  // Create a range picker slider here
-                  Obx(
-                    () => Column(
-                      children: [
-                        RangeSlider(
-                          values: controller.salaryRange.value,
-                          min: 0,
-                          max: 1000000,
-                          divisions: 20,
-                          onChanged: (RangeValues values) {
-                            controller.salaryRange.value = values;
-                          },
-                          labels: RangeLabels(
-                            '\$${NumberFormat.decimalPattern().format(controller.salaryRange.value.start.round())}',
-                            '\$${NumberFormat.decimalPattern().format(controller.salaryRange.value.end.round())}',
-                          ),
-                          activeColor: WorkWiseColors.primaryColor,
-                        ),
-                        const SizedBox(height: 4),
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                const Text(
-                                  'Min: ',
-                                  style: TextStyle(fontSize: 14),
-                                ),
-                                Text(
-                                  '${NumberFormat.decimalPattern().format(controller.salaryRange.value.start.round())} LKR',
-                                  style: const TextStyle(
-                                    fontSize: 15,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                              ],
-                            ),
-                            const SizedBox(height: 4),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                const Text(
-                                  'Max: ',
-                                  style: TextStyle(fontSize: 14),
-                                ),
-                                Text(
-                                  '${NumberFormat.decimalPattern().format(controller.salaryRange.value.end.round())} LKR',
-                                  style: const TextStyle(
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-
-                  const SizedBox(height: 16.0),
-                  const Text(
-                    "Tags",
-                    style: TextStyle(fontSize: 15, fontWeight: FontWeight.w500),
-                  ),
-                  const SizedBox(height: 12.0),
-                  // Create a left aligned list of tags here
-                  Obx(
-                    () => Wrap(
-                      spacing: 10.0,
-                      children: controller.allTags.map(
-                        (tag) {
-                          final isSelected =
-                              controller.selectedTags.contains(tag);
-
-                          return InputChip(
-                            // reduce vertical padding
-                            padding: const EdgeInsets.symmetric(
-                                vertical: 6.0, horizontal: 8.0),
-                            label: Text(
-                              tag,
-                              style: TextStyle(
-                                fontSize: 15.0,
-                                fontWeight: FontWeight.w600,
-                                color: isSelected ? Colors.white : Colors.black,
-                              ),
-                            ),
-                            backgroundColor: isSelected
-                                ? WorkWiseColors.primaryColor
-                                : WorkWiseColors.greyColor,
-                            shape: RoundedRectangleBorder(
-                              side: const BorderSide(
-                                color: Colors.transparent,
-                              ),
-                              borderRadius: BorderRadius.circular(6.0),
-                            ),
-                            deleteIcon: isSelected
-                                ? const Icon(Icons.clear,
-                                    size: 20, color: Colors.white)
-                                : null,
-                            onDeleted: isSelected
-                                ? () {
-                                    controller.removeTag(tag);
-                                  }
-                                : null,
-                            onPressed: () {
-                              if (!isSelected) {
-                                controller.addTag(tag);
-                              }
-                            },
-                          );
-                        },
-                      ).toList(),
+                  Text(
+                    '${NumberFormat.decimalPattern().format(controller.salaryRange.value.start.round())} LKR',
+                    style: const TextStyle(
+                      fontSize: 15,
+                      fontWeight: FontWeight.bold,
                     ),
                   ),
                 ],
               ),
-            ),
+              const SizedBox(height: 4),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Text(
+                    'Max: ',
+                    style: TextStyle(fontSize: 14),
+                  ),
+                  Text(
+                    '${NumberFormat.decimalPattern().format(controller.salaryRange.value.end.round())} LKR',
+                    style: const TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ],
+              ),
+            ],
           ),
-        ),
-        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-        bottomNavigationBar: BottomAppBar(
-          color: Colors.white,
-          height: 85,
-          elevation: 0,
-          child: actionButtons(),
-        ));
+        ],
+      ),
+    );
   }
 
-  // Reusable action buttons
+  Widget buildTagsText() {
+    return const Text(
+      "Tags",
+      style: TextStyle(fontSize: 15, fontWeight: FontWeight.w500),
+    );
+  }
+
+  Widget buildTagsInputChips(HomeController controller) {
+    return Obx(
+      () => Wrap(
+        spacing: 10.0,
+        children: controller.allTags.map(
+          (tag) {
+            final isSelected = controller.selectedTags.contains(tag);
+
+            return InputChip(
+              padding:
+                  const EdgeInsets.symmetric(vertical: 6.0, horizontal: 8.0),
+              label: Text(
+                tag,
+                style: TextStyle(
+                  fontSize: 15.0,
+                  fontWeight: FontWeight.w600,
+                  color: isSelected ? Colors.white : Colors.black,
+                ),
+              ),
+              backgroundColor: isSelected
+                  ? WorkWiseColors.primaryColor
+                  : WorkWiseColors.greyColor,
+              shape: RoundedRectangleBorder(
+                side: const BorderSide(
+                  color: Colors.transparent,
+                ),
+                borderRadius: BorderRadius.circular(6.0),
+              ),
+              deleteIcon: isSelected
+                  ? const Icon(Icons.clear, size: 20, color: Colors.white)
+                  : null,
+              onDeleted: isSelected
+                  ? () {
+                      controller.removeTag(tag);
+                    }
+                  : null,
+              onPressed: () {
+                if (!isSelected) {
+                  controller.addTag(tag);
+                }
+              },
+            );
+          },
+        ).toList(),
+      ),
+    );
+  }
+
+  Widget buildBottomAppBar() {
+    return BottomAppBar(
+      color: Colors.white,
+      height: 85,
+      elevation: 0,
+      child: actionButtons(),
+    );
+  }
+
   Widget actionButtons() {
     return Row(
       children: [
@@ -232,80 +265,6 @@ class SearchFiltersView extends StatelessWidget {
             ),
             child: const Text("Apply Filters",
                 style: TextStyle(fontWeight: FontWeight.bold)),
-          ),
-        ),
-      ],
-    );
-  }
-
-  // Reusable link widget
-  Widget buildLink(String value, void Function(String?)? onSaved) {
-    return SizedBox(
-      height: 60,
-      child: Row(
-        children: [
-          Expanded(
-            child: TextFormField(
-              initialValue: value,
-              decoration: InputDecoration(
-                filled: true,
-                fillColor: Colors.grey[100],
-                border: const OutlineInputBorder(
-                  borderSide: BorderSide.none,
-                ),
-                contentPadding:
-                    const EdgeInsets.symmetric(vertical: 8.0, horizontal: 8.0),
-              ),
-              onSaved: onSaved,
-            ),
-          ),
-          IconButton(
-            icon: const Icon(Icons.remove_circle),
-            onPressed: () => {}, // delete
-          ),
-        ],
-      ),
-    );
-  }
-
-  // Reusable mobile number field
-  Widget buildMobileNumberField(
-      String code,
-      String number,
-      void Function(String?)? onCodeChange,
-      void Function(String?)? onNumberChange) {
-    return Row(
-      children: [
-        DropdownButton<String>(
-          value: code,
-          items: const [
-            DropdownMenuItem(
-              value: "+1",
-              child: Text("+1 (US)"),
-            ),
-            DropdownMenuItem(
-              value: "+94",
-              child: Text("+94 (LK)"),
-            ),
-            // Add more countries as needed
-          ],
-          onChanged: onCodeChange,
-        ),
-        const SizedBox(width: 8.0),
-        Expanded(
-          child: TextFormField(
-            initialValue: number,
-            decoration: InputDecoration(
-              filled: true,
-              fillColor: Colors.grey[200],
-              contentPadding:
-                  const EdgeInsets.symmetric(vertical: 8.0, horizontal: 8.0),
-              border: const OutlineInputBorder(
-                borderSide: BorderSide.none,
-              ),
-            ),
-            keyboardType: TextInputType.phone,
-            onSaved: onNumberChange,
           ),
         ),
       ],
