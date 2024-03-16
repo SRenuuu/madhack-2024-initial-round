@@ -14,8 +14,11 @@ class JobPostController extends GetxController {
   final TextEditingController aboutCompanyController = TextEditingController();
   RxInt currentStep = 0.obs;
 
-  RxList<TextEditingController> textFieldControllers =
-      <TextEditingController>[].obs;
+  var textFieldControllers =
+      List<TextEditingController>.empty(growable: true).obs;
+
+  // RxList<TextEditingController> textFieldControllers =
+  //     <TextEditingController>[].obs;
 
   Rx<String?> selectedIndustry = Rx<String?>(null);
   RxList<String> industries = ['Industry 1', 'Industry 2', 'Industry 3'].obs;
