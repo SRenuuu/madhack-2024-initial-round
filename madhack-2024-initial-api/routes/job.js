@@ -15,5 +15,6 @@ router.get('/filter/employer', auth.verifyToken, auth.isEmployer, authenticateTo
 router.get('/:id', job.get);
 router.get('/:id/applications', auth.verifyToken, auth.isEmployer, authenticateToken.authenticateToken, job.applications);
 router.delete('/remove/:id', auth.verifyToken, auth.isEmployer, authenticateToken.authenticateToken, job.remove);
+router.get('/random', job.random);
 
 module.exports = router;

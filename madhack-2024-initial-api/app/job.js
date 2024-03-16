@@ -36,7 +36,8 @@ module.exports = {
                 responsibilities: body.responsibilities,
                 location: body.location,
                 salaryRange: body.salaryRange,
-                employer: req.tokenData.user_id
+                employer: req.tokenData.user_id,
+                tags: body.tags,
             });
 
             await job.save();
