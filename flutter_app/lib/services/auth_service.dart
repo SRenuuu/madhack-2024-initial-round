@@ -4,6 +4,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthService extends GetxService {
   final RxString email = ''.obs;
+  final RxString userId = ''.obs;
   final RxBool isAuthenticated = false.obs;
   String _bearerToken = '';
 
@@ -14,6 +15,7 @@ class AuthService extends GetxService {
     super.onInit();
     _prefs = await SharedPreferences.getInstance();
     email.value = _prefs?.getString('email') ?? '';
+    userId.value = _prefs?.getString('_id') ?? '';
     isAuthenticated.value = _prefs?.getBool('isAuthenticated') ?? false;
     _bearerToken = _prefs?.getString('bearerToken') ?? '';
   }
@@ -30,6 +32,10 @@ class AuthService extends GetxService {
     return email.value;
   }
 
+  String getUserId() {
+    return userId.value;
+  }
+
   void setBearerToken(String newToken) {
     _bearerToken = newToken;
     _prefs?.setString('bearerToken', newToken);
@@ -38,6 +44,11 @@ class AuthService extends GetxService {
   void setUserEmail(String newEmail) {
     email.value = newEmail;
     _prefs?.setString('email', newEmail);
+  }
+
+  void setUserId(String newId) {
+    userId.value = newId;
+    _prefs?.setString('_id', newId);
   }
 
   void setAuthentication(bool value) {
@@ -53,6 +64,7 @@ class AuthService extends GetxService {
     _prefs?.remove('email');
     _prefs?.remove('bearerToken');
     _prefs?.remove('isAuthenticated');
+    _prefs?.remove('_id');
 
     // Remove all routes and get to LoginScreen()
     Get.offAllNamed('/login');

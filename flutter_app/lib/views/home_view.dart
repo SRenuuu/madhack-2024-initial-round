@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 
 import '../widgets/form_text_field.dart';
 import '../widgets/job_card.dart';
+import '../widgets/loading_indicator.dart';
 
 class HomeView extends StatelessWidget {
   const HomeView({Key? key});
@@ -130,7 +131,7 @@ class HomeView extends StatelessWidget {
         ),
         Obx(() =>
         controller.isMostPopularJobPostsLoading.value
-            ? _buildLoadingIndicator()
+            ? loadingIndicator()
             : controller.mostPopularJobPosts.isEmpty
                 ? const Center(
                     child: Padding(
@@ -227,7 +228,7 @@ class HomeView extends StatelessWidget {
           const SizedBox(height: 16.0),
           Obx(() =>
           controller.isRecommendedJobPostsLoading.value
-              ? _buildLoadingIndicator()
+              ? loadingIndicator()
               : controller.recommendedJobPosts.isEmpty
                   ? const Center(
                       child: Text(
@@ -251,35 +252,6 @@ class HomeView extends StatelessWidget {
                       },
                     )),
         ],
-      ),
-    );
-  }
-
-  Widget _buildLoadingIndicator() {
-    return const Center(
-      child: Padding(
-        padding: EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 24.0),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            SizedBox(
-              height: 24,
-              width: 24,
-              child: CircularProgressIndicator(
-                strokeWidth: 2,
-                color: WorkWiseColors.secondaryColor,
-              ),
-            ),
-            SizedBox(width: 20.0),
-            Text(
-              'Loading...',
-              style: TextStyle(
-                color: WorkWiseColors.darkGreyColor,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ],
-        ),
       ),
     );
   }

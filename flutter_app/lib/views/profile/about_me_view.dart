@@ -5,24 +5,26 @@ import 'package:get/get.dart';
 
 import '../../controllers/about_me_controller.dart';
 import '../../widgets/form_text_field.dart';
+import '../../widgets/loading_indicator.dart';
 
 class UserPersonalDetailPage extends StatelessWidget {
   const UserPersonalDetailPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    AboutMeController controller = Get.put(AboutMeController());
+    AboutMeController aboutMeController = Get.put(AboutMeController());
+    aboutMeController.fetchData();
 
     selectDate(BuildContext context) async {
       DateTime? pickedDate = await showDatePicker(
         context: context,
-        initialDate: controller.dobController.text == ''
+        initialDate: aboutMeController.dobController.text == ''
             ? DateTime.now()
-            : DateTime.parse(controller.dobController.text),
+            : DateTime.parse(aboutMeController.dobController.text),
         firstDate: DateTime(1900),
         lastDate: DateTime.now(),
       );
-      controller.dobController.text =
+      aboutMeController.dobController.text =
           pickedDate != null ? pickedDate.toString().split(' ')[0] : '';
     }
 
@@ -36,127 +38,131 @@ class UserPersonalDetailPage extends StatelessWidget {
           child: SingleChildScrollView(
             padding: const EdgeInsets.all(24.0),
             child: Center(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  // Editable form
-                  formTextField(
-                    label: 'Full name',
-                    controller: controller.nameController,
-                    prefixIcon: const Icon(Icons.person,
-                        size: 20.0, color: WorkWiseColors.primaryColor),
-                  ),
-                  const SizedBox(height: 24.0),
-                  formDropdownField(
-                      prefixIcon: const Icon(Icons.list,
+              child: Obx(() =>
+              aboutMeController.userDetailsController.isLoading.value
+                  ? loadingIndicator() :
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    // Editable form
+                    formTextField(
+                      label: 'Full name',
+                      controller: aboutMeController.nameController,
+                      prefixIcon: const Icon(Icons.person,
                           size: 20.0, color: WorkWiseColors.primaryColor),
-                      label: 'Gender',
-                      items: controller.genders,
-                      selectedValue: controller.selectedGender.value,
-                      onChanged: (val) => controller.changeGender),
-                  const SizedBox(height: 24.0),
-                  formTextField(
-                    label: 'Date of Birth',
-                    controller: controller.dobController,
-                    keyboardType: TextInputType.datetime,
-                    hintText: 'YYYY-MM-DD',
-                    prefixIcon: IconButton(
-                      icon: const Icon(Icons.calendar_today,
-                          size: 20.0, color: WorkWiseColors.primaryColor),
-                      onPressed: () => selectDate(context),
                     ),
-                  ),
-                  const SizedBox(height: 24.0),
-                  formTextField(
-                      label: 'Email',
-                      prefixIcon: const Icon(Icons.email,
-                          size: 20.0, color: WorkWiseColors.primaryColor),
-                      controller: controller.emailController,
-                      keyboardType: TextInputType.emailAddress),
-                  const SizedBox(height: 24.0),
-                  formTextField(
-                      label: 'Phone',
-                      controller: controller.phoneController,
-                      prefixIcon: const Icon(Icons.phone,
-                          size: 20.0, color: WorkWiseColors.primaryColor),
-                      keyboardType: TextInputType.phone),
-                  const SizedBox(height: 24.0),
-                  const Text(
-                    "Links",
-                    style: TextStyle(fontSize: 15, fontWeight: FontWeight.w500),
-                  ),
-                  const SizedBox(height: 8.0),
-                  Obx(() => ListView.builder(
-                        itemCount: controller.textFieldControllers.length,
-                        shrinkWrap: true,
-                        physics: const NeverScrollableScrollPhysics(),
-                        itemBuilder: (context, index) {
-                          return Column(
-                            children: [
-                              formTextField(
-                                  showLabel: false,
-                                  label: '',
-                                  prefixIcon: const Icon(Icons.link_outlined,
-                                      size: 22.0,
-                                      color: WorkWiseColors.primaryColor),
-                                  suffixIcon: IconButton(
-                                    icon: const Icon(
-                                        Icons.remove_circle_outline,
-                                        size: 24.0,
-                                        color: WorkWiseColors.darkGreyColor),
-                                    onPressed: () =>
-                                        controller.removeTextField(index),
-                                  ),
-                                  controller:
-                                      controller.textFieldControllers[index],
-                                  keyboardType: TextInputType.url),
-                              const SizedBox(height: 8.0)
-                            ],
-                          );
-                        },
-                      )),
-                  const SizedBox(height: 8.0),
-                  Align(
-                    alignment: Alignment.center,
-                    child: TextButton.icon(
-                      onPressed: () => controller.addTextField(),
-                      label: const Text('Add Link',
-                          style: TextStyle(
-                              color: WorkWiseColors.primaryColor,
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold)),
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.white12,
+                    const SizedBox(height: 24.0),
+                    formDropdownField(
+                        prefixIcon: const Icon(Icons.list,
+                            size: 20.0, color: WorkWiseColors.primaryColor),
+                        label: 'Gender',
+                        items: aboutMeController.genders,
+                        selectedValue: aboutMeController.selectedGender.value,
+                        onChanged: (val) => aboutMeController.changeGender),
+                    const SizedBox(height: 24.0),
+                    formTextField(
+                      label: 'Date of Birth',
+                      controller: aboutMeController.dobController,
+                      keyboardType: TextInputType.datetime,
+                      hintText: 'YYYY-MM-DD',
+                      prefixIcon: IconButton(
+                        icon: const Icon(Icons.calendar_today,
+                            size: 20.0, color: WorkWiseColors.primaryColor),
+                        onPressed: () => selectDate(context),
                       ),
-                      icon: const Icon(Icons.add_circle),
                     ),
-                  ),
+                    const SizedBox(height: 24.0),
+                    formTextField(
+                        label: 'Email',
+                        prefixIcon: const Icon(Icons.email,
+                            size: 20.0, color: WorkWiseColors.primaryColor),
+                        controller: aboutMeController.emailController,
+                        keyboardType: TextInputType.emailAddress),
+                    const SizedBox(height: 24.0),
+                    formTextField(
+                        label: 'Phone',
+                        controller: aboutMeController.phoneController,
+                        prefixIcon: const Icon(Icons.phone,
+                            size: 20.0, color: WorkWiseColors.primaryColor),
+                        keyboardType: TextInputType.phone),
+                    const SizedBox(height: 24.0),
+                    const Text(
+                      "Links",
+                      style: TextStyle(fontSize: 15, fontWeight: FontWeight.w500),
+                    ),
+                    const SizedBox(height: 8.0),
+                    Obx(() => ListView.builder(
+                          itemCount: aboutMeController.textFieldControllers.length,
+                          shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
+                          itemBuilder: (context, index) {
+                            return Column(
+                              children: [
+                                formTextField(
+                                    showLabel: false,
+                                    label: '',
+                                    prefixIcon: const Icon(Icons.link_outlined,
+                                        size: 22.0,
+                                        color: WorkWiseColors.primaryColor),
+                                    suffixIcon: IconButton(
+                                      icon: const Icon(
+                                          Icons.remove_circle_outline,
+                                          size: 24.0,
+                                          color: WorkWiseColors.darkGreyColor),
+                                      onPressed: () =>
+                                          aboutMeController.removeTextField(index),
+                                    ),
+                                    controller:
+                                        aboutMeController.textFieldControllers[index],
+                                    keyboardType: TextInputType.url),
+                                const SizedBox(height: 8.0)
+                              ],
+                            );
+                          },
+                        )),
+                    const SizedBox(height: 8.0),
+                    Align(
+                      alignment: Alignment.center,
+                      child: TextButton.icon(
+                        onPressed: () => aboutMeController.addTextField(),
+                        label: const Text('Add Link',
+                            style: TextStyle(
+                                color: WorkWiseColors.primaryColor,
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold)),
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.white12,
+                        ),
+                        icon: const Icon(Icons.add_circle),
+                      ),
+                    ),
 
-                  // buildMobileNumberField("+94", "+773766397", null, null),
-                  // const SizedBox(height: 16.0),
-                  //
-                  // // Links section
-                  // const Text(
-                  //   'Links',
-                  //   style: TextStyle(
-                  //     fontSize: 16.0,
-                  //     fontWeight: FontWeight.bold,
-                  //   ),
-                  // ),
-                  // Column(
-                  //   children: [
-                  //     ...["Hello", "world"].map((link) => buildLink(link, addLink)),
-                  //   ],
-                  // ),
-                  // ElevatedButton.icon(
-                  //   onPressed: () => addLink(''),
-                  //   label: const Text('Add Link'),
-                  //   style: ElevatedButton.styleFrom(
-                  //     backgroundColor: Colors.white12,
-                  //   ),
-                  //   icon: const Icon(CupertinoIcons.add_circled_solid),
-                  // ),
-                ],
+                    // buildMobileNumberField("+94", "+773766397", null, null),
+                    // const SizedBox(height: 16.0),
+                    //
+                    // // Links section
+                    // const Text(
+                    //   'Links',
+                    //   style: TextStyle(
+                    //     fontSize: 16.0,
+                    //     fontWeight: FontWeight.bold,
+                    //   ),
+                    // ),
+                    // Column(
+                    //   children: [
+                    //     ...["Hello", "world"].map((link) => buildLink(link, addLink)),
+                    //   ],
+                    // ),
+                    // ElevatedButton.icon(
+                    //   onPressed: () => addLink(''),
+                    //   label: const Text('Add Link'),
+                    //   style: ElevatedButton.styleFrom(
+                    //     backgroundColor: Colors.white12,
+                    //   ),
+                    //   icon: const Icon(CupertinoIcons.add_circled_solid),
+                    // ),
+                  ],
+                ),
               ),
             ),
           ),

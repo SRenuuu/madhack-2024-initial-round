@@ -80,6 +80,7 @@ class LoginController extends GetxController {
       authService.setUserEmail(loginResponse.data.email);
       authService.setAuthentication(true);
       authService.setBearerToken(loginResponse.data.token);
+      authService.setUserId(loginResponse.data.id);
 
       emailController.text = "";
       passwordController.text = "";
