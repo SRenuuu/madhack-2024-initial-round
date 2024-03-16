@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/services/api_service.dart';
 import 'package:flutter_app/services/auth_service.dart';
 import 'package:flutter_app/services/resume_upload_service.dart';
-import 'package:flutter_app/views/auth/employer_signup_view.dart';
 import 'package:flutter_app/views/auth/login_view.dart';
+import 'package:flutter_app/views/employer/employer_signup_view.dart';
 import 'package:flutter_app/views/home_view.dart';
 import 'package:flutter_app/views/job_listing_view.dart';
 import 'package:flutter_app/views/job_posting/job_post_form_view.dart';
@@ -37,7 +37,7 @@ class MyApp extends StatelessWidget {
         home: const SplashView(),
         debugShowCheckedModeBanner: false,
         routes: {
-          '/root': (context) => const UserProfilePage(),
+          '/root': (context) => const JobPostFormView(),
           '/login': (context) => const LoginView(),
           '/sign_up': (context) => const UserProfilePage(),
           '/employer_sign_up': (context) => const EmployerSignUpView(),
