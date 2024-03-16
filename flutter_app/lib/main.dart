@@ -11,6 +11,7 @@ import 'package:flutter_app/views/profile/about_me_view.dart';
 import 'package:flutter_app/views/profile/profile_view.dart';
 import 'package:flutter_app/views/profile/work_experience_view.dart';
 import 'package:flutter_app/views/resume_upload_view.dart';
+import 'package:flutter_app/views/saved_jobs_view.dart';
 import 'package:flutter_app/views/splash_view.dart';
 import 'package:get/get.dart';
 
@@ -37,7 +38,7 @@ class MyApp extends StatelessWidget {
         home: const SplashView(),
         debugShowCheckedModeBanner: false,
         routes: {
-          '/root': (context) => const JobPostFormView(),
+          '/root': (context) => SavedJobsView(),
           '/login': (context) => const LoginView(),
           '/sign_up': (context) => const UserProfilePage(),
           '/employer_sign_up': (context) => const EmployerSignUpView(),
@@ -50,6 +51,7 @@ class MyApp extends StatelessWidget {
           '/job_post': (context) => const JobPostFormView(),
           '/about-me': (context) => const UserPersonalDetailPage(),
           '/work-experience': (context) => const WorkExperienceView(),
+          '/saved-jobs': (context) => const SavedJobsView()
         });
   }
 }
