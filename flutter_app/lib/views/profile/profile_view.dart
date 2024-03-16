@@ -23,7 +23,7 @@ class UserProfilePage extends StatelessWidget {
       ProfileSection(
           title: 'Work Experience',
           icon: CupertinoIcons.briefcase,
-          onTap: () => Get.toNamed("/work-experience")),
+          onTap: () => Get.toNamed("/all-experiences")),
       ProfileSection(
           title: 'Education',
           icon: CupertinoIcons.book,

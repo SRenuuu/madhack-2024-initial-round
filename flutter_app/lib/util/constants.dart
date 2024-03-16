@@ -10,5 +10,5 @@ class Constants {
   static const String getJobsByEmployer = "job/filter/employer";
 
   static const String getUserDetailEndpoint = "users";
-
+  static const String updateUserDetailEndpoint = "users/update";
 }
