@@ -12,6 +12,7 @@ const jobSchema = new Schema({
         high: { type: Number, required: true },
         currency: { type: String, default: 'USD' }
     },
+    tags: [String],
     employer: { type: Schema.Types.ObjectId, ref: 'User', required: true },
     applications: [{ type: Schema.Types.ObjectId, ref: 'Application' }]
 }, { timestamps: true });

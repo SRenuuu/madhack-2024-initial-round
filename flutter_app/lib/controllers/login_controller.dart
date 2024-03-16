@@ -78,6 +78,7 @@ class LoginController extends GetxController {
       LoginResponse loginResponse = LoginResponse.fromJson(response.body);
 
       final authService = Get.find<AuthService>();
+
       authService.setUserEmail(loginResponse.data.email);
       authService.setAuthentication(true);
       authService.setBearerToken(loginResponse.data.token);

@@ -6,13 +6,15 @@ import 'package:get/get.dart';
 
 import '../../widgets/form_text_field.dart';
 import '../../widgets/job_card.dart';
-import '../../widgets/loading_indicator.dart';
 
 class EmployerHomeView extends StatelessWidget {
   const EmployerHomeView({Key? key});
 
   @override
   Widget build(BuildContext context) {
+    EmployerHomeController controller = Get.put(EmployerHomeController());
+    controller.fetchRecentJobPostings();
+
     return Scaffold(
       appBar: buildAppBar(),
       body: SafeArea(
@@ -25,7 +27,7 @@ class EmployerHomeView extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.fromLTRB(24.0, 0, 24.0, 0),
                 child: ElevatedButton(
-                  onPressed: () => Get.toNamed("/job"),
+                  onPressed: () => Get.toNamed("/create-job"),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: WorkWiseColors.primaryColor,
                     padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
@@ -37,7 +39,7 @@ class EmployerHomeView extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 24.0),
-              buildRecommendedJobs(),
+              buildRecentJobs(),
               const SizedBox(height: 40.0),
             ],
           ),
@@ -47,7 +49,6 @@ class EmployerHomeView extends StatelessWidget {
   }
 
   AppBar buildAppBar() {
-    HomeController controller = Get.put(HomeController());
     return AppBar(
       backgroundColor: Colors.white,
       toolbarHeight: 80.0,
@@ -142,9 +143,8 @@ class EmployerHomeView extends StatelessWidget {
             style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.w600),
           ),
         ),
-        Obx(() =>
-        controller.isMostPopularJobPostsLoading.value
-            ? loadingIndicator()
+        Obx(() => controller.isRecentJobPostsLoading.value
+            ? _buildLoadingIndicator()
             : controller.mostPopularJobPosts.isEmpty
                 ? const Center(
                     child: Padding(
@@ -187,7 +187,7 @@ class EmployerHomeView extends StatelessWidget {
     );
   }
 
-  Widget buildRecommendedJobs() {
+  Widget buildRecentJobs() {
     EmployerHomeController controller = Get.put(EmployerHomeController());
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 24.0),
@@ -195,16 +195,16 @@ class EmployerHomeView extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const Text(
-            "Recommended for you",
+            "Recent Job Postings",
             style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.w600),
           ),
           const SizedBox(height: 16.0),
-          Obx(() => controller.isRecommendedJobPostsLoading.value
+          Obx(() => controller.isRecentJobPostsLoading.value
               ? _buildLoadingIndicator()
-              : controller.recommendedJobPosts.isEmpty
+              : controller.recentJobPosts.isEmpty
                   ? const Center(
                       child: Text(
-                        "No recommended jobs found",
+                        "No recent jobs found",
                         style: TextStyle(
                           color: WorkWiseColors.darkGreyColor,
                         ),
@@ -213,15 +213,43 @@ class EmployerHomeView extends StatelessWidget {
                   : ListView.builder(
                       shrinkWrap: true,
                       physics: const NeverScrollableScrollPhysics(),
-                      itemCount: controller.recommendedJobPosts.length,
+                      itemCount: controller.recentJobPosts.length,
                       itemBuilder: (BuildContext context, int index) {
                         return Column(
                           children: [
                             JobCard(
                               shadowColor:
                                   WorkWiseColors.greyColor.withOpacity(0.5),
-                              onCardTap: () => Get.toNamed("/profile"),
-                              jobPosting: controller.recommendedJobPosts[index],
+                              onCardTap: () => {
+                                Get.toNamed(
+                                  "/employer-job",
+                                  parameters: {
+                                    "title":
+                                        controller.recentJobPosts[index].title,
+                                    "location": controller
+                                        .recentJobPosts[index].location,
+                                    "description": controller
+                                        .recentJobPosts[index].description
+                                        .toString(),
+                                    "image": controller
+                                        .recentJobPosts[index].image
+                                        .toString(),
+                                    "salaryValue": controller
+                                        .recentJobPosts[index].salaryValue
+                                        .toString(),
+                                    "salaryFrequency": controller
+                                        .recentJobPosts[index].salaryFrequency
+                                        .toString(),
+                                    "tags": controller
+                                        .recentJobPosts[index].tags
+                                        .toString(),
+                                    "isSaved": controller
+                                        .recentJobPosts[index].isSaved
+                                        .toString(),
+                                  },
+                                )
+                              },
+                              jobPosting: controller.recentJobPosts[index],
                             ),
                             const SizedBox(height: 8.0),
                           ],
