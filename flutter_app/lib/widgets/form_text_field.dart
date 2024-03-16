@@ -60,8 +60,8 @@ Widget formTextField({
               onTap: onTap,
               decoration: InputDecoration(
                 hintText: hintText,
-                hintStyle: const TextStyle(
-                  fontSize: 15,
+                hintStyle: TextStyle(
+                  fontSize: isDense ? 15.0 : 18.0,
                   fontWeight: FontWeight.w400,
                   color: WorkWiseColors.greyColor,
                 ),

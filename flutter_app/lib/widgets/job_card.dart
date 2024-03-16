@@ -38,6 +38,7 @@ class JobCard extends StatelessWidget {
   final double cardWidth;
   final Icon fallbackIcon;
   final Color fallbackBackgroundColor;
+  final Color shadowColor;
 
   const JobCard({
     super.key,
@@ -47,7 +48,7 @@ class JobCard extends StatelessWidget {
     this.showDescription = true,
     this.showShadow = true,
     this.showBorder = false,
-    this.borderRadius = 16.0,
+    this.borderRadius = 12.0,
     this.backgroundColor = Colors.white,
     this.cardWidth = double.infinity,
     this.showTags = true,
@@ -57,6 +58,7 @@ class JobCard extends StatelessWidget {
       color: Colors.white,
     ),
     this.fallbackBackgroundColor = WorkWiseColors.secondaryColor,
+    this.shadowColor = WorkWiseColors.greyColor,
   });
 
   @override
@@ -66,17 +68,17 @@ class JobCard extends StatelessWidget {
       decoration: BoxDecoration(
         boxShadow: [
           showShadow
-              ? const BoxShadow(
-            color: WorkWiseColors.greyColor,
-            blurRadius: 24.0,
-            offset: Offset(0, 8.0),
-            spreadRadius: 0,
-          )
+              ? BoxShadow(
+                  color: shadowColor,
+                  blurRadius: 20.0,
+                  offset: Offset(0, 8.0),
+                  spreadRadius: 0,
+                )
               : const BoxShadow(
-            color: Colors.transparent,
-            blurRadius: 0,
-            offset: Offset(0, 0),
-            spreadRadius: 0,
+                  color: Colors.transparent,
+                  blurRadius: 0,
+                  offset: Offset(0, 0),
+                  spreadRadius: 0,
                 ),
         ],
         border: showBorder

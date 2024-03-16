@@ -6,18 +6,19 @@ import 'package:flutter_app/views/auth/employer_signup_view.dart';
 import 'package:flutter_app/views/auth/login_view.dart';
 import 'package:flutter_app/views/home_view.dart';
 import 'package:flutter_app/views/job_listing_view.dart';
-import 'package:flutter_app/views/job_posting/job_post_form_view.dart';
 import 'package:flutter_app/views/profile/about_me_view.dart';
 import 'package:flutter_app/views/profile/profile_view.dart';
 import 'package:flutter_app/views/profile/work_experience_view.dart';
 import 'package:flutter_app/views/resume_upload_view.dart';
+import 'package:flutter_app/views/root_view.dart';
 import 'package:flutter_app/views/splash_view.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get/get.dart';
 
 import 'theme/app_theme.dart';
 
 void main() async {
-  // await dotenv.load(fileName: ".env");
+  await dotenv.load(fileName: ".env");
   runApp(const MyApp());
 }
 
@@ -37,7 +38,7 @@ class MyApp extends StatelessWidget {
         home: const SplashView(),
         debugShowCheckedModeBanner: false,
         routes: {
-          '/root': (context) => const UserProfilePage(),
+          '/root': (context) => const RootView(),
           '/login': (context) => const LoginView(),
           '/sign_up': (context) => const UserProfilePage(),
           '/employer_sign_up': (context) => const EmployerSignUpView(),
@@ -47,7 +48,7 @@ class MyApp extends StatelessWidget {
           '/user-profile': (context) => const UserPersonalDetailPage(),
           '/user-experience': (context) => const WorkExperienceView(),
           '/resume': (context) => const ResumeUploadView(),
-          '/job_post': (context) => const JobPostFormView(),
+          // '/job_post': (context) => const JobPostFormView(),
           '/about-me': (context) => const UserPersonalDetailPage(),
           '/work-experience': (context) => const WorkExperienceView(),
         });
