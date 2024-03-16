@@ -1,0 +1,293 @@
+openapi: 3.0.0
+info:
+  title: MadHack 2024 Initial Task API
+  version: 1.0.0
+servers:
+  - url: http://{{baseurl}}
+  - url: http://{{baseurl}}images
+  - url: http://{{baseurl}}files
+components:
+  securitySchemes:
+    noauthAuth:
+      type: http
+      scheme: noauth
+paths:
+  /auth/signin:
+    post:
+      tags:
+        - default
+      summary: signin
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              properties:
+                email:
+                  type: string
+                  example: mervin_davis93@hotmail.com
+                password:
+                  type: integer
+                  example: '1234'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /auth/signup:
+    post:
+      tags:
+        - default
+      summary: signup
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              properties:
+                email:
+                  type: string
+                  example: test1@gmail.com
+                password:
+                  type: integer
+                  example: '1234'
+                confirm_password:
+                  type: integer
+                  example: '1234'
+                name:
+                  type: string
+                  example: Saliya Bandara
+                role:
+                  type: string
+                  example: employer
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /users/all/:
+    get:
+      tags:
+        - default
+      summary: get users
+      security:
+        - noauthAuth: []
+      parameters:
+        - name: x-access-token
+          in: header
+          schema:
+            type: string
+          example: '{{authToken}}'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /users/all/employers:
+    get:
+      tags:
+        - default
+      summary: get employers
+      security:
+        - noauthAuth: []
+      parameters:
+        - name: x-access-token
+          in: header
+          schema:
+            type: string
+          example: '{{authToken}}'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /users/65ca23a400bcf2fce5b15403:
+    get:
+      tags:
+        - default
+      summary: search employers
+      security:
+        - noauthAuth: []
+      parameters:
+        - name: x-access-token
+          in: header
+          schema:
+            type: string
+          example: '{{authToken}}'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /users/update/65ca23a400bcf2fce5b15430:
+    patch:
+      tags:
+        - default
+      summary: update user
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                name: Updated Name
+                dob: '1990-01-01'
+                contact: 123-456-7890
+                socialLinks:
+                  - https://linkedin.com/updated
+                  - https://linkedin.com/updated
+                skills:
+                  - New Skill
+                qualifications:
+                  - qualification: New Qualification
+                    date: '2022-01-01'
+                    description: Updated description
+                workExperience:
+                  - position: New Position
+                    company: New Company
+                    startDate: '2022-01-01'
+                    endDate: '2023-01-01'
+                    isCurrent: false
+                    description: Updated description
+                education:
+                  - institution: New Institution
+                    degree: New Degree
+                    field: New Field
+                    startDate: '2020-01-01'
+                    endDate: '2022-01-01'
+                    description: Updated description
+      security:
+        - noauthAuth: []
+      parameters:
+        - name: x-access-token
+          in: header
+          schema:
+            type: string
+          example: '{{authToken}}'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /users/update/image/65ca23a400bcf2fce5b15430:
+    patch:
+      tags:
+        - default
+      summary: update user image
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              properties:
+                image:
+                  type: string
+                  example: 1707750043629.png
+      security:
+        - noauthAuth: []
+      parameters:
+        - name: x-access-token
+          in: header
+          schema:
+            type: string
+          example: '{{authToken}}'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /upload:
+    put:
+      tags:
+        - default
+      summary: upload CV
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                image:
+                  type: string
+                  format: binary
+      security:
+        - noauthAuth: []
+      parameters:
+        - name: x-access-token
+          in: header
+          schema:
+            type: string
+          example: '{{authToken}}'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /users/add/work-experience/65ca23a400bcf2fce5b15403:
+    post:
+      tags:
+        - default
+      summary: add work experience
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                position: Intern Software Engineer
+                company: SAP
+                startDate: '2019-06-01'
+                endDate: '2019-08-01'
+                isCurrent: false
+                description: >-
+                  Worked on the SAP Cloud Platform Integration Suite team.
+                  Developed a feature to allow users to create and manage custom
+                  adapters for the platform.
+      security:
+        - noauthAuth: []
+      parameters:
+        - name: x-access-token
+          in: header
+          schema:
+            type: string
+          example: '{{authToken}}'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /job/create:
+    post:
+      tags:
+        - default
+      summary: create job
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                title: Intern Software Engineer
+                description: We are looking for a software engineer to join our team
+                requirements:
+                  - Bachelors in Computer Science
+                  - 3 years of experience
+                responsibilities:
+                  - Develop software
+                  - Test software
+                  - Maintain software
+                location: San Francisco
+                salaryRange:
+                  low: 100000
+                  high: 150000
+                  currency: LKR
+      security:
+        - noauthAuth: []
+      parameters:
+        - name: x-access-token
+          in: header
+          schema:
+            type: string
+          example: '{{authToken}}'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
