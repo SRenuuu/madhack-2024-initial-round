@@ -21,8 +21,7 @@ class AboutMeController extends GetxController {
   final TextEditingController dobController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController phoneController = TextEditingController();
-  TextEditingController newOne = TextEditingController();
-  RxBool isLoading = false.obs;
+
   UserDetailResponse? userDetailResponse = null;
 
   var textFieldControllers =
@@ -115,7 +114,7 @@ class AboutMeController extends GetxController {
 
     try {
       final response = await apiService.sendPatchRequest(
-        true, // authentication is not required for login
+        true, // authentication is required for update profile
           "${Constants.updateUserDetailEndpoint}/${authService.getUserId()}",
         data: updateUserDetailRequest.toJson(),
       );

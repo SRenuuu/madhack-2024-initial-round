@@ -10,6 +10,7 @@ import 'package:flutter_app/views/home/home_view.dart';
 import 'package:flutter_app/views/home/search_filters_view.dart';
 import 'package:flutter_app/views/job_listing_view.dart';
 import 'package:flutter_app/views/profile/about_me_view.dart';
+import 'package:flutter_app/views/profile/all_work_experience.dart';
 import 'package:flutter_app/views/profile/education_view.dart';
 import 'package:flutter_app/views/profile/profile_view.dart';
 import 'package:flutter_app/views/profile/qualification_view.dart';
@@ -17,7 +18,6 @@ import 'package:flutter_app/views/profile/skills_view.dart';
 import 'package:flutter_app/views/profile/work_experience_view.dart';
 import 'package:flutter_app/views/resume_upload_view.dart';
 import 'package:flutter_app/views/root_view.dart';
-import 'package:flutter_app/views/saved_jobs_view.dart';
 import 'package:flutter_app/views/splash_view.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get/get.dart';
@@ -61,6 +61,7 @@ class MyApp extends StatelessWidget {
           '/education': (context) => const EducationPage(),
           '/qualification': (context) => const QualificationPage(),
           '/skills': (context) => const SkillsPage(),
+          '/all-experiences': (context) => const AllWorkExperiencePage(),
 
           // Employer Routes
           '/employer_sign_up': (context) => const EmployerSignUpView(),
