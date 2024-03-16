@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_app/controllers/profile_controller.dart';
 import 'package:flutter_app/theme/colors.dart';
 import 'package:flutter_app/views/profile/education_view.dart';
 import 'package:flutter_app/views/profile/qualification_view.dart';
@@ -12,6 +13,8 @@ class UserProfilePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    ProfileController profileController = Get.put(ProfileController());
+
     List<ProfileSection> profileSections = [
       ProfileSection(
           title: 'About Me',
@@ -62,7 +65,9 @@ class UserProfilePage extends StatelessWidget {
                     iconColor: Colors.red.shade700,
                     title: "Logout",
                     icon: CupertinoIcons.square_arrow_right,
-                    onTap: () {},
+                    onTap: () {
+                      profileController.forceLogout();
+                    },
                     showArrow: false,
                   )
                 ],
