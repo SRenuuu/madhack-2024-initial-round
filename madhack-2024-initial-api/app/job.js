@@ -28,7 +28,7 @@ module.exports = {
 
             // if currency is not provided, defaults to USD
 
-            const tokenData = req.tokenData;            
+            const tokenData = req.tokenData;
             const job = new Job({
                 title: body.title,
                 description: body.description,
@@ -96,7 +96,7 @@ module.exports = {
             /* validate request data */
             const validation = validate(schemaValidation.get, params);
             if (validation?.error) return res.status(400).json(validation.error);
-            
+
             let job = await Job.findOne({ _id: utils.mongoID(params.id) });
 
             // check if the user is the job owner
@@ -129,7 +129,7 @@ module.exports = {
                 message: error.message
             });
         }
-    },    
+    },
     all: async (req, res) => {
         try {
             const jobs = await Job.find({}, { applications: false }).populate('employer', 'email image profile.name');
@@ -147,6 +147,33 @@ module.exports = {
             });
         }
     },
+
+    getJobsByEmployer: async (req, res) => {
+        try {
+
+            if (req.tokenData.role !== 'employer') {
+                return res.status(403).json({
+                    status: 'failed',
+                    message: 'permission denied'
+                });
+            }
+
+            const jobs = await Job.find({ employer: req.tokenData.user_id }, { applications: false }).populate('employer', 'email image profile.name');
+
+            return res.status(200).json({
+                status: 'success',
+                data: jobs
+            });
+
+        } catch (error) {
+            console.log(error);
+            return res.status(500).json({
+                status: 'failed',
+                message: error.message
+            });
+        }
+    },
+
     search: async (req, res) => {
         try {
             let body = req.body;

@@ -11,6 +11,7 @@ router.get('/all', job.all);
 // router.get('/random/:id', job.random);
 router.get('/search', job.search);
 router.get('/filter', job.filter);
+router.get('/filter/employer', auth.verifyToken, auth.isEmployer, authenticateToken.authenticateToken, job.getJobsByEmployer);
 router.get('/:id', job.get);
 router.get('/:id/applications', auth.verifyToken, auth.isEmployer, authenticateToken.authenticateToken, job.applications);
 router.delete('/remove/:id', auth.verifyToken, auth.isEmployer, authenticateToken.authenticateToken, job.remove);
