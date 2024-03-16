@@ -17,9 +17,6 @@ class JobPostController extends GetxController {
   var textFieldControllers =
       List<TextEditingController>.empty(growable: true).obs;
 
-  // RxList<TextEditingController> textFieldControllers =
-  //     <TextEditingController>[].obs;
-
   Rx<String?> selectedIndustry = Rx<String?>(null);
   RxList<String> industries = ['Industry 1', 'Industry 2', 'Industry 3'].obs;
 
@@ -86,166 +83,180 @@ class JobPostController extends GetxController {
         state: currentStep.value > 0 ? StepState.complete : StepState.indexed,
         isActive: currentStep.value >= 0,
         title: const Text(""),
-        content: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const Text("Description",
-                style: TextStyle(fontWeight: FontWeight.w500, fontSize: 20)),
-            const SizedBox(height: 25.0),
-            //industries
-            formDropdownField(
-                prefixIcon: const Icon(Icons.apartment_sharp,
-                    size: 20.0, color: WorkWiseColors.primaryColor),
-                label: 'Industries',
-                items: industries,
-                selectedValue: selectedIndustry.value,
-                onChanged: (val) => changeIndustry),
-            const SizedBox(height: 15.0),
-            //categories
-            formDropdownField(
-                prefixIcon: const Icon(Icons.category_sharp,
-                    size: 20.0, color: WorkWiseColors.primaryColor),
-                label: 'Categories',
-                items: categories,
-                selectedValue: selectedCategory.value,
-                onChanged: (val) => changeCategory),
-            const SizedBox(height: 20.0),
-            //positions
-            formTextField(
-                label: 'Position',
-                prefixIcon: const Icon(Icons.work,
-                    size: 20.0, color: WorkWiseColors.primaryColor),
-                controller: positionController,
-                keyboardType: TextInputType.text),
-
-            const SizedBox(height: 20.0),
-            //job types
-            formDropdownField(
-                prefixIcon: const Icon(Icons.business_center_sharp,
-                    size: 20.0, color: WorkWiseColors.primaryColor),
-                label: 'Job Types',
-                items: jobTypes,
-                selectedValue: selectedJobType.value,
-                onChanged: (val) => changeJobType),
-            const SizedBox(height: 20.0),
-            //workspaces
-            formDropdownField(
-                prefixIcon: const Icon(Icons.add_location_alt_sharp,
-                    size: 20.0, color: WorkWiseColors.primaryColor),
-                label: 'Workspaces',
-                items: workspaces,
-                selectedValue: selectedWorkspace.value,
-                onChanged: (val) => changeWorkspace),
-            const SizedBox(height: 15.0),
-          ],
-        ),
+        content: _buildDescriptionStep(),
       ),
       Step(
         state: currentStep.value > 1 ? StepState.complete : StepState.indexed,
         isActive: currentStep.value >= 1,
         title: const Text(""),
-        content: const Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text("Location",
-                style: TextStyle(fontWeight: FontWeight.w500, fontSize: 20)),
-            SizedBox(height: 15),
-          ],
-        ),
+        content: _buildLocationStep(),
       ),
       Step(
         state: currentStep.value > 2 ? StepState.complete : StepState.indexed,
         isActive: currentStep.value >= 2,
         title: const Text(""),
-        content: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            const Text("Salary",
-                style: TextStyle(fontWeight: FontWeight.w500, fontSize: 20)),
-            RangePickerWidget(
-              initialValueStart: startSalary.value,
-              initialValueEnd: endSalary.value,
-              onRangeStartChanged: (startValue) {
-                startSalary.value = startValue;
-              },
-              onRangeEndChanged: (endValue) {
-                endSalary.value = endValue;
-              },
-            ),
-            const SizedBox(height: 200),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Text('Start',
-                        style: TextStyle(
-                            fontWeight: FontWeight.w500, fontSize: 15)),
-                    Obx(() => Text(
-                        'LKR ${startSalary.value.toStringAsFixed(2)}',
-                        style: const TextStyle(
-                            fontWeight: FontWeight.w500, fontSize: 20))),
-                  ],
-                ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Text('End',
-                        style: TextStyle(
-                            fontWeight: FontWeight.w500, fontSize: 15)),
-                    Obx(() => Text('LKR ${endSalary.value.toStringAsFixed(2)}',
-                        style: const TextStyle(
-                            fontWeight: FontWeight.w500, fontSize: 20))),
-                  ],
-                ),
-              ],
-            ),
-            SizedBox(height: 35)
-          ],
-        ),
+        content: _buildSalaryStep(),
       ),
       Step(
         state: currentStep.value > 3 ? StepState.complete : StepState.indexed,
         isActive: currentStep.value >= 3,
         title: const Text(""),
-        content: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const Text("Details",
-                style: TextStyle(fontWeight: FontWeight.w500, fontSize: 20)),
-            const SizedBox(height: 15),
-            formTextField(
-                maxLines: 4,
-                label: 'Job Description',
-                controller: descriptionController,
-                keyboardType: TextInputType.text),
-            const SizedBox(height: 15.0),
-            formTextField(
-                maxLines: 4,
-                label: 'Requirements',
-                controller: requirementsController,
-                keyboardType: TextInputType.text),
-            const SizedBox(height: 15.0),
-            formTextField(
-                maxLines: 4,
-                label: 'Responsibilities',
-                controller: responsibilitiesController,
-                keyboardType: TextInputType.text),
-            const SizedBox(height: 15.0),
-            formTextField(
-                maxLines: 4,
-                label: 'About Company',
-                controller: aboutCompanyController,
-                keyboardType: TextInputType.text),
-            const SizedBox(height: 15.0),
-          ],
-        ),
+        content: _buildDetailsStep(),
       ),
     ];
+  }
+
+  Widget _buildDescriptionStep() {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const Text("Description",
+            style: TextStyle(fontWeight: FontWeight.w500, fontSize: 20)),
+        const SizedBox(height: 25.0),
+        //industries
+        formDropdownField(
+            prefixIcon: const Icon(Icons.apartment_sharp,
+                size: 20.0, color: WorkWiseColors.primaryColor),
+            label: 'Industries',
+            items: industries,
+            selectedValue: selectedIndustry.value,
+            onChanged: (val) => changeIndustry),
+        const SizedBox(height: 15.0),
+        //categories
+        formDropdownField(
+            prefixIcon: const Icon(Icons.category_sharp,
+                size: 20.0, color: WorkWiseColors.primaryColor),
+            label: 'Categories',
+            items: categories,
+            selectedValue: selectedCategory.value,
+            onChanged: (val) => changeCategory),
+        const SizedBox(height: 20.0),
+        //positions
+        formTextField(
+            label: 'Position',
+            prefixIcon: const Icon(Icons.work,
+                size: 20.0, color: WorkWiseColors.primaryColor),
+            controller: positionController,
+            keyboardType: TextInputType.text),
+        const SizedBox(height: 20.0),
+        //job types
+        formDropdownField(
+            prefixIcon: const Icon(Icons.business_center_sharp,
+                size: 20.0, color: WorkWiseColors.primaryColor),
+            label: 'Job Types',
+            items: jobTypes,
+            selectedValue: selectedJobType.value,
+            onChanged: (val) => changeJobType),
+        const SizedBox(height: 20.0),
+        //workspaces
+        formDropdownField(
+            prefixIcon: const Icon(Icons.add_location_alt_sharp,
+                size: 20.0, color: WorkWiseColors.primaryColor),
+            label: 'Workspaces',
+            items: workspaces,
+            selectedValue: selectedWorkspace.value,
+            onChanged: (val) => changeWorkspace),
+        const SizedBox(height: 15.0),
+      ],
+    );
+  }
+
+  Widget _buildLocationStep() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text("Location",
+            style: TextStyle(fontWeight: FontWeight.w500, fontSize: 20)),
+        SizedBox(height: 15),
+      ],
+    );
+  }
+
+  Widget _buildSalaryStep() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        const Text("Salary",
+            style: TextStyle(fontWeight: FontWeight.w500, fontSize: 20)),
+        RangePickerWidget(
+          initialValueStart: startSalary.value,
+          initialValueEnd: endSalary.value,
+          onRangeStartChanged: (startValue) {
+            startSalary.value = startValue;
+          },
+          onRangeEndChanged: (endValue) {
+            endSalary.value = endValue;
+          },
+        ),
+        const SizedBox(height: 200),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Text('Start',
+                    style:
+                        TextStyle(fontWeight: FontWeight.w500, fontSize: 15)),
+                Obx(() => Text('LKR ${startSalary.value.toStringAsFixed(2)}',
+                    style: const TextStyle(
+                        fontWeight: FontWeight.w500, fontSize: 20))),
+              ],
+            ),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Text('End',
+                    style:
+                        TextStyle(fontWeight: FontWeight.w500, fontSize: 15)),
+                Obx(() => Text('LKR ${endSalary.value.toStringAsFixed(2)}',
+                    style: const TextStyle(
+                        fontWeight: FontWeight.w500, fontSize: 20))),
+              ],
+            ),
+          ],
+        ),
+        SizedBox(height: 35)
+      ],
+    );
+  }
+
+  Widget _buildDetailsStep() {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const Text("Details",
+            style: TextStyle(fontWeight: FontWeight.w500, fontSize: 20)),
+        const SizedBox(height: 15),
+        formTextField(
+            maxLines: 4,
+            label: 'Job Description',
+            controller: descriptionController,
+            keyboardType: TextInputType.text),
+        const SizedBox(height: 15.0),
+        formTextField(
+            maxLines: 4,
+            label: 'Requirements',
+            controller: requirementsController,
+            keyboardType: TextInputType.text),
+        const SizedBox(height: 15.0),
+        formTextField(
+            maxLines: 4,
+            label: 'Responsibilities',
+            controller: responsibilitiesController,
+            keyboardType: TextInputType.text),
+        const SizedBox(height: 15.0),
+        formTextField(
+            maxLines: 4,
+            label: 'About Company',
+            controller: aboutCompanyController,
+            keyboardType: TextInputType.text),
+        const SizedBox(height: 15.0),
+      ],
+    );
   }
 
   Widget buildControls(
