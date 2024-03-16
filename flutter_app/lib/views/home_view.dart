@@ -7,7 +7,7 @@ import '../widgets/form_text_field.dart';
 import '../widgets/job_card.dart';
 
 class HomeView extends StatelessWidget {
-  const HomeView({super.key});
+  const HomeView({Key? key});
 
   @override
   Widget build(BuildContext context) {
@@ -128,8 +128,9 @@ class HomeView extends StatelessWidget {
             style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.w600),
           ),
         ),
-        Obx(() => controller.isMostPopularJobPostsLoading.value
-            ? const Center(child: CircularProgressIndicator())
+        Obx(() =>
+        controller.isMostPopularJobPostsLoading.value
+            ? _buildLoadingIndicator()
             : controller.mostPopularJobPosts.isEmpty
                 ? const Center(
                     child: Padding(
@@ -224,8 +225,9 @@ class HomeView extends StatelessWidget {
             style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.w600),
           ),
           const SizedBox(height: 16.0),
-          Obx(() => controller.isRecommendedJobPostsLoading.value
-              ? const Center(child: CircularProgressIndicator())
+          Obx(() =>
+          controller.isRecommendedJobPostsLoading.value
+              ? _buildLoadingIndicator()
               : controller.recommendedJobPosts.isEmpty
                   ? const Center(
                       child: Text(
@@ -249,6 +251,35 @@ class HomeView extends StatelessWidget {
                       },
                     )),
         ],
+      ),
+    );
+  }
+
+  Widget _buildLoadingIndicator() {
+    return const Center(
+      child: Padding(
+        padding: EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 24.0),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            SizedBox(
+              height: 24,
+              width: 24,
+              child: CircularProgressIndicator(
+                strokeWidth: 2,
+                color: WorkWiseColors.secondaryColor,
+              ),
+            ),
+            SizedBox(width: 20.0),
+            Text(
+              'Loading...',
+              style: TextStyle(
+                color: WorkWiseColors.darkGreyColor,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
