@@ -20,6 +20,7 @@ import 'package:flutter_app/views/profile/skills_view.dart';
 import 'package:flutter_app/views/profile/work_experience_view.dart';
 import 'package:flutter_app/views/resume_upload_view.dart';
 import 'package:flutter_app/views/root_view.dart';
+import 'package:flutter_app/views/saved_jobs_view.dart';
 import 'package:flutter_app/views/splash_view.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get/get.dart';
@@ -54,16 +55,17 @@ class MyApp extends StatelessWidget {
           '/job': (context) => JobListingPage(),
           '/profile': (context) => const UserProfilePage(),
           '/search-filters': (context) => const SearchFiltersView(),
-          '/user-profile': (context) => const UserPersonalDetailPage(),
-          '/user-experience': (context) => const WorkExperiencePage(),
-          '/resume': (context) => const ResumeUploadView(),
-          // '/job_post': (context) => const JobPostFormView(),
-          '/about-me': (context) => const UserPersonalDetailPage(),
+        '/user-profile': (context) => const UserPersonalDetailPage(),
+        '/user-experience': (context) => const WorkExperiencePage(),
+        '/resume': (context) => const ResumeUploadView(),
+        // '/job_post': (context) => const JobPostFormView(),
+        '/about-me': (context) => const UserPersonalDetailPage(),
         '/work-experience': (context) => const WorkExperiencePage(),
         '/education': (context) => const EducationPage(),
         '/qualification': (context) => const QualificationPage(),
         '/skills': (context) => const SkillsPage(),
         '/all-experiences': (context) => const AllWorkExperiencePage(),
+        '/saved-jobs': (context) => const SavedJobsView(),
 
         // Employer Routes
         '/employer_sign_up': (context) => const EmployerSignUpView(),

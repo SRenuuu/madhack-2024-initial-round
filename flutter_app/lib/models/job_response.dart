@@ -53,14 +53,15 @@ class Employer {
   });
 
   Profile? profile;
-  String id;
-  String email;
+  String? id;
+  String? email;
 
-  factory Employer.fromJson(Map<String, dynamic> json) => Employer(
-        profile:
-            json["profile"] != null ? Profile.fromJson(json["profile"]) : null,
-        id: json["_id"],
-        email: json["email"],
+  factory Employer.fromJson(Map<String, dynamic>? json) => Employer(
+        profile: json?["profile"] != null
+            ? Profile.fromJson(json?["profile"])
+            : null,
+        id: json?["_id"],
+        email: json?["email"],
       );
 }
 

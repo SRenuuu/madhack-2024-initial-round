@@ -1,5 +1,5 @@
-import 'package:flutter/material.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_app/controllers/resume_upload_controller.dart';
 import 'package:flutter_app/theme/colors.dart';
 import 'package:get/get.dart';
@@ -148,7 +148,7 @@ class ResumeUploadView extends StatelessWidget {
       width: double.infinity,
       child: ElevatedButton(
         onPressed: () {
-          print("uploaded");
+          Get.offAllNamed('/home');
         },
         child: const Text('Submit'),
       ),

@@ -175,9 +175,7 @@ class HomeView extends StatelessWidget {
                             showDescription: false,
                             shadowColor:
                                 WorkWiseColors.greyColor.withOpacity(0.5),
-                            onCardTap: () => Get.toNamed("/job", arguments: {
-                              "jobId": controller.mostPopularJobPosts[index].id,
-                            }),
+                            onCardTap: () => {print("Not implemented")},
                             jobPosting: controller.mostPopularJobPosts[index],
                           ),
               );

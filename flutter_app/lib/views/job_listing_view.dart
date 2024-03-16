@@ -126,7 +126,7 @@ class JobListingPage extends StatelessWidget {
         Expanded(
           child: ElevatedButton(
             onPressed: () {
-              Get.toNamed('resume');
+              Get.toNamed('/resume');
             },
             style: ElevatedButton.styleFrom(
               foregroundColor: Colors.white,
