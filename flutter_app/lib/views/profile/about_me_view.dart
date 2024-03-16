@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/theme/colors.dart';
-import 'package:flutter_app/widgets/form_dropdown_field.dart';
 import 'package:get/get.dart';
 
 import '../../controllers/about_me_controller.dart';
@@ -51,14 +50,6 @@ class UserPersonalDetailPage extends StatelessWidget {
                       prefixIcon: const Icon(Icons.person,
                           size: 20.0, color: WorkWiseColors.primaryColor),
                     ),
-                    const SizedBox(height: 24.0),
-                    formDropdownField(
-                        prefixIcon: const Icon(Icons.list,
-                            size: 20.0, color: WorkWiseColors.primaryColor),
-                        label: 'Gender',
-                        items: aboutMeController.genders,
-                        selectedValue: aboutMeController.selectedGender.value,
-                        onChanged: (val) => aboutMeController.changeGender),
                     const SizedBox(height: 24.0),
                     formTextField(
                       label: 'Date of Birth',
