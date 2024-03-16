@@ -13,7 +13,9 @@ module.exports = {
             currency: Joi.string()
         }),
         employer: Joi.string(),
-        applications: Joi.array().items(Joi.string())
+        applications: Joi.array().items(Joi.string()
+        ),
+        tags: Joi.string()
     }),
     get: Joi.object().keys({
         id: Joi.string().required()
