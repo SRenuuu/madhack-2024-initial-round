@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/controllers/job_listing_controller.dart';
 import 'package:flutter_app/theme/colors.dart';
 import 'package:get/get.dart';
 
@@ -8,29 +9,16 @@ import '../widgets/location_map.dart';
 class JobListingPage extends StatelessWidget {
   JobListingPage({super.key});
 
-  final String jobTitle = "Software Engineer";
-  final String companyName = "Flutter Inc.";
-  final String location = "Mountain View, CA";
-  final String jobDescription =
-      "We are looking for a talented Flutter developer... We are looking for a talented Flutter developer... We are looking for a talented Flutter developer...";
-  final List<String> requirements = [
-    "Experience with Flutter and Dart",
-    "Strong understanding of mobile app development",
-    "Excellent problem-solving skills",
-  ];
-  final List<String> responsibilities = [
-    "Develop and maintain highly performant Flutter applications",
-    "Collaborate with designers and product managers",
-    "Write clean and maintainable code",
-  ];
-  final String companyDescription =
-      "Flutter Inc. is a leading company. Flutter Inc. is a leading company. Flutter Inc. is a leading company. Flutter Inc. is a leading company...";
-  final String salaryRange = "\$80,000 - \$120,000";
-  final double latitude = 6.91293;
-  final double longitude = 79.85360;
-
   @override
   Widget build(BuildContext context) {
+    var args = Get.arguments;
+    var jobId = args.jobId;
+    final jobController =
+        Get.put(JobListingController()); // Initialize the controller
+
+    jobController
+        .fetchJobPosting(jobId); // Initialize the controller with the job data
+
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -43,17 +31,20 @@ class JobListingPage extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              jobHeader(jobTitle, location, companyName),
-              const SizedBox(height: 24),
-              JobDetails(
-                jobType: "Hybrid",
-                // Replace with actual data
-                employmentType: "Full Time",
-                // Replace with actual data
-                salaryRange: salaryRange,
-                salaryFrequency: "Mo",
-                salaryValue: "8K-12K",
+              Obx(
+                () => jobHeader(
+                    jobController.jobTitle.value,
+                    jobController.location.value,
+                    jobController.companyName.value),
               ),
+              const SizedBox(height: 24),
+              Obx(() => JobDetails(
+                    jobType: jobController.tags.value[0],
+                    employmentType: "",
+                    salaryRange: jobController.salaryRange.value,
+                    salaryFrequency: "Mo",
+                    salaryValue: jobController.salaryRange.value,
+                  )),
               const SizedBox(height: 24),
               const Text(
                 "Job Description",
@@ -64,7 +55,7 @@ class JobListingPage extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 8),
-              Text(jobDescription),
+              Obx(() => Text(jobController.jobDescription.value)),
               const SizedBox(height: 24),
               const Text(
                 "Requirements",
@@ -75,7 +66,7 @@ class JobListingPage extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 8),
-              bulletedList(requirements),
+              Obx(() => bulletedList(jobController.requirements.value)),
               const SizedBox(height: 24),
               const Text(
                 "Responsibilities",
@@ -86,7 +77,7 @@ class JobListingPage extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 8),
-              bulletedList(responsibilities),
+              Obx(() => bulletedList(jobController.responsibilities.value)),
               const SizedBox(height: 24),
               const Text(
                 "About Company",
@@ -97,9 +88,10 @@ class JobListingPage extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 8),
-              Text(companyDescription),
+              Obx(() => Text(jobController.companyDescription.value)),
               const SizedBox(height: 16),
-              locationMap(latitude, longitude),
+              Obx(() => locationMap(
+                  jobController.latitude.value, jobController.longitude.value)),
               const SizedBox(height: 8),
             ],
           ),
@@ -115,6 +107,45 @@ class JobListingPage extends StatelessWidget {
           child: actionButtons(),
         ),
       ),
+    );
+  }
+
+  Widget actionButtons() {
+    return Row(
+      children: [
+        SizedBox(
+          width: 72,
+          child: OutlinedButton(
+            onPressed: () {
+              // Add functionality to save the job listing
+            },
+            child: const Icon(Icons.bookmark),
+          ),
+        ),
+        const SizedBox(width: 24),
+        Expanded(
+          child: ElevatedButton(
+            onPressed: () {
+              Get.toNamed('resume');
+            },
+            style: ElevatedButton.styleFrom(
+              foregroundColor: Colors.white,
+              backgroundColor: WorkWiseColors.secondaryColor,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10),
+              ),
+            ),
+            child: const Text("Apply Now",
+                style: TextStyle(fontWeight: FontWeight.bold)),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget bulletedList(List<String> items) {
+    return Column(
+      children: items.map((item) => listItem(text: item)).toList(),
     );
   }
 
@@ -173,45 +204,6 @@ class JobListingPage extends StatelessWidget {
           ),
         ),
       ],
-    );
-  }
-
-  Widget actionButtons() {
-    return Row(
-      children: [
-        SizedBox(
-          width: 72,
-          child: OutlinedButton(
-            onPressed: () {
-              // Add functionality to save the job listing
-            },
-            child: const Icon(Icons.bookmark),
-          ),
-        ),
-        const SizedBox(width: 24),
-        Expanded(
-          child: ElevatedButton(
-            onPressed: () {
-              // Add functionality to navigate to application process
-            },
-            style: ElevatedButton.styleFrom(
-              foregroundColor: Colors.white,
-              backgroundColor: WorkWiseColors.secondaryColor,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10),
-              ),
-            ),
-            child: const Text("Apply Now",
-                style: TextStyle(fontWeight: FontWeight.bold)),
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget bulletedList(List<String> items) {
-    return Column(
-      children: items.map((item) => listItem(text: item)).toList(),
     );
   }
 

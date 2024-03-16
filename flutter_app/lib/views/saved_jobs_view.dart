@@ -16,6 +16,7 @@ class SavedJobsView extends StatelessWidget {
     // Mock data for job postings
     List<JobPosting> jobPostings = [
       JobPosting(
+        id: "1",
         title: "Junior Web Developer",
         location: "CodeSphere - Colombo, Sri Lanka",
         description:
@@ -28,6 +29,7 @@ class SavedJobsView extends StatelessWidget {
         isSaved: true,
       ),
       JobPosting(
+        id: "2",
         title: "Junior Web Developer",
         location: "CodeSphere - Colombo, Sri Lanka",
         description:
@@ -40,6 +42,7 @@ class SavedJobsView extends StatelessWidget {
         isSaved: true,
       ),
       JobPosting(
+        id: "3",
         title: "Junior Web Developer",
         location: "CodeSphere - Colombo, Sri Lanka",
         description:

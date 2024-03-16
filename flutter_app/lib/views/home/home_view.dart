@@ -21,9 +21,9 @@ class HomeView extends StatelessWidget {
               buildSearchField(context),
               const SizedBox(height: 24.0),
               buildMostPopularJobs(),
-              buildJobTagsList(),
+              buildJobTagsList(context),
               const SizedBox(height: 20.0),
-              buildRecommendedJobs(),
+              buildRecommendedJobs(context),
               const SizedBox(height: 40.0),
             ],
           ),
@@ -61,7 +61,7 @@ class HomeView extends StatelessWidget {
     return Row(
       children: [
         IconButton(
-          onPressed: () => Get.toNamed("/profile"),
+          onPressed: () => Get.toNamed("/saved-jobs"),
           icon: const Icon(
             Icons.bookmarks_rounded,
             size: 24,
@@ -155,29 +155,31 @@ class HomeView extends StatelessWidget {
                           color: WorkWiseColors.darkGreyColor,
                         ),
                       ),
-          ),
-        )
-            : SizedBox(
-          height: 204.0,
-          child: ListView.builder(
-            scrollDirection: Axis.horizontal,
-            itemCount: controller.mostPopularJobPosts.length,
-            itemBuilder: (BuildContext context, int index) {
-              return Container(
-                width: MediaQuery.of(context).size.width * 0.8,
-                margin: EdgeInsets.only(
-                  top: 16.0,
-                  bottom: 24.0,
-                  left: index == 0 ? 24.0 : 0,
-                  right: index == 9 ? 24.0 : 16.0,
-                ),
-                child: JobCard(
-                  showDescription: false,
-                  shadowColor:
-                  WorkWiseColors.greyColor.withOpacity(0.5),
-                  onCardTap: () => Get.toNamed("/profile"),
-                  jobPosting: controller.mostPopularJobPosts[index],
-                ),
+                    ),
+                  )
+                : SizedBox(
+                    height: 204.0,
+                    child: ListView.builder(
+                      scrollDirection: Axis.horizontal,
+                      itemCount: controller.mostPopularJobPosts.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        return Container(
+                          width: MediaQuery.of(context).size.width * 0.8,
+                          margin: EdgeInsets.only(
+                            top: 16.0,
+                            bottom: 24.0,
+                            left: index == 0 ? 24.0 : 0,
+                            right: index == 9 ? 24.0 : 16.0,
+                          ),
+                          child: JobCard(
+                            showDescription: false,
+                            shadowColor:
+                                WorkWiseColors.greyColor.withOpacity(0.5),
+                            onCardTap: () => Get.toNamed("/job", arguments: {
+                              "jobId": controller.mostPopularJobPosts[index].id,
+                            }),
+                            jobPosting: controller.mostPopularJobPosts[index],
+                          ),
               );
             },
           ),
@@ -186,7 +188,7 @@ class HomeView extends StatelessWidget {
     );
   }
 
-  Widget buildJobTagsList() {
+  Widget buildJobTagsList(context) {
     HomeController controller = Get.put(HomeController());
     return Row(
       children: [
@@ -194,29 +196,33 @@ class HomeView extends StatelessWidget {
           child: SingleChildScrollView(
             scrollDirection: Axis.horizontal,
             child: Obx(
-                  () => Row(
-                children: [
-                  const SizedBox(width: 16),
-                  ...controller.jobTagsList.map(
-                        (job) => Container(
-                      margin: const EdgeInsets.symmetric(horizontal: 8.0),
-                      child: InputChip(
-                        onPressed: () => print("Job: $job"),
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 8.0, vertical: 8.0),
-                        label: Text(job),
-                        shape: RoundedRectangleBorder(
-                          side: const BorderSide(color: Colors.transparent),
-                          borderRadius: BorderRadius.circular(8.0),
+              () => Container(
+                // Specify a maximum width for the Row widget
+                width: MediaQuery.of(context).size.width,
+                child: Row(
+                  children: [
+                    const SizedBox(width: 16),
+                    ...controller.jobTagsList.map(
+                      (job) => Container(
+                        margin: const EdgeInsets.symmetric(horizontal: 8.0),
+                        child: InputChip(
+                          onPressed: () => print("Job: $job"),
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 8.0, vertical: 8.0),
+                          label: Text(job),
+                          shape: RoundedRectangleBorder(
+                            side: const BorderSide(color: Colors.transparent),
+                            borderRadius: BorderRadius.circular(8.0),
+                          ),
+                          backgroundColor:
+                              WorkWiseColors.greyColor.withOpacity(0.5),
+                          labelStyle: const TextStyle(fontSize: 15.0),
                         ),
-                        backgroundColor:
-                            WorkWiseColors.greyColor.withOpacity(0.5),
-                        labelStyle: const TextStyle(fontSize: 15.0),
                       ),
                     ),
-                  ),
-                  const SizedBox(width: 16),
-                ],
+                    const SizedBox(width: 16),
+                  ],
+                ),
               ),
             ),
           ),
@@ -225,7 +231,7 @@ class HomeView extends StatelessWidget {
     );
   }
 
-  Widget buildRecommendedJobs() {
+  Widget buildRecommendedJobs(context) {
     HomeController controller = Get.put(HomeController());
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 24.0),
@@ -249,17 +255,22 @@ class HomeView extends StatelessWidget {
                       ),
                     )
                   : ListView.builder(
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            itemCount: controller.recommendedJobPosts.length,
-            itemBuilder: (BuildContext context, int index) {
-              return JobCard(
-                shadowColor:
-                WorkWiseColors.greyColor.withOpacity(0.5),
-                onCardTap: () => Get.toNamed("/profile"),
-                jobPosting: controller.recommendedJobPosts[index],
-              );
-            },
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemCount: controller.recommendedJobPosts.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        return Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 8.0),
+                          child: JobCard(
+                            shadowColor:
+                                WorkWiseColors.greyColor.withOpacity(0.5),
+                            onCardTap: () => Get.toNamed("/job",
+                                arguments: CustomArg(
+                                    controller.recommendedJobPosts[index].id)),
+                            jobPosting: controller.recommendedJobPosts[index],
+                          ),
+                        );
+                      },
           )),
         ],
       ),
@@ -294,4 +305,10 @@ class HomeView extends StatelessWidget {
       ),
     );
   }
+}
+
+class CustomArg {
+  final String jobId;
+
+  CustomArg(this.jobId);
 }

@@ -34,6 +34,7 @@ class EmployerHomeController extends GetxController {
 
     recentJobPosts.value = jobPosting.toList().map((e) {
       return JobPosting(
+        id: e.id,
         title: e.title,
         location: e.location,
         description: e.description,
@@ -42,13 +43,15 @@ class EmployerHomeController extends GetxController {
         salaryValue:
             '${e.salaryRange.currency} ${e.salaryRange.high.round().toString()}',
         salaryFrequency: "Mo",
-        tags: e.tags[0]
-            .split(",")
-            .take(2)
-            .map((e) => e.replaceAll("[", "").replaceAll("]", ""))
-            .toList()
-            .reversed
-            .toList(),
+        tags: e.tags.length == 1
+            ? e.tags[0]
+                .split(",")
+                .take(2)
+                .map((e) => e.replaceAll("[", "").replaceAll("]", ""))
+                .toList()
+                .reversed
+                .toList()
+            : e.tags,
         isSaved: true,
       );
     }).toList();

@@ -59,23 +59,18 @@ class MyApp extends StatelessWidget {
           '/resume': (context) => const ResumeUploadView(),
           // '/job_post': (context) => const JobPostFormView(),
           '/about-me': (context) => const UserPersonalDetailPage(),
-          '/work-experience': (context) => const WorkExperiencePage(),
-          '/education': (context) => const EducationPage(),
-          '/qualification': (context) => const QualificationPage(),
-          '/skills': (context) => const SkillsPage(),
-          '/all-experiences': (context) => const AllWorkExperiencePage(),
+        '/work-experience': (context) => const WorkExperiencePage(),
+        '/education': (context) => const EducationPage(),
+        '/qualification': (context) => const QualificationPage(),
+        '/skills': (context) => const SkillsPage(),
+        '/all-experiences': (context) => const AllWorkExperiencePage(),
 
         // Employer Routes
         '/employer_sign_up': (context) => const EmployerSignUpView(),
         '/employer-home': (context) => const EmployerHomeView(),
         '/create-job': (context) => const JobPostFormView(),
+        '/employer-job': (context) => EmployerJobListingPage(),
       },
-      getPages: [
-        GetPage(
-          name: '/employer-job',
-          page: () => EmployerJobListingPage(),
-        ),
-      ],
     );
   }
 }

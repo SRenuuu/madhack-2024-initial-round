@@ -1,11 +1,15 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../models/job_response.dart';
+import '../services/api_service.dart';
 import '../services/auth_service.dart';
 import '../widgets/job_card.dart';
 
 class HomeController extends GetxController {
   final AuthService authService = Get.find<AuthService>();
+  final ApiService apiService = Get.find<ApiService>();
 
   // Home View
   final TextEditingController searchController = TextEditingController();
@@ -30,23 +34,68 @@ class HomeController extends GetxController {
     isJobTagsLoading.value = false;
   }
 
-  Future<void> fetchRecommendedJobPosts() async {
+  Future<void> fetchRecentJobPostings() async {
     isRecommendedJobPostsLoading.value = true;
-    await Future.delayed(const Duration(seconds: 2));
-    recommendedJobPosts.value = [
-      JobPosting(
-        title: "Junior Web Developer",
-        location: "CodeSphere - Colombo, Sri Lanka",
-        description: "We are looking for a junior web developer...",
+
+    Response? response = await apiService.sendGetRequest(
+      true,
+      "/job/all",
+    );
+
+    List<JobResponse> jobPosting = response?.body["data"]
+        .map<JobResponse>((job) => JobResponse.fromJson(job))
+        .toList();
+
+    print(jobPosting);
+
+    recommendedJobPosts.value = jobPosting.toList().reversed.map((e) {
+      print(e.tags);
+      return JobPosting(
+        id: e.id,
+        title: e.title,
+        location: e.location,
+        description: e.description,
         image:
             "https://foyr.com/learn/wp-content/uploads/2021/08/modern-office-design.png",
-        salaryValue: "\$8K",
+        salaryValue:
+            '${e.salaryRange.currency} ${e.salaryRange.high.round().toString()}',
         salaryFrequency: "Mo",
-        tags: ["Remote", "Full Time", "New"],
+        tags: e.tags.length == 1
+            ? e.tags[0]
+                .split(",")
+                .take(2)
+                .map((e) => e.replaceAll("[", "").replaceAll("]", ""))
+                .toList()
+                .reversed
+                .toList()
+            : e.tags,
         isSaved: true,
-      ),
-    ];
+      );
+    }).toList();
+
     isRecommendedJobPostsLoading.value = false;
+  }
+
+  Future<void> fetchRecommendedJobPosts() async {
+    try {
+      final response = await apiService.sendGetRequest(
+        true,
+        "job/all",
+      );
+
+      // print(response.body);
+
+      if (response == null) {
+        throw Exception('Failed to load job posts');
+      }
+
+      isRecommendedJobPostsLoading.value = false;
+    } catch (e) {
+      if (kDebugMode) {
+        print(e);
+      }
+      recommendedJobPosts.value = [];
+    }
   }
 
   Future<void> fetchMostPopularJobPosts() async {
@@ -54,6 +103,7 @@ class HomeController extends GetxController {
     await Future.delayed(const Duration(seconds: 2));
     mostPopularJobPosts.value = [
       JobPosting(
+        id: "1",
         title: "Junior Web Developer",
         location: "CodeSphere - Colombo, Sri Lanka",
         description: "We are looking for a junior web developer...",
@@ -65,6 +115,7 @@ class HomeController extends GetxController {
         isSaved: true,
       ),
       JobPosting(
+        id: "2",
         title: "Junior Web Developer",
         location: "CodeSphere - Colombo, Sri Lanka",
         description: "We are looking for a junior web developer...",
@@ -76,6 +127,7 @@ class HomeController extends GetxController {
         isSaved: true,
       ),
       JobPosting(
+        id: "3",
         title: "Junior Web Developer",
         location: "CodeSphere - Colombo, Sri Lanka",
         description: "We are looking for a junior web developer...",
@@ -125,7 +177,6 @@ class HomeController extends GetxController {
   };
 
   void changeIndustry(String newIndustry) {
-    print(newIndustry);
     selectedIndustry.value = newIndustry;
     // Reset category when industry changes
     selectedCategory.value = categoriesForIndustry(newIndustry).first;
@@ -133,7 +184,6 @@ class HomeController extends GetxController {
   }
 
   void changeCategory(String newCategory) {
-    print(newCategory);
     selectedCategory.value = newCategory;
     update();
   }
@@ -142,10 +192,7 @@ class HomeController extends GetxController {
     return industryCategories[industry] ?? [];
   }
 
-  // add required stuff here
-
-  final Rx<RangeValues> salaryRange =
-      const RangeValues(50000, 250000).obs; // Initial salary range
+  final Rx<RangeValues> salaryRange = const RangeValues(50000, 250000).obs;
 
   final RxList<String> allTags = [
     'On-site',
@@ -171,8 +218,10 @@ class HomeController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    fetchJobTags();
-    fetchRecommendedJobPosts();
+    fetchRecentJobPostings();
     fetchMostPopularJobPosts();
+    // fetchJobTags();
+    // fetchRecommendedJobPosts();
+    // fetchMostPopularJobPosts();
   }
 }
