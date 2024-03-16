@@ -1,16 +1,20 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_app/controllers/profile_controller.dart';
 import 'package:flutter_app/theme/colors.dart';
+import 'package:flutter_app/views/profile/education_view.dart';
+import 'package:flutter_app/views/profile/qualification_view.dart';
+import 'package:flutter_app/views/profile/skills_view.dart';
 import 'package:get/get.dart';
-
-import '../job_listing_view.dart';
 
 class UserProfilePage extends StatelessWidget {
   const UserProfilePage({super.key});
 
   @override
   Widget build(BuildContext context) {
+    ProfileController profileController = Get.put(ProfileController());
+
     List<ProfileSection> profileSections = [
       ProfileSection(
           title: 'About Me',
@@ -24,18 +28,18 @@ class UserProfilePage extends StatelessWidget {
           title: 'Education',
           icon: CupertinoIcons.book,
           onTap: () => Navigator.push(context,
-              MaterialPageRoute(builder: (context) => JobListingPage()))),
+              MaterialPageRoute(builder: (context) => const EducationPage()))),
       ProfileSection(
           title: 'Skills',
           icon: CupertinoIcons.hand_draw,
           onTap: () => Navigator.push(context,
-              MaterialPageRoute(builder: (context) => JobListingPage()))),
+              MaterialPageRoute(builder: (context) => const SkillsPage()))),
       // Corrected typo
       ProfileSection(
           title: 'Qualifications',
           icon: CupertinoIcons.list_bullet,
           onTap: () => Navigator.push(context,
-              MaterialPageRoute(builder: (context) => JobListingPage()))),
+              MaterialPageRoute(builder: (context) => const QualificationPage()))),
     ];
 
     return Scaffold(
@@ -61,7 +65,9 @@ class UserProfilePage extends StatelessWidget {
                     iconColor: Colors.red.shade700,
                     title: "Logout",
                     icon: CupertinoIcons.square_arrow_right,
-                    onTap: () {},
+                    onTap: () {
+                      profileController.forceLogout();
+                    },
                     showArrow: false,
                   )
                 ],
@@ -85,19 +91,35 @@ class UserProfilePage extends StatelessWidget {
               decoration: BoxDecoration(
                 boxShadow: [
                   BoxShadow(
-                    color: WorkWiseColors.darkGreyColor.withOpacity(0.3),
+                    color: WorkWiseColors.greyColor.withOpacity(0.35),
                     blurRadius: 24.0,
                     offset: const Offset(0, 4.0),
                     spreadRadius: 0,
                   )
                 ],
               ),
-              child: const CircleAvatar(
-                radius: 60.0,
-                backgroundImage: NetworkImage(
-                    "https://foyr.com/learn/wp-content/uploads/2021/08/modern-office-design.png"), // Replace with user's profile image
+              child: Stack(
+                children: [
+                  Container(
+                    width: 120.0,
+                    height: 120.0,
+                    decoration: BoxDecoration(
+                      color: WorkWiseColors.secondaryColor,
+                      borderRadius: BorderRadius.circular(60.0),
+                    ),
+                  ),
+                  const CircleAvatar(
+                    radius: 60.0,
+                    backgroundImage: NetworkImage(
+                      "https://foyr.com/learn/wp-content/uploads/2021/08/modern-office-design.png", // Replace with user's profile image
+                    ),
+                    backgroundColor: Colors
+                        .transparent, // Set background color to transparent
+                  ),
+                ],
               ),
             ),
+
             // The camera icon button
             // make this smaller
 
@@ -155,8 +177,8 @@ class UserProfilePage extends StatelessWidget {
         boxShadow: [
           showShadow
               ? BoxShadow(
-                  color: WorkWiseColors.greyColor.withOpacity(0.5),
-                  blurRadius: 24.0,
+                  color: WorkWiseColors.greyColor.withOpacity(0.35),
+                  blurRadius: 16.0,
                   offset: const Offset(0, 4.0),
                   spreadRadius: 0,
                 )
@@ -212,7 +234,7 @@ class UserProfilePage extends StatelessWidget {
 class ProfileSection {
   final String title;
   final IconData icon;
-  final VoidCallback? onTap; // Optional callback for tap functionality
+  final VoidCallback? onTap;
 
   ProfileSection({required this.title, required this.icon, this.onTap});
 }

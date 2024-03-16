@@ -22,6 +22,7 @@ Widget formTextField({
   TextInputType keyboardType = TextInputType.text,
   Color shadowColor = WorkWiseColors.lightGreyColor,
   Color borderColor = WorkWiseColors.greyColor,
+  dynamic Function(String)? onSubmitted
 }) {
   return withFloatingLabel
       ? Container(
@@ -52,6 +53,7 @@ Widget formTextField({
               ],
             ),
             child: TextField(
+              onSubmitted: onSubmitted,
               controller: controller,
               maxLines: maxLines,
               obscureText: obscureText,
@@ -60,10 +62,10 @@ Widget formTextField({
               onTap: onTap,
               decoration: InputDecoration(
                 hintText: hintText,
-                hintStyle: const TextStyle(
-                  fontSize: 15,
+                hintStyle: TextStyle(
+                  fontSize: isDense ? 15.0 : 18.0,
                   fontWeight: FontWeight.w400,
-                  color: WorkWiseColors.greyColor,
+                  color: WorkWiseColors.darkGreyColor,
                 ),
                 prefixIcon: prefixIcon,
                 suffixIcon: suffixIcon,
@@ -111,6 +113,7 @@ Widget formTextField({
                       borderRadius: BorderRadius.circular(8.0),
                     ),
               child: TextFormField(
+                onFieldSubmitted: onSubmitted,
                 controller: controller,
                 maxLines: maxLines,
                 obscureText: obscureText,
@@ -122,7 +125,7 @@ Widget formTextField({
                   hintStyle: const TextStyle(
                     fontSize: 15,
                     fontWeight: FontWeight.w400,
-                    color: WorkWiseColors.greyColor,
+                    color: WorkWiseColors.darkGreyColor,
                   ),
                   prefixIcon: prefixIcon,
                   suffixIcon: suffixIcon,

@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../controllers/work_experience_controller.dart';
+import '../../controllers/education_controller.dart';
 import '../../theme/colors.dart';
 import '../../widgets/form_text_field.dart';
 
-class WorkExperiencePage extends StatelessWidget {
-  const WorkExperiencePage({super.key});
+class EducationPage extends StatelessWidget {
+  const EducationPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    WorkExperienceController controller = Get.put(WorkExperienceController());
+    EducationController controller = Get.put(EducationController());
 
     selectStartDate(BuildContext context) async {
       DateTime? pickedDate = await showDatePicker(
@@ -42,7 +42,7 @@ class WorkExperiencePage extends StatelessWidget {
         backgroundColor: Colors.grey.shade100,
         appBar: AppBar(
           backgroundColor: Colors.white,
-          title: const Text('Add experience'),
+          title: const Text('Add education'),
         ),
         body: SafeArea(
           child: SingleChildScrollView(
@@ -53,20 +53,18 @@ class WorkExperiencePage extends StatelessWidget {
                 children: [
                   // Editable form
                   formTextField(
-                    label: 'Job title',
-                    controller: controller.jobTitleController,
+                    label: 'Institute/School',
+                    controller: controller.schoolController,
                     prefixIcon: const Icon(Icons.person,
                         size: 20.0, color: WorkWiseColors.primaryColor),
                   ),
                   const SizedBox(height: 24.0),
                   formTextField(
-                    label: 'Company',
-                    controller: controller.companyController,
-                    prefixIcon: const Icon(Icons.house,
+                    label: 'Field of Study',
+                    controller: controller.fieldOfStudyController,
+                    prefixIcon: const Icon(Icons.person,
                         size: 20.0, color: WorkWiseColors.primaryColor),
                   ),
-                  const SizedBox(height: 24.0),
-                  Obx(() => CheckboxListTile(value: controller.isCurrentJob.value, onChanged: (newValue) => controller.changeIsCurrentJob(), title: const Text("Current job"), controlAffinity: ListTileControlAffinity.leading)),
                   const SizedBox(height: 24.0),
                   Row(
                     children: [
@@ -103,9 +101,9 @@ class WorkExperiencePage extends StatelessWidget {
                   ),
                   const SizedBox(height: 24.0),
                   formTextField(
-                      label: 'Description',
-                      controller: controller.descriptionController,
-                      maxLines: 5
+                    label: 'Description',
+                    controller: controller.descriptionController,
+                    maxLines: 5
                   ),
                 ],
               ),
