@@ -5,7 +5,7 @@ import '../theme/colors.dart';
 Widget jobTag(
     {required String tag,
     Color backgroundColor = WorkWiseColors.primaryColor,
-    double fontSize = 11}) {
+    double fontSize = 10}) {
   return Container(
     margin: const EdgeInsets.only(right: 8.0),
     padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),

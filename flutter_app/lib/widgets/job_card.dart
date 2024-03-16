@@ -3,6 +3,7 @@ import 'package:flutter_app/theme/colors.dart';
 import 'package:flutter_app/widgets/job_tag.dart';
 
 class JobPosting {
+  final String id;
   final String title;
   final String location;
   final String? description;
@@ -13,6 +14,7 @@ class JobPosting {
   final bool? isSaved;
 
   JobPosting({
+    required this.id,
     required this.title,
     required this.location,
     required this.description,

@@ -6,13 +6,10 @@ import 'package:flutter_app/views/auth/login_view.dart';
 import 'package:flutter_app/views/auth/signup_view.dart';
 import 'package:flutter_app/views/employer/employer_signup_view.dart';
 import 'package:flutter_app/views/employer/home_view.dart';
-import 'package:flutter_app/views/employer/job_listing_view.dart';
 import 'package:flutter_app/views/home/home_view.dart';
 import 'package:flutter_app/views/home/search_filters_view.dart';
 import 'package:flutter_app/views/job_listing_view.dart';
-import 'package:flutter_app/views/job_posting/job_post_form_view.dart';
 import 'package:flutter_app/views/profile/about_me_view.dart';
-import 'package:flutter_app/views/profile/all_work_experience.dart';
 import 'package:flutter_app/views/profile/education_view.dart';
 import 'package:flutter_app/views/profile/profile_view.dart';
 import 'package:flutter_app/views/profile/qualification_view.dart';
@@ -63,19 +60,11 @@ class MyApp extends StatelessWidget {
           '/education': (context) => const EducationPage(),
           '/qualification': (context) => const QualificationPage(),
           '/skills': (context) => const SkillsPage(),
-          '/all-experiences': (context) => const AllWorkExperiencePage(),
 
-        // Employer Routes
-        '/employer_sign_up': (context) => const EmployerSignUpView(),
-        '/employer-home': (context) => const EmployerHomeView(),
-        '/create-job': (context) => const JobPostFormView(),
-      },
-      getPages: [
-        GetPage(
-          name: '/employer-job',
-          page: () => EmployerJobListingPage(),
-        ),
-      ],
-    );
+          // Employer Routes
+          '/employer_sign_up': (context) => const EmployerSignUpView(),
+          '/employer-home': (context) => const EmployerHomeView(),
+          // '/create-job': (context) => const JobPostFormView(),
+        });
   }
 }

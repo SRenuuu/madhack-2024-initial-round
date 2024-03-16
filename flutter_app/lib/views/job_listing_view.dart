@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/controllers/job_listing_controller.dart';
 import 'package:flutter_app/theme/colors.dart';
 import 'package:get/get.dart';
 
@@ -31,6 +32,8 @@ class JobListingPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    JobListingController controller = Get.put(JobListingController());
+
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -192,7 +195,7 @@ class JobListingPage extends StatelessWidget {
         Expanded(
           child: ElevatedButton(
             onPressed: () {
-              // Add functionality to navigate to application process
+              Get.toNamed('resume');
             },
             style: ElevatedButton.styleFrom(
               foregroundColor: Colors.white,
