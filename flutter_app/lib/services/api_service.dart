@@ -36,6 +36,7 @@ class ApiService extends GetConnect {
           if (isAuthRequired)
             'Authorization': 'Bearer ${authService.getBearerToken()}',
           if (isAuthRequired) 'x-access-token': authService.getBearerToken(),
+            'x-access-token': authService.getBearerToken(),
         },
         query: query,
         decoder: decoder,

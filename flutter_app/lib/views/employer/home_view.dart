@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 
 import '../../widgets/form_text_field.dart';
 import '../../widgets/job_card.dart';
+import '../../widgets/loading_indicator.dart';
 
 class EmployerHomeView extends StatelessWidget {
   const EmployerHomeView({Key? key});
