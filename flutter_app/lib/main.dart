@@ -18,7 +18,7 @@ import 'package:get/get.dart';
 import 'theme/app_theme.dart';
 
 void main() async {
-  await dotenv.load(fileName: ".env");
+  //await dotenv.load(fileName: ".env");
   runApp(const MyApp());
 }
 

@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/theme/colors.dart';
 import 'package:flutter_app/util/enums.dart';
-import 'package:flutter_app/views/job_posting/custom_dropdown.dart';
 import 'package:flutter_app/views/job_posting/range_picker.dart';
-import 'package:flutter_app/widgets/custom_input.dart';
 import 'package:flutter_app/widgets/description_form_field.dart';
 import 'package:flutter_app/widgets/form_dropdown_field.dart';
 import 'package:flutter_app/widgets/form_text_field.dart';
-import 'package:map_location_picker/map_location_picker.dart';
 
 class JobPostFormView extends StatefulWidget {
   const JobPostFormView({super.key});
@@ -83,7 +80,7 @@ class _JobPostFormViewState extends State<JobPostFormView> {
       Step(
         state: currentStep > 0 ? StepState.complete : StepState.indexed,
         isActive: currentStep >= 0,
-        title: const Text("1"),
+        title: const Text(""),
         content: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -152,44 +149,20 @@ class _JobPostFormViewState extends State<JobPostFormView> {
       Step(
           state: currentStep > 1 ? StepState.complete : StepState.indexed,
           isActive: currentStep >= 1,
-          title: const Text("2"),
+          title: const Text(""),
           content: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const Text("Location",
                   style: TextStyle(fontWeight: FontWeight.w500, fontSize: 20)),
               const SizedBox(height: 15),
-              SizedBox(
-                width: double.infinity,
-                height: 700,
-                child: MapLocationPicker(
-                  apiKey: 'AIzaSyC8UEjIW0OoOm-m5W_lc0GbMXs5sKH2d3c',
-                  popOnNextButtonTaped: true,
-                  currentLatLng: const LatLng(29.146727, 76.464895),
-                  onNext: (GeocodingResult? result) {
-                    if (result != null) {
-                      setState(() {
-                        address = result.formattedAddress ?? "";
-                      });
-                    }
-                  },
-                  onSuggestionSelected: (PlacesDetailsResponse? result) {
-                    if (result != null) {
-                      setState(() {
-                        autocompletePlace =
-                            result.result.formattedAddress ?? "";
-                      });
-                    }
-                  },
-                ),
-              ),
             ],
           )),
       //Salary
       Step(
         state: currentStep > 2 ? StepState.complete : StepState.indexed,
         isActive: currentStep >= 2,
-        title: const Text("3"),
+        title: const Text(""),
         content: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -250,7 +223,7 @@ class _JobPostFormViewState extends State<JobPostFormView> {
       Step(
         state: currentStep > 3 ? StepState.complete : StepState.indexed,
         isActive: currentStep >= 3,
-        title: const Text("5"),
+        title: const Text(""),
         content: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
