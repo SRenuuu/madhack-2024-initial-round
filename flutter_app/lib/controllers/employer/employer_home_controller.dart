@@ -28,8 +28,6 @@ class EmployerHomeController extends GetxController {
       "/job/filter/employer",
     );
 
-    print(response?.body);
-
     List<EmployerJobResponse> jobPosting = response?.body["data"]
         .map<EmployerJobResponse>((job) => EmployerJobResponse.fromJson(job))
         .toList();
@@ -61,6 +59,11 @@ class EmployerHomeController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    fetchRecentJobPostings();
+  }
+
+  @override
+  void onClose() {
+    searchController.dispose();
+    super.onClose();
   }
 }
