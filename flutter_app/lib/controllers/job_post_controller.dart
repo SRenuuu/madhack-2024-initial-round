@@ -87,7 +87,7 @@ class JobPostController extends GetxController {
             const SizedBox(height: 25.0),
             //industries
             formDropdownField(
-                prefixIcon: const Icon(Icons.list,
+                prefixIcon: const Icon(Icons.apartment_sharp,
                     size: 20.0, color: WorkWiseColors.primaryColor),
                 label: 'Industries',
                 items: industries,
@@ -96,7 +96,7 @@ class JobPostController extends GetxController {
             const SizedBox(height: 15.0),
             //categories
             formDropdownField(
-                prefixIcon: const Icon(Icons.list,
+                prefixIcon: const Icon(Icons.category_sharp,
                     size: 20.0, color: WorkWiseColors.primaryColor),
                 label: 'Categories',
                 items: categories,
@@ -114,7 +114,7 @@ class JobPostController extends GetxController {
             const SizedBox(height: 20.0),
             //job types
             formDropdownField(
-                prefixIcon: const Icon(Icons.list,
+                prefixIcon: const Icon(Icons.business_center_sharp,
                     size: 20.0, color: WorkWiseColors.primaryColor),
                 label: 'Job Types',
                 items: jobTypes,
@@ -123,7 +123,7 @@ class JobPostController extends GetxController {
             const SizedBox(height: 20.0),
             //workspaces
             formDropdownField(
-                prefixIcon: const Icon(Icons.list,
+                prefixIcon: const Icon(Icons.add_location_alt_sharp,
                     size: 20.0, color: WorkWiseColors.primaryColor),
                 label: 'Workspaces',
                 items: workspaces,
