@@ -132,8 +132,89 @@ class WorkExperienceController extends GetxController {
     }
   }
 
-  void addNewExperience() {
 
+  Future<bool> addNewExperience() async {
+
+    if (jobTitleController.text.isEmpty
+        || companyController.text.isEmpty
+        || startDateController.text.isEmpty
+        || endDateController.text.isEmpty) {
+      Get.snackbar(
+        'Error',
+        'Please fill in all fields',
+        backgroundColor: Colors.orange.shade800.withOpacity(0.9),
+        colorText: Colors.white,
+      );
+      return false;
+    } else if (userDetailResponse == null) {
+      Get.snackbar(
+        'Error',
+        'Cannot update without fetching data',
+        backgroundColor: Colors.orange.shade800.withOpacity(0.9),
+        colorText: Colors.white,
+      );
+    }
+
+    userDetailsController.isLoading.value = true;
+
+    UpdateUserDetailRequest updateUserDetailRequest = mapToUpdateUserDetailRequest(userDetailResponse!);
+    WorkExperienceUpdate wk = WorkExperienceUpdate(
+      company: companyController.text,
+      description: descriptionController.text,
+      isCurrent: false,
+      position: jobTitleController.text,
+      endDate: createDateTimeWithFixedDate(endDateController.text),
+      startDate: createDateTimeWithFixedDate(startDateController.text),
+    );
+
+    updateUserDetailRequest.workExperience.add(wk);
+
+
+    try {
+      final response = await apiService.sendPatchRequest(
+        true, // authentication is required for update profile
+        "${Constants.updateUserDetailEndpoint}/${authService.getUserId()}",
+        data: updateUserDetailRequest.toJson(),
+      );
+
+      userDetailsController.isLoading.value = false;
+
+      if (response == null) {
+        return false;
+      }
+
+      if (response.statusCode == HttpStatus.badRequest) {
+        Get.snackbar(
+          'Could not update',
+          'Please check your details',
+          colorText: Colors.white,
+          backgroundColor: Colors.orange.shade800.withOpacity(0.9),
+        );
+        return false;
+      }
+
+      if (response.statusCode == HttpStatus.notFound ||
+          response.statusCode == HttpStatus.internalServerError) {
+        Get.snackbar(
+          'We fucked up',
+          'Server down',
+          colorText: Colors.white,
+          backgroundColor: Colors.orange.shade800.withOpacity(0.9),
+        );
+        await Future.delayed(const Duration(seconds: 2));
+        return false;
+      }
+
+      if (response.statusCode != HttpStatus.ok) {
+        return false;
+      }
+
+      // fetchData();
+      return true;
+    } catch (e) {
+      return false;
+    }
   }
+
 
 }
