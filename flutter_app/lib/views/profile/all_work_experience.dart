@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/controllers/all_work_experience_controller.dart';
 import 'package:flutter_app/theme/colors.dart';
+import 'package:flutter_app/util/arguments.dart';
 import 'package:get/get.dart';
 
 import '../../widgets/job_experience_class.dart';
@@ -47,7 +48,10 @@ class AllWorkExperiencePage extends StatelessWidget {
                             isCurrent: allWorkExperienceController.jobExperiences[index].isCurrent,
                             position: allWorkExperienceController.jobExperiences[index].position,
                             onDelete: () => {},
-                            onEdit: () => {},
+                            onEdit: () => {
+                              Get.toNamed("/work-experience", arguments: WorkExperienceViewArguments(isNew: false, userDetailResponse: allWorkExperienceController.getUserDetailResponse(), workExperience: allWorkExperienceController.jobExperiences[index]
+                              ))
+                            },
                           )
                         ],
                       );
@@ -66,7 +70,7 @@ class AllWorkExperiencePage extends StatelessWidget {
           color: Colors.white,
           height: 85,
           elevation: 0,
-          child: actionButtons(() => Get.toNamed("/work-experience")),
+          child: actionButtons(() => Get.toNamed("/work-experience",  arguments: WorkExperienceViewArguments(isNew: true, userDetailResponse: allWorkExperienceController.getUserDetailResponse()))),
         ));
   }
 

@@ -53,7 +53,7 @@ class AboutMeController extends GetxController {
     update();
   }
 
-  void fetchData() async {
+  void fetchData() {
     clearTextFields();
     userDetailsController.fetchUserData().then((response) => {
       userDetailResponse = response,
@@ -63,6 +63,7 @@ class AboutMeController extends GetxController {
         emailController.text = response.data.email,
         phoneController.text = response.data.profile.contact,
         updateTextFields(),
+
       }
     });
   }

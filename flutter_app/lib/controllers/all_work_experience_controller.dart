@@ -13,6 +13,10 @@ class AllWorkExperienceController extends GetxController {
 
   UserDetailResponse? userDetailResponse = null;
 
+  UserDetailResponse? getUserDetailResponse() {
+    return userDetailResponse;
+  }
+
   var jobExperiences =
       List<WorkExperience>.empty(growable: true).obs;
 
@@ -20,6 +24,10 @@ class AllWorkExperienceController extends GetxController {
     userDetailResponse?.data.profile.workExperience.forEach((element) {
       jobExperiences.add(element);
     });
+  }
+
+  void preventFetch() {
+
   }
 
   void fetchData() async {

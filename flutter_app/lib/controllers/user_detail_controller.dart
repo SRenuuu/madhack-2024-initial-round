@@ -62,6 +62,7 @@ class UserDetailsController extends GetxController {
           response.body);
       return userDetailResponse;
     } catch (e) {
+      print(e);
       return null;
     }
   }
