@@ -163,18 +163,18 @@ class UserPersonalDetailPage extends StatelessWidget {
           color: Colors.white,
           height: 85,
           elevation: 0,
-          child: actionButtons(),
+          child: actionButtons(aboutMeController.updateUserData, () => print('x')),
         ));
   }
 
   // Reusable action buttons
-  Widget actionButtons() {
+  Widget actionButtons(Function onUpdate, Function onCancel) {
     return Row(
       children: [
         Expanded(
           child: OutlinedButton(
             onPressed: () {
-              // Add functionality to navigate to application process
+              onCancel();
             },
             style: OutlinedButton.styleFrom(
               foregroundColor: WorkWiseColors.primaryColor,
@@ -190,7 +190,7 @@ class UserPersonalDetailPage extends StatelessWidget {
         Expanded(
           child: ElevatedButton(
             onPressed: () {
-              // Add functionality to navigate to application process
+              onUpdate();
             },
             style: ElevatedButton.styleFrom(
               foregroundColor: Colors.white,

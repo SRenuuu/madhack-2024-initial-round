@@ -104,6 +104,49 @@ class ApiService extends GetConnect {
     }
   }
 
+  // Function to send a PATCH request
+  Future<Response<T>?> sendPatchRequest<T>(
+      bool isAuthRequired,
+      String endpoint, {
+        dynamic data,
+        Map<String, String>? headers = const {},
+        Map<String, dynamic>? query = const {},
+        T Function(dynamic)? decoder,
+      }) async {
+    try {
+      final response = await patch(
+        endpoint,
+        data,
+        headers: {
+          ...headers ?? {},
+          if (isAuthRequired)
+            'x-access-token': authService.getBearerToken(),
+        },
+        query: query,
+        decoder: decoder,
+      );
+
+      if (kDebugMode) {
+        print(response.statusCode);
+        print(response.bodyString);
+      }
+
+      if (response.statusCode == null) {
+        throw Exception("No response, check your internet connection");
+      }
+
+      if (response.statusCode == HttpStatus.unauthorized) {
+        throw ForceLogoutException("Unauthorized");
+      }
+
+      return response;
+    } catch (error) {
+      _handleError(error);
+      return null;
+    }
+  }
+
+
   void _handleError(dynamic error) {
     if (error is SocketException) {
       // Handle network/socket errors
